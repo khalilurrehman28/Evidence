@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Evidence App</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="openDrawer">open_drawer</string>
+    <string name="closeDrawer">close_drawer</string>
+    <string name="share_title">Share Screenshot</string>
+    <!-- Navigation Drawer menu labels -->
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_student_list">Students List</string>
+    <string name="nav_framework">Framework</string>
+    <string name="nav_evidence">All Evidence</string>
+    <string name="nav_assessment_record">Assessment Records</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="nav_privacy_policy">Privacy Policy</string>
+    <string name="nav_faq">FAQ</string>
+    <string name="nav_logout">Logout</string>
+
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <string-array name="nav_item_activity_titles">
+        <item>Home</item>
+        <item>Profile</item>
+        <item>Students List</item>
+        <item>Framework</item>
+        <item>All Evidence</item>
+        <item>Assessment Records</item>
+        <item>About Us</item>
+        <item>Privacy Policy</item>
+        <item>FAQ</item>
+        <item>Logout</item>
+
+    </string-array>
+
+    <string name="activity_title_about_us">About Us</string>
+    <string name="activity_title_privacy_policy">Privacy Policy</string>
+    <string name="activity_title_faq">FAQ</string>
+    <string name="action_clear_all">Clear All</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_mark_all_read">Mark All as Read</string>
+    <string name="activity_title_allstudents">All students</string>
+    <string name="about_us">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="activity_title_allFrameworks">Select Framework</string>
+    <string name="activity_title_studentProfile">Student Profile</string>
+
+    <string-array name="object_array">
+
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+
+    </string-array>
+
+</resources>

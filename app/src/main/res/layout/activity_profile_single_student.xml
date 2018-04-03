@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:isScrollContainer="true">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/layoutprofile"
+            android:gravity="center_horizontal">
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/relativelayout"
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
+
+                <ImageView
+                    android:id="@+id/studenImageBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#dfdfdf"
+                    android:alpha="0.6"
+                    android:scaleType="fitXY" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:id="@+id/l1"
+                        android:layout_marginTop="12dp"
+                        android:padding="8dp">
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/studentImage"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            app:civ_border_width="3dp"
+                            app:civ_border_color="@color/white"
+                            android:background="@drawable/ic_account_circle_black_36dp" />
+                    </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/l1"
+                    android:textSize="24dp"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:shadowColor="#4b4b4b"
+                    android:shadowDx="0"
+                    android:shadowDy="0"
+                    android:shadowRadius="30"
+                    android:id="@+id/studentName"
+                    android:textColor="@color/white"
+                    android:text="Mandeep Singh"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/linear"
+                    android:gravity="center"
+                    android:layout_alignParentBottom="true"
+                    android:foregroundGravity="bottom"
+                    android:layout_below="@+id/studentName"
+                    android:background="@drawable/transparent_gradients">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:id="@+id/btnSort"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="6dp"
+                            android:src="@drawable/ic_class"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="1st"
+                            android:id="@+id/studentClass"
+                            android:textSize="16dp"
+                            android:singleLine="true"
+                            android:textColor="@color/white"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:id="@+id/btnFilter"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="6dp"
+                            android:src="@drawable/ic_calendar"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12/101995"
+                            android:textSize="16dp"
+                            android:id="@+id/studentDOB"
+                            android:textColor="@color/white"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="0.8"
+                        android:gravity="center"
+                        android:paddingTop="6dp"
+                        android:paddingBottom="6dp"
+                        android:layout_marginRight="3dp"
+                        android:layout_marginLeft="3dp"
+                        android:id="@+id/linearGender"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="24dp"
+                            android:layout_marginRight="6dp"
+                            android:src="@drawable/ic_gender"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Female"
+                            android:id="@+id/studentGender"
+                            android:textSize="16dp"
+                            android:textColor="@color/white"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+        <!--<LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/relativelayout">
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="2dp"
+                app:elevation="6dp"
+                android:background="@color/tab_background_selected"
+                android:minHeight="?attr/actionBarSize"
+                app:tabTextColor="@color/black"
+                app:layout_scrollFlags="scroll|enterAlways"
+                />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tabs"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </LinearLayout>-->
+
+            <include layout="@layout/activity_single_student_basic_info"/>
+        </LinearLayout>
+
+
+</ScrollView>
+</LinearLayout>

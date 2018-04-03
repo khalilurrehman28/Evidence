@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_nav"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_profile_nav"
+            android:title="@string/nav_profile" />
+        <item
+            android:id="@+id/nav_student_list"
+            android:icon="@drawable/ic_students_nav"
+            android:title="@string/nav_student_list" />
+
+        <item
+            android:id="@+id/nav_framework"
+            android:icon="@drawable/ic_framework_nav"
+            android:title="@string/nav_framework" />
+        <item
+            android:id="@+id/nav_evidence"
+            android:icon="@drawable/ic_evidence_nav"
+            android:title="@string/nav_evidence" />
+
+        <item
+            android:id="@+id/nav_assessment_record"
+            android:icon="@drawable/ic_assessment_nav"
+            android:title="@string/nav_assessment_record" />
+    </group>
+
+    <item android:title="Other">
+        <menu>
+            <item
+                android:id="@+id/nav_about_us"
+                android:icon="@drawable/ic_aboutus_nav"
+                android:title="@string/nav_about_us" />
+            <item
+                android:id="@+id/nav_privacy_policy"
+                android:icon="@drawable/ic_privacy_nav"
+                android:title="@string/nav_privacy_policy" />
+            <item
+                android:id="@+id/nav_faq"
+                android:icon="@drawable/ic_faq_nav"
+                android:title="@string/nav_faq" />
+        </menu>
+    </item>
+
+    <item android:title="Logout">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_logout"
+                android:title="@string/nav_logout" />
+        </menu>
+    </item>
+</menu>

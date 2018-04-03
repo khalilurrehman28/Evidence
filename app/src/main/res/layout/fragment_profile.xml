@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/updateProfile">
+        <ScrollView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/scroll">
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical"
+                android:paddingRight="18dp"
+                android:paddingLeft="18dp"
+                android:paddingBottom="70dp"
+                android:paddingTop="10dp"
+                android:gravity="center_horizontal">
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/UserProfileImage"
+                    android:layout_width="120dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/ic_account_circle_black_36dp" />
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2px"
+                    android:visibility="visible"
+                    android:background="#dfdfdf"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16dp"
+                    android:text="Name"/>
+                <EditText
+                    android:id="@+id/etTeacherName"
+                    android:focusable="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:singleLine="true"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="18dp"
+                    android:isScrollContainer="true"
+                    android:paddingRight="18dp"
+                    android:hint="Enter Name"
+                    android:background="@drawable/edittextstyle"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16dp"
+                    android:text="Email"/>
+                <TextView
+                    android:id="@+id/teacherEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher Email"
+                    android:padding="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edittextstyle"
+                    android:textSize="20dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16dp"
+                    android:text="Contact"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/goLogin"
+                    android:layout_marginBottom="10dp"
+                    android:layout_alignParentBottom="true">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittextstyle"
+                        android:text="+91"
+                        android:padding="14dp"
+                        android:textSize="18dp"
+                        android:textStyle="bold"/>
+                    <EditText
+                        android:id="@+id/etContact"
+                        android:layout_marginLeft="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="52dp"
+                        android:inputType="number"
+                        android:paddingLeft="18dp"
+                        android:paddingRight="18dp"
+                        android:hint="Enter contact no."
+                        android:background="@drawable/edittextstyle"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="2dp"
+                    android:textSize="16dp"
+                    android:text="Your class name"/>
+                <TextView
+                    android:id="@+id/teacherClass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Class name"
+                    android:padding="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/edittextstyle"
+                    android:textSize="20dp" />
+                <!--<Button
+                    android:id="@+id/updateProfile"
+                    android:layout_width="fill_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/loginbutton_selector"
+                    android:padding="3dp"
+                    android:text="Update Profile"
+                    android:textColor="#FFFFFF"
+                    android:textSize="27sp"
+                    android:fontFamily="sans-serif-light"
+                    />-->
+
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/updateProfile"
+        android:background="@color/colorPrimary"
+        android:layout_alignParentBottom="true">
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="2px"
+            android:visibility="visible"
+            android:background="@color/colorPrimaryDark" />
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/login_layout"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Update Profile"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+</RelativeLayout>
+
