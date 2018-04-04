@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dupleit.kotlin.primaryschoolassessment.FullImageView.FullImage;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
@@ -30,6 +29,8 @@ import com.dupleit.kotlin.primaryschoolassessment.fragments.Profile.ProfileFragm
 
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.Utils;
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.getTeacherCurrentClass;
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.selectTeacherClass.selectStudentClass;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -74,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
         mHandler = new Handler();
         if ((new PreferenceManager(this).getUserEmail()).equals("")){
             Intent i = new Intent(this, LoginActivity.class);
+            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(i);
+            finish();
+        }
+
+        if ((new PreferenceManager(this).getTeacherClassId()).equals("")){
+            Intent i = new Intent(this, selectStudentClass.class);
+            i.putExtra("activityType","login");
             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(i);
             finish();
@@ -286,6 +295,11 @@ public class MainActivity extends AppCompatActivity {
                         navItemIndex = 5;
                         CURRENT_TAG = TAG_ASSESSMENT_RECORDS;
                         break;
+                    case R.id.nav_change_class:
+                        // launch new intent instead of loading fragment
+                        startActivity(new Intent(MainActivity.this, getTeacherCurrentClass.class));
+                        drawer.closeDrawers();
+                        return true;
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
                         startActivity(new Intent(MainActivity.this, AboutUsActivity.class));

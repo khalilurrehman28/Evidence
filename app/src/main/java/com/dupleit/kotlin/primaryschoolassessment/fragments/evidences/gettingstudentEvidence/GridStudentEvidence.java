@@ -81,6 +81,10 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
     TextView noStudentsFound;
     @BindView(R.id.btnSort) LinearLayout btnSort;
     @BindView(R.id.btnFilter) LinearLayout btnFilter;
+    @BindView(R.id.noSearchResultFound)
+    TextView noSearchResultFound;
+    List<Integer> ColorArray;
+    Random random;
     private ArrayList<EvidencesData> studentList;
     private getEvidneceByStudentAdapter adapter;
     String studentId,studentName,activityType;
@@ -182,25 +186,50 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
         MenuItem item = menu.findItem(R.id.searchEvidences);
 
         searchView = (SearchView)item.getActionView();
-        searchView.setQueryHint("Search date...");
+        searchView.setQueryHint("Search date/framework...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                return true;
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+newText.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recyclerView.setVisibility(View.VISIBLE);
+                noSearchResultFound.setVisibility(View.GONE);
+                return false;
             }
         });
 
         return super.onCreateOptionsMenu(menu);
     }
     private void initilize() {
+        ColorArray = new ArrayList<>();
+        random = new Random();
         studentList = new ArrayList<>();
         adapter = new getEvidneceByStudentAdapter(this, studentList,this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -208,6 +237,13 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(0), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        final int[] MY_COLORS = {Color.rgb(192,0,0), Color.rgb(0,229,238), Color.rgb(255,192,0),
+                Color.rgb(127,127,127), Color.rgb(146,208,80), Color.rgb(0,176,80), Color.rgb(79,129,189)
+                , Color.rgb(0,128,128), Color.rgb(0,139,69),Color.rgb(255,215,0),Color.rgb(255,128,0)
+                ,Color.rgb(255,106,106)};
+        for (int item : MY_COLORS) {
+            ColorArray.add(item);
+        }
         if (!getTeacherEmail().equals("")){
             progressBar.setVisibility(View.VISIBLE);
             prepareEvidenceList();
@@ -259,7 +295,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
                     startActivity(i);*/
                 }else if (activityType.equals("AssessmentRecord")){
-                     if (isMultiSelect){
+                    if (isMultiSelect){
                         //if multiple selection is enabled then select item on single click else perform normal click on item.
                         multiSelect(position);
                     }
@@ -334,7 +370,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                 }
             }, 140);
         }else if (activityType.equals("AssessmentRecord")){
-           // Toast.makeText(GridStudentEvidence.this, "assessmentRecord", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(GridStudentEvidence.this, "assessmentRecord", Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -386,16 +422,17 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                     if (response.isSuccessful()){
                         if (response.body().getStatus()) {
                             for (int i = 0; i < response.body().getData().size(); i++) {
-                                Random rnd = new Random();
-                                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                                int  n = random.nextInt(ColorArray.size());
+                                if (n==ColorArray.size()){
+                                    n -=1;
+                                }
                                 EvidencesData evidences = new EvidencesData();
                                 evidences.setEVIDENCEID(response.body().getData().get(i).getEVIDENCEID());
                                 evidences.setEVIDENCEDATE(response.body().getData().get(i).getEVIDENCEDATE());
                                 evidences.setEVIDENCEFRAMEWORKID(response.body().getData().get(i).getEVIDENCEFRAMEWORKID());
                                 evidences.setEVIDENCECOMMENT(response.body().getData().get(i).getEVIDENCECOMMENT());
                                 evidences.setTitle(response.body().getData().get(i).getTitle());
-                                evidences.setColorIndex(color);
-
+                                evidences.setColorIndex(ColorArray.get(n));
                                 studentList.add(evidences);
                                 //adapter.notifyDataSetChanged();
                                 adapter.notifyDataSetChanged();
@@ -405,7 +442,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                             noStudentsFound.setVisibility(View.VISIBLE);
                         }
                     }else{
-                       Toasty.warning(GridStudentEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
+                        Toasty.warning(GridStudentEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
 
                     }
                 }
@@ -446,16 +483,18 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                     if (response.isSuccessful()){
                         if (response.body().getStatus()) {
                             for (int i = 0; i < response.body().getData().size(); i++) {
-                                Random rnd = new Random();
-                                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
-
+                                int  n = random.nextInt(ColorArray.size());
+                                if (n==ColorArray.size()){
+                                    n -=1;
+                                }
                                 EvidencesData evidences = new EvidencesData();
                                 evidences.setEVIDENCEID(response.body().getData().get(i).getEVIDENCEID());
                                 evidences.setEVIDENCEDATE(response.body().getData().get(i).getEVIDENCEDATE());
                                 evidences.setEVIDENCEFRAMEWORKID(response.body().getData().get(i).getEVIDENCEFRAMEWORKID());
                                 evidences.setEVIDENCECOMMENT(response.body().getData().get(i).getEVIDENCECOMMENT());
                                 evidences.setTitle(response.body().getData().get(i).getTitle());
-                                evidences.setColorIndex(color);
+                                evidences.setColorIndex(ColorArray.get(n));
+
 
                                 studentList.add(evidences);
                                 //adapter.notifyDataSetChanged();
@@ -467,7 +506,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
                         }
                     }else{
-                          Toasty.error(GridStudentEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
+                        Toasty.error(GridStudentEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
 
                     }
                 }
@@ -577,7 +616,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
             case R.id.action_create_pdf:
                 //just to show selected items.
                 if(checkPermission()){
-                      getPdfUrlFromServer();
+                    getPdfUrlFromServer();
 
 
                 } else {

@@ -3,6 +3,7 @@ package com.dupleit.kotlin.primaryschoolassessment.fragments.allStudents.Ui;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -36,6 +36,8 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState
 import com.dupleit.kotlin.primaryschoolassessment.singleStudentDetail.profileSingleStudent;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,10 +70,14 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
     ProgressBar progressBar;
     @BindView(R.id.noStudentsFound)
     TextView noStudentsFound;
+    @BindView(R.id.noSearchResultFound)
+    TextView noSearchResultFound;
+    List<Integer> ColorArray;
+    Random random;
     private ArrayList<GetStudentData> studentList;
     private allStudentsAdapter adapter;
+    SearchView searchView;
     View mView;
-    private android.support.v7.widget.SearchView searchView;
     private OnFragmentInteractionListener mListener;
 
     public StudentListFragment() {
@@ -118,6 +124,8 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
     }
 
     private void initilize(View v) {
+        ColorArray = new ArrayList<>();
+        random = new Random();
         studentList = new ArrayList<>();
         adapter = new allStudentsAdapter(mView.getContext(), studentList,this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mView.getContext(), 1);
@@ -125,6 +133,13 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(2), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        final int[] MY_COLORS = {Color.rgb(192,0,0), Color.rgb(0,229,238), Color.rgb(255,192,0),
+                Color.rgb(127,127,127), Color.rgb(146,208,80), Color.rgb(0,176,80), Color.rgb(79,129,189)
+                , Color.rgb(0,128,128), Color.rgb(0,139,69),Color.rgb(255,215,0),Color.rgb(255,128,0)
+                ,Color.rgb(255,106,106)};
+        for (int item : MY_COLORS) {
+            ColorArray.add(item);
+        }
         if (!getTeacherEmail().equals("")){
             progressBar.setVisibility(View.VISIBLE);
             prepareStudentList();
@@ -205,7 +220,7 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
         }else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()));
+            Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
                 @Override
                 public void onResponse(Call<GetStudentsModel> call, Response<GetStudentsModel> response) {
@@ -216,6 +231,10 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
                         if (response.body().getStatus()) {
                             noStudentsFound.setVisibility(View.GONE);
                             for (int i = 0; i < response.body().getData().size(); i++) {
+                                int  n = random.nextInt(ColorArray.size());
+                                if (n==ColorArray.size()){
+                                    n -=1;
+                                }
                                 GetStudentData students = new GetStudentData();
                                 students.setSTATUS(response.body().getData().get(i).getSTATUS());
                                 students.setSTUDENTNAME(response.body().getData().get(i).getSTUDENTNAME());
@@ -234,6 +253,7 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
                                 students.setSTUDENTIMAGE(response.body().getData().get(i).getSTUDENTIMAGE());
                                 students.setSTUDENTSESSION(response.body().getData().get(i).getSTUDENTSESSION());
                                 students.setSTUDENTMODIFYDATETIME(response.body().getData().get(i).getSTUDENTMODIFYDATETIME());
+                                students.setColor(ColorArray.get(n));
                                 studentList.add(students);
                                 //adapter.notifyDataSetChanged();
                                 adapter.notifyDataSetChanged();
@@ -265,20 +285,43 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
         inflater.inflate(R.menu.all_students, menu);
         MenuItem item = menu.findItem(R.id.searchStudents);
 
-        SearchView searchView = (SearchView)item.getActionView();
+        searchView = (SearchView)item.getActionView();
         searchView.setQueryHint("Search Student...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query );
-
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+            public boolean onQueryTextChange(String query) {
+                adapter.getFilter().filter(query);
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
                 return true;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recyclerView.setVisibility(View.VISIBLE);
+                noSearchResultFound.setVisibility(View.GONE);
+                return false;
             }
         });
 
@@ -311,6 +354,9 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
 
     private String sharedId() {
         return new PreferenceManager(mView.getContext()).getUserID();
+    }
+    private String sharedClassId() {
+        return new PreferenceManager(mView.getContext()).getTeacherClassId();
     }
     private String getTeacherEmail() {
         return new PreferenceManager(mView.getContext()).getUserEmail();

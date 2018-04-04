@@ -28,6 +28,10 @@
             android:id="@+id/nav_assessment_record"
             android:icon="@drawable/ic_assessment_nav"
             android:title="@string/nav_assessment_record" />
+        <item
+            android:id="@+id/nav_change_class"
+            android:icon="@drawable/ic_class_nav"
+            android:title="@string/nav_change_class" />
     </group>
 
     <item android:title="Other">

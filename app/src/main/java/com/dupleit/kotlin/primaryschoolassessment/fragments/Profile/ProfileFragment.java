@@ -3,12 +3,14 @@ package com.dupleit.kotlin.primaryschoolassessment.fragments.Profile;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +21,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dupleit.kotlin.primaryschoolassessment.FullImageView.FullImage;
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
+import com.dupleit.kotlin.primaryschoolassessment.activities.MainActivity;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.Profile.model.ImageData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.Profile.model.UpdateImageModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
@@ -125,7 +129,27 @@ public class ProfileFragment extends Fragment implements ProgressRequestBody.Upl
         teacherImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON).start(getContext(),ProfileFragment.this);
+                final CharSequence[] options = {"Change Profile Picture","View Profile Picture"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (options[item].equals("Change Profile Picture")) {
+                            CropImage.activity(null).setGuidelines(CropImageView.Guidelines.ON).start(getContext(),ProfileFragment.this);
+
+                        }else if (options[item].equals("View Profile Picture")) {
+                            if (!getTeacherImage().equals("")){
+                                Intent i = new Intent(mView.getContext(), FullImage.class);
+                                i.putExtra("ImagePath",Utils.webUrlHome+getTeacherImage());
+                                startActivity(i);
+                            }
+                        }
+
+                    }
+                });
+                builder.show();
             }
         });
         updateProfile.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +236,7 @@ public class ProfileFragment extends Fragment implements ProgressRequestBody.Upl
 
                     new PreferenceManager(mView.getContext()).saveUserImage(response.body().getData().getTEACHERIMAGE());
                     Log.e("Message true",response.body().getData().getTEACHERIMAGE());
-                   Toasty.success(mView.getContext(), "Image updated", Toast.LENGTH_LONG, true).show();
+                    Toasty.success(mView.getContext(), "Image updated", Toast.LENGTH_LONG, true).show();
 
                 } else {
                     Toasty.info(mView.getContext(), "Image not updated", Toast.LENGTH_LONG, true).show();
@@ -315,4 +339,8 @@ public class ProfileFragment extends Fragment implements ProgressRequestBody.Upl
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    private String getTeacherImage() {
+        return  new PreferenceManager(mView.getContext()).getUserImage();
+    }
+
 }

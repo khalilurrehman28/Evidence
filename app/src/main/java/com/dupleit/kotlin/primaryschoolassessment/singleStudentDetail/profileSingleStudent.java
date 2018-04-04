@@ -61,6 +61,7 @@ public class profileSingleStudent extends AppCompatActivity {
 
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Student Profile");
 
         final String sId=getIntent().getStringExtra("studentId");
         String sImage=getIntent().getStringExtra("studentImage");

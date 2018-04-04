@@ -146,10 +146,10 @@
                         android:layout_weight="1"
                         android:background="@drawable/edittextstyle">
                         <ImageView
+                            android:id="@+id/imageView3"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:background="@drawable/ic_plus"
-                            android:id="@+id/imageView3"
                             android:scaleType="fitXY" />
                         <ImageView
                             android:layout_width="28dp"
@@ -170,6 +170,8 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="12dp"
                     android:background="#dfdfdf" />
+
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -206,14 +208,38 @@
                     android:text="Framework(s)"
                     android:textColor="@color/black"
                     android:textSize="19dp" />
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Framework Name"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#565656"
+                    android:textSize="17dp" />
+                <Spinner
+                    android:background="@drawable/edittextstyle"
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerFrameworkName"
+                    android:layout_width="fill_parent"
+                    android:minHeight="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="50dp"
+                    android:elevation="1dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Framework Name"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#565656"
+                    android:textSize="17dp" />
                 <Spinner
                     android:background="@drawable/edittextstyle"
                     android:spinnerMode="dropdown"
                     android:id="@+id/spinnerCustom"
                     android:layout_width="fill_parent"
                     android:minHeight="30dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_height="50dp"
                     android:elevation="1dp" />
 
@@ -242,7 +268,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="12dp"
+                        android:padding="6dp"
                         android:id="@+id/recyclerSubTitle">
 
                     </android.support.v7.widget.RecyclerView>

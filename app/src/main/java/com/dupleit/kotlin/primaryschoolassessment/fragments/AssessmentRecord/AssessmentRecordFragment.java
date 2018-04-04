@@ -3,6 +3,7 @@ package com.dupleit.kotlin.primaryschoolassessment.fragments.AssessmentRecord;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,9 +28,7 @@ import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
-import com.dupleit.kotlin.primaryschoolassessment.activities.studentProfile.studentProfile;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.AssessmentRecord.adapter.assessmentRecordAdapter;
-import com.dupleit.kotlin.primaryschoolassessment.fragments.allStudents.adapter.allStudentsAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.GridStudentEvidence;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.models.GetStudentData;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.models.GetStudentsModel;
@@ -38,6 +37,8 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,7 +70,11 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
     @BindView(R.id.noStudentsFound)
-    TextView noStudentsFound;
+    TextView noDataFound;
+    @BindView(R.id.noSearchResultFound)
+    TextView noSearchResultFound;
+    List<Integer> ColorArray;
+    Random random;
     private ArrayList<GetStudentData> studentList;
     private assessmentRecordAdapter adapter;
     View mView;
@@ -119,6 +124,8 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
     
     }
     private void initilize(View v) {
+        ColorArray = new ArrayList<>();
+        random = new Random();
         studentList = new ArrayList<>();
         adapter = new assessmentRecordAdapter(mView.getContext(), studentList,this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mView.getContext(), 1);
@@ -126,6 +133,13 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(2), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
+        final int[] MY_COLORS = {Color.rgb(192,0,0), Color.rgb(0,229,238), Color.rgb(255,192,0),
+                Color.rgb(127,127,127), Color.rgb(146,208,80), Color.rgb(0,176,80), Color.rgb(79,129,189)
+                , Color.rgb(0,128,128), Color.rgb(0,139,69),Color.rgb(255,215,0),Color.rgb(255,128,0)
+                ,Color.rgb(255,106,106)};
+        for (int item : MY_COLORS) {
+            ColorArray.add(item);
+        }
         if (!getTeacherEmail().equals("")){
             progressBar.setVisibility(View.VISIBLE);
             prepareStudentList();
@@ -200,15 +214,15 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
 
 
     private void prepareStudentList() {
-        noStudentsFound.setVisibility(View.GONE);
+        noDataFound.setVisibility(View.GONE);
         if (!checkInternetState.getInstance(mView.getContext()).isOnline()) {
             progressBar.setVisibility(View.GONE);
-            noStudentsFound.setText("No Internet Connection.");
-            noStudentsFound.setVisibility(View.VISIBLE);
+            noDataFound.setText("No Internet Connection.");
+            noDataFound.setVisibility(View.VISIBLE);
         }else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()));
+            Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
                 @Override
                 public void onResponse(Call<GetStudentsModel> call, Response<GetStudentsModel> response) {
@@ -217,9 +231,13 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
                     Log.d("students"," "+response.body().getStatus());
                     if (response.isSuccessful()){
                         if (response.body().getStatus()) {
-                            noStudentsFound.setVisibility(View.GONE);
+                            noDataFound.setVisibility(View.GONE);
 
                             for (int i = 0; i < response.body().getData().size(); i++) {
+                                int  n = random.nextInt(ColorArray.size());
+                                if (n==ColorArray.size()){
+                                    n -=1;
+                                }
                                 GetStudentData students = new GetStudentData();
                                 students.setSTATUS(response.body().getData().get(i).getSTATUS());
                                 students.setSTUDENTNAME(response.body().getData().get(i).getSTUDENTNAME());
@@ -238,14 +256,15 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
                                 students.setSTUDENTIMAGE(response.body().getData().get(i).getSTUDENTIMAGE());
                                 students.setSTUDENTSESSION(response.body().getData().get(i).getSTUDENTSESSION());
                                 students.setSTUDENTMODIFYDATETIME(response.body().getData().get(i).getSTUDENTMODIFYDATETIME());
+                                students.setColor(ColorArray.get(n));
                                 studentList.add(students);
                                 //adapter.notifyDataSetChanged();
                                 adapter.notifyDataSetChanged();
                             }
 
                         }else{
-                            noStudentsFound.setText("No students found");
-                            noStudentsFound.setVisibility(View.VISIBLE);
+                            noDataFound.setText("No data found");
+                            noDataFound.setVisibility(View.VISIBLE);
                         }
                     }else{
                         Toast.makeText(mView.getContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -275,17 +294,39 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
             @Override
             public boolean onQueryTextSubmit(String query) {
                 adapter.getFilter().filter(query);
-
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 adapter.getFilter().filter(newText);
-                return true;
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+newText.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
+                return false;
             }
         });
-
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recyclerView.setVisibility(View.VISIBLE);
+                noSearchResultFound.setVisibility(View.GONE);
+                return false;
+            }
+        });
         //super.onCreateOptionsMenu(menu);
 
     }
@@ -361,4 +402,8 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    private String sharedClassId() {
+        return new PreferenceManager(mView.getContext()).getTeacherClassId();
+    }
+
 }

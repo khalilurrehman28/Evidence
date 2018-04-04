@@ -13,6 +13,7 @@ import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstu
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.models.GetEvidenceModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.models.GetStudentsModel;
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.selectTeacherClass.model.GetTeacherClassesResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -36,7 +37,7 @@ public interface APIService {
     //for getting all students of class
     @FormUrlEncoded
     @POST("getallstudent")
-    Call<GetStudentsModel> getAllStudents(@Field("teacher_id") int teacher_id);
+    Call<GetStudentsModel> getAllStudents(@Field("teacher_id") int teacher_id,@Field("class_id") int class_id);
 
     //for getting all Titles of framework
     @GET("get_framework")
@@ -95,5 +96,9 @@ public interface APIService {
     @FormUrlEncoded
     @POST("updatePassword")
     Call<forgotPasswordResponse> updatePassword(@Field("KEY") int KEY,@Field("TEACHER_EMAIL") String TEACHER_EMAIL,@Field("PASSWORD") String PASSWORD);
+
+    @FormUrlEncoded
+    @POST("get_teacher_class")
+    Call<GetTeacherClassesResponse> get_teacher_class(@Field("TEACHER_ID") int teacher_id);
 
 }

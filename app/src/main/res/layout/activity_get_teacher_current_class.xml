@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f1f1"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    tools:context="com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.filterActivity">
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:elevation="8dp"
+        app:cardElevation="6dp"
+        android:clickable="true"
+        android:background="#fff"
+        android:padding="8dp"
+        android:focusable="true"
+        card_view:cardCornerRadius="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your current class"
+                android:textColor="#565656"
+                android:textSize="17dp"
+                android:layout_marginBottom="6dp"/>
+            <TextView
+                android:id="@+id/teacherCurrentClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Class Name"
+                android:padding="15dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edittextstyle"
+                android:textSize="18dp" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_viewBotom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        card_view:cardCornerRadius="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp">
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cancel"
+                android:id="@+id/btnCancel"
+
+                android:textSize="17dp"
+                android:background="@color/white"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Change"
+                android:id="@+id/btnChange"
+                android:textSize="17dp"
+                android:textColor="@color/white"
+                android:background="@color/colorAccent"/>
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+
+</RelativeLayout>

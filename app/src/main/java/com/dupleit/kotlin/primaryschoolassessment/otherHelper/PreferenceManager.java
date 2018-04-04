@@ -65,7 +65,18 @@ public class PreferenceManager {
         editor.apply();
     }
 
-
+    public void saveTeacherClassName(String className) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("className", className);
+        editor.apply();
+    }
+    public void saveTeacherClassId(String classId) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("classId", classId);
+        editor.apply();
+    }
     public String getUserEmail() {
         SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
         return sharedPreferences.getString("email", "");
@@ -96,6 +107,14 @@ public class PreferenceManager {
         return sharedPreferences.getString("userId", "");
     }
 
+    public String getTeacherClass() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("className", "");
+    }
+    public String getTeacherClassId() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+        return sharedPreferences.getString("classId", "");
+    }
 
 
 }

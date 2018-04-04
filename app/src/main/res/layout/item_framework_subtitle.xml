@@ -28,7 +28,7 @@
                 android:layout_marginLeft="4dp"/>
             <TextView
                 android:id="@+id/frameworkSubTitle"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Framework Title"
                 android:textColor="#252323"
@@ -39,22 +39,22 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="85dp"
+            android:layout_height="35dp"
             android:orientation="horizontal"
             android:gravity="center"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginLeft="4dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
             android:background="@drawable/edittextstyle"
-            android:layout_weight="0.1">
+            >
             <EditText
                 android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:maxLength="2"
                 android:inputType="number"
-               android:hint="8"
+                android:hint="8"
                 android:id="@+id/subtitleObtainMarks"
                 android:gravity="center"
                 android:padding="4dp"/>

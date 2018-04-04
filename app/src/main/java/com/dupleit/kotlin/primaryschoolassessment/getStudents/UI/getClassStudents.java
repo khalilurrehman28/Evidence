@@ -181,7 +181,7 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
         }else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()));
+            Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
                 @Override
                 public void onResponse(Call<GetStudentsModel> call, Response<GetStudentsModel> response) {
@@ -247,6 +247,9 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
 
     private String sharedId() {
         return new PreferenceManager(this).getUserID();
+    }
+    private String sharedClassId() {
+        return new PreferenceManager(this).getTeacherClassId();
     }
     private String getTeacherEmail() {
         return new PreferenceManager(this).getUserEmail();

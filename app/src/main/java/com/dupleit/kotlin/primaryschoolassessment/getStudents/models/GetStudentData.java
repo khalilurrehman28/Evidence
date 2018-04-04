@@ -61,6 +61,17 @@ public class GetStudentData {
     @Expose
     private String sTATUS;
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    private int color;
+
+
     public String getSTUDENTID() {
         return sTUDENTID;
     }

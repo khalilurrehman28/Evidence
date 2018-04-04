@@ -3,87 +3,89 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white">
-<android.support.v7.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/card_view"
-    android:elevation="6dp"
-    android:clickable="true"
-    android:focusable="true">
-    <LinearLayout
-        android:id="@+id/propertyOwnerLayout"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view"
+        android:elevation="6dp"
+        android:clickable="true"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:focusable="true"
+        card_view:cardCornerRadius="0dp">
         <LinearLayout
-            android:id="@+id/thumbnail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginRight="10dip"
-            android:padding="3dip">
+            android:id="@+id/propertyOwnerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
-            <TextView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:layout_marginRight="10dp"
-                android:textColor="@color/white"
-                android:text="M"
-                android:id="@+id/checkMaleFemale"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:background="@drawable/hexagon"/>
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/stuImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginRight="2dp"
-                android:background="@drawable/ic_account_circle_black_36dp"
-                android:contentDescription="@string/app_name" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/Rl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_toRightOf="@+id/thumbnail">
-
-            <TextView
-                android:id="@+id/stuName"
+            <LinearLayout
+                android:id="@+id/thumbnail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Mandeep singh"
-                android:textColor="@color/colorAccent"
-                android:textSize="21dp"
-                android:typeface="sans" />
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="10dip"
+                android:padding="3dip">
 
+                <TextView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:textColor="@color/white"
+                    android:text="M"
+                    android:id="@+id/checkMaleFemale"
+                    android:textSize="16dp"
+                    android:gravity="center"
+                    android:background="@drawable/hexagon"/>
 
-            <TextView
-                android:id="@+id/gardianName"
-                android:layout_width="fill_parent"
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/stuImage"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/ic_account_circle_black_36dp"
+                    android:contentDescription="@string/app_name" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/Rl"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/stuName"
-                android:text="Gardian:"
-                android:textStyle="italic"
-                android:textColor="#aba9a9"
-                android:textSize="15dip" />
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/thumbnail">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/stuName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Mandeep singh"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="21dp"
+                    android:typeface="sans" />
 
-    </LinearLayout>
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1px"
-        android:visibility="visible"
-        android:layout_gravity="bottom"
-        android:background="#dfdfdf" />
-</android.support.v7.widget.CardView>
+
+                <TextView
+                    android:id="@+id/gardianName"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/stuName"
+                    android:text="Gardian:"
+                    android:textStyle="italic"
+                    android:textColor="#aba9a9"
+                    android:textSize="15dip" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1px"
+            android:visibility="visible"
+            android:layout_gravity="bottom"
+            android:background="#dfdfdf" />
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

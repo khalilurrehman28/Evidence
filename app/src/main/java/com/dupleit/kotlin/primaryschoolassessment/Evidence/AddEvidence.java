@@ -39,6 +39,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomdummyFrameSpinnerAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubtitle.AddEvidenceModel;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomSpinnerAdapter;
@@ -134,6 +135,11 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     ArrayList<FrameworkData> FrameworksList;
     @BindView(R.id.spinnerCustom)
     Spinner spinnerCustom;
+
+    /*CustomdummyFrameSpinnerAdapter customdummyFrameSpinnerAdapter;
+    ArrayList<FrameworkData> dummyFrameworksList;
+    @BindView(R.id.spinnerFrameworkName)
+    Spinner spinnerDummCustom;*/
     String FrameworkId, FrameWorkTitle;
     @BindView(R.id.recyclerSubTitle)
     RecyclerView recyclerSubTitle;

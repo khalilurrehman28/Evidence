@@ -13,6 +13,7 @@
     <string name="nav_framework">Framework</string>
     <string name="nav_evidence">All Evidence</string>
     <string name="nav_assessment_record">Assessment Records</string>
+    <string name="nav_change_class">Change Class</string>
     <string name="nav_about_us">About Us</string>
     <string name="nav_privacy_policy">Privacy Policy</string>
     <string name="nav_faq">FAQ</string>
@@ -27,6 +28,7 @@
         <item>Framework</item>
         <item>All Evidence</item>
         <item>Assessment Records</item>
+        <item>Change Class</item>
         <item>About Us</item>
         <item>Privacy Policy</item>
         <item>FAQ</item>

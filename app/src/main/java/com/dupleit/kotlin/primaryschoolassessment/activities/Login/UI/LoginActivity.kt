@@ -17,6 +17,7 @@ import com.dupleit.kotlin.primaryschoolassessment.activities.MainActivity
 import com.dupleit.kotlin.primaryschoolassessment.forgotPassword.fogotPassswordActivity
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.selectTeacherClass.selectStudentClass
 import es.dmoral.toasty.Toasty
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
@@ -95,7 +96,8 @@ class LoginActivity : AppCompatActivity() {
                                 PreferenceManager(applicationContext).saveUserMobile(response.body()?.data!!.get(i).teacherphone)
 
                                 Log.e("loginData","name "+response.body()?.data!!.get(i).teachername+" email "+response.body()?.data!!.get(i).teacheremail)
-                                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                                val intent = Intent(this@LoginActivity, selectStudentClass::class.java)
+                                intent.putExtra("activityType","login")
                                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(intent)
                                 finish()
