@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.DateConverter;
 
 import java.util.ArrayList;
@@ -19,12 +20,12 @@ import java.util.ArrayList;
  * Created by mandeep on 9/8/17.
  */
 
-public class CustomdummyFrameSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
+public class CustomParentFrameSpinnerAdapter extends BaseAdapter implements SpinnerAdapter {
 
     private final Context activity;
-    private ArrayList<FrameworkData> frameworkList;
+    private ArrayList<parentFrameworkData> frameworkList;
 
-    public CustomdummyFrameSpinnerAdapter(Context context, ArrayList<FrameworkData> asr) {
+    public CustomParentFrameSpinnerAdapter(Context context, ArrayList<parentFrameworkData> asr) {
         this.frameworkList =asr;
         activity = context;
     }
@@ -48,30 +49,30 @@ public class CustomdummyFrameSpinnerAdapter extends BaseAdapter implements Spinn
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        final FrameworkData notice = frameworkList.get(position);
+        final parentFrameworkData notice = frameworkList.get(position);
         TextView txt = new TextView(activity);
         txt.setPadding(16, 16, 16, 16);
         txt.setTextSize(18);
-        txt.setGravity(Gravity.CENTER_VERTICAL);
-        String frameName = notice.getFRAMEWORKTITLE();
+        txt.setGravity(Gravity.CENTER);
+        String frameName = notice.getCATEGORYNAME();
         if (!frameName.equals("")){
-            txt.setText( notice.getFRAMEWORKTITLE()+"  ("+new DateConverter().convertDate(notice.getFRAMEWORKDATETIME())+")");
+            txt.setText( notice.getCATEGORYNAME());
         }
         txt.setTextColor(Color.parseColor("#000000"));
         return  txt;
     }
 
     public View getView(int i, View view, ViewGroup viewgroup) {
-        final FrameworkData notice = frameworkList.get(i);
+        final parentFrameworkData notice = frameworkList.get(i);
 
         TextView txt = new TextView(activity);
         txt.setGravity(Gravity.CENTER);
         txt.setPadding(16, 16, 16, 16);
         txt.setTextSize(16);
         txt.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_down, 0);
-        String frameName = notice.getFRAMEWORKTITLE();
+        String frameName = notice.getCATEGORYNAME();
         if (!frameName.equals("")){
-            txt.setText( notice.getFRAMEWORKTITLE()+"  ("+new DateConverter().convertDate(notice.getFRAMEWORKDATETIME())+")");
+            txt.setText( notice.getCATEGORYNAME());
         }
         txt.setTextColor(Color.parseColor("#000000"));
         return  txt;

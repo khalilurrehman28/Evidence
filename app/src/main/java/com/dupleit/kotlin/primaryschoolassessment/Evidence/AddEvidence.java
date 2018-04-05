@@ -3,13 +3,11 @@ package com.dupleit.kotlin.primaryschoolassessment.Evidence;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -23,7 +21,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.text.format.Time;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -39,7 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomdummyFrameSpinnerAdapter;
+import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomParentFrameSpinnerAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubtitle.AddEvidenceModel;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomSpinnerAdapter;
@@ -48,11 +45,11 @@ import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubti
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubtitle.SubTitleData;
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
-import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
 import com.dupleit.kotlin.primaryschoolassessment.activities.MainActivity;
-import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.filterActivity;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.UI.getClassStudents;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.Config;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
@@ -100,30 +97,18 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     private static final int CHOOSE_CAMERA_VIDEO_3 = 112;
     private static final int CHOOSE_GALLERY_VIDEO_3 = 113;
 
-    @BindView(R.id.studentName)
-    TextView studentName;
-    @BindView(R.id.etSelectedDate)
-    EditText etSelectedDate;
-    @BindView(R.id.imageView1)
-    ImageView imageView1;
-    @BindView(R.id.imageView2)
-    ImageView imageView2;
-    @BindView(R.id.imageView3)
-    ImageView imageView3;
-    @BindView(R.id.videoCamera1)
-    ImageView videoCamera1;
-    @BindView(R.id.videoCamera2)
-    ImageView videoCamera2;
-    @BindView(R.id.videoCamera3)
-    ImageView videoCamera3;
-    @BindView(R.id.etComment)
-    EditText etCommentBox;
-    @BindView(R.id.frameworkTitle)
-    TextView frameworkTitle;
-    @BindView(R.id.btnCreate)
-    Button btnCreate;
-    @BindView(R.id.linearSubTitle)
-    LinearLayout linearSubTitle;
+    @BindView(R.id.studentName) TextView studentName;
+    @BindView(R.id.etSelectedDate) EditText etSelectedDate;
+    @BindView(R.id.imageView1) ImageView imageView1;
+    @BindView(R.id.imageView2) ImageView imageView2;
+    @BindView(R.id.imageView3) ImageView imageView3;
+    @BindView(R.id.videoCamera1) ImageView videoCamera1;
+    @BindView(R.id.videoCamera2) ImageView videoCamera2;
+    @BindView(R.id.videoCamera3) ImageView videoCamera3;
+    @BindView(R.id.etComment) EditText etCommentBox;
+    @BindView(R.id.frameworkTitle) TextView frameworkTitle;
+    @BindView(R.id.btnCreate) Button btnCreate;
+    @BindView(R.id.linearSubTitle) LinearLayout linearSubTitle;
     ProgressDialog pDialog;
     Glide glide;
     String getStudentName, getStudentId;
@@ -133,16 +118,15 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     Uri videoUri1,videoUri2,videoUri3;
     CustomSpinnerAdapter customSpinnerAdapter;
     ArrayList<FrameworkData> FrameworksList;
-    @BindView(R.id.spinnerCustom)
-    Spinner spinnerCustom;
+    @BindView(R.id.spinnerFramework) Spinner spinnerFramework;
 
-    /*CustomdummyFrameSpinnerAdapter customdummyFrameSpinnerAdapter;
-    ArrayList<FrameworkData> dummyFrameworksList;
-    @BindView(R.id.spinnerFrameworkName)
-    Spinner spinnerDummCustom;*/
-    String FrameworkId, FrameWorkTitle;
-    @BindView(R.id.recyclerSubTitle)
-    RecyclerView recyclerSubTitle;
+    CustomParentFrameSpinnerAdapter customParentFrameSpinnerAdapter;
+    ArrayList<parentFrameworkData> ParentFrameworksList;
+    @BindView(R.id.spinnerParentFrameworkName) Spinner spinnerParentFramework;
+    @BindView(R.id.layoutframeworkSpinner)LinearLayout layoutframeworkSpinner;
+
+    String parentFrameworkId, parentFrameWorkTitle,FrameworkId, FrameWorkTitle;
+    @BindView(R.id.recyclerSubTitle) RecyclerView recyclerSubTitle;
     private List<SubTitleData> frameworksubTList;
     getFrameworksubTitlesAdapter subTitleAdapter;
 
@@ -224,7 +208,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                 selecttype(3);
             }
         });
-        getDropDownOfFrameWork();
+        getDropDownOfParentFrameWork();
 
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,6 +220,91 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         });
 
     }
+
+    private void getDropDownOfParentFrameWork() {
+        ParentFrameworksList = new ArrayList<>();
+        ParentFrameworksList.clear();
+
+        customParentFrameSpinnerAdapter = new CustomParentFrameSpinnerAdapter(this, ParentFrameworksList);
+        spinnerParentFramework.setAdapter(customParentFrameSpinnerAdapter);
+        createParentFrameWorkList();
+        spinnerParentFramework.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final parentFrameworkData ParentframeData = ParentFrameworksList.get(position);
+
+                parentFrameworkId = ParentframeData.getCATEGORYID();
+                parentFrameWorkTitle = ParentframeData.getCATEGORYNAME();
+
+                getDropDownOfFrameWork(parentFrameworkId);
+
+                // Toast.makeText(parent.getContext(), "class id" + classId, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void createParentFrameWorkList() {
+        pDialog = new ProgressDialog(this);
+        //pDialog.setIndeterminate(true);
+        pDialog.setMessage("Please wait getting data...");
+        pDialog.setCancelable(false);
+
+        showpDialog();
+        //check internet state
+        if (!checkInternetState.getInstance(this).isOnline()) {
+            hidepDialog();
+            Toast.makeText(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG).show();
+        } else {
+
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<GetparentFrameworkResponse> userCall = service.getParentFrameworkTitles();
+            userCall.enqueue(new Callback<GetparentFrameworkResponse>() {
+                @Override
+                public void onResponse(Call<GetparentFrameworkResponse> call, Response<GetparentFrameworkResponse> response) {
+                    hidepDialog();
+                    Log.d("getListStatus", " " + response.body().getStatus());
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus()) {
+                            /*to get notice of principal to all*/
+                            Log.d("getMessage", "" + response.body().getMsg());
+                            for (int i = 0; i < response.body().getData().size(); i++) {
+                                parentFrameworkData parentFrames = new parentFrameworkData();
+
+                                Log.d("data", "" + response.body().getData().get(i).getCATEGORYID());
+                                parentFrames.setCATEGORYID(response.body().getData().get(i).getCATEGORYID());
+                                parentFrames.setCATEGORYNAME(response.body().getData().get(i).getCATEGORYNAME());
+                                parentFrames.setDATETIME(response.body().getData().get(i).getDATETIME());
+                                parentFrames.setSTATUS(response.body().getData().get(i).getSTATUS());
+                                ParentFrameworksList.add(parentFrames);
+                                //adapter.notifyDataSetChanged();
+
+                                customParentFrameSpinnerAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            Toast.makeText(AddEvidence.this, "there have no data ", Toast.LENGTH_SHORT).show();
+                            //noFramesFound.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetparentFrameworkResponse> call, Throwable t) {
+                    //hidepDialog();
+                    Log.d("onFailure", t.toString());
+                }
+            });
+        }
+
+
+        customParentFrameSpinnerAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -258,14 +327,14 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         super.onBackPressed();
 
     }
-    private void getDropDownOfFrameWork() {
+    private void getDropDownOfFrameWork(String parentFrameworkId) {
         FrameworksList = new ArrayList<>();
         FrameworksList.clear();
 
         customSpinnerAdapter = new CustomSpinnerAdapter(this, FrameworksList);
-        spinnerCustom.setAdapter(customSpinnerAdapter);
-        createFrameWorkList();
-        spinnerCustom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerFramework.setAdapter(customSpinnerAdapter);
+        createFrameWorkList(parentFrameworkId);
+        spinnerFramework.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final FrameworkData frameData = FrameworksList.get(position);
@@ -342,15 +411,10 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     }
 
     private void createFrameWorkList() {
-        pDialog = new ProgressDialog(this);
-        //pDialog.setIndeterminate(true);
-        pDialog.setMessage("Please wait getting data...");
-        pDialog.setCancelable(false);
 
-        showpDialog();
         //check internet state
         if (!checkInternetState.getInstance(this).isOnline()) {
-            hidepDialog();
+
 
             Toast.makeText(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG).show();
 
@@ -361,7 +425,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
             userCall.enqueue(new Callback<GetFrameworksModel>() {
                 @Override
                 public void onResponse(Call<GetFrameworksModel> call, Response<GetFrameworksModel> response) {
-                    hidepDialog();
+
                     Log.d("getListStatus", " " + response.body().getStatus());
                     if (response.isSuccessful()) {
                         if (response.body().getStatus()) {

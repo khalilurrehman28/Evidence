@@ -12,6 +12,7 @@ import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.PreviewEvi
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.DownloadPdfModel.DownloadApi;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.models.GetEvidenceModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.models.GetStudentsModel;
 import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.selectTeacherClass.model.GetTeacherClassesResponse;
 
@@ -40,9 +41,15 @@ public interface APIService {
     Call<GetStudentsModel> getAllStudents(@Field("teacher_id") int teacher_id,@Field("class_id") int class_id);
 
     //for getting all Titles of framework
+    @GET("get_parent_category")
+    Call<GetparentFrameworkResponse> getParentFrameworkTitles();
+    //for getting all Titles of framework
     @GET("get_framework")
     Call<GetFrameworksModel> getFrameworkTitles();
 
+    /*@FormUrlEncoded
+    @POST("get_framework")
+    Call<GetFrameworksubtitleModel> getFrameworkTitles(@Field("CATEGORY_ID") int CATEGORY_ID);*/
     //for getting subtitle from framework like (Cricket is framework and bowling batting etc is subtiles of framework)
     @FormUrlEncoded
     @POST("get_framework_sub")
