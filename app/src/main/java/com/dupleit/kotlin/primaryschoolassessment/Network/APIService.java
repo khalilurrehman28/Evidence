@@ -44,12 +44,12 @@ public interface APIService {
     @GET("get_parent_category")
     Call<GetparentFrameworkResponse> getParentFrameworkTitles();
     //for getting all Titles of framework
-    @GET("get_framework")
-    Call<GetFrameworksModel> getFrameworkTitles();
+    /*@GET("get_framework")
+    Call<GetFrameworksModel> getFrameworkTitles();*/
 
-    /*@FormUrlEncoded
+    @FormUrlEncoded
     @POST("get_framework")
-    Call<GetFrameworksubtitleModel> getFrameworkTitles(@Field("CATEGORY_ID") int CATEGORY_ID);*/
+    Call<GetFrameworksModel> getFrameworkTitles(@Field("CATEGORY_ID") int CATEGORY_ID);
     //for getting subtitle from framework like (Cricket is framework and bowling batting etc is subtiles of framework)
     @FormUrlEncoded
     @POST("get_framework_sub")

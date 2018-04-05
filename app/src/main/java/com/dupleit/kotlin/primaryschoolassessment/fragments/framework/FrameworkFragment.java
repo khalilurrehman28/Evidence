@@ -1,5 +1,6 @@
 package com.dupleit.kotlin.primaryschoolassessment.fragments.framework;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -15,10 +16,14 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dupleit.kotlin.primaryschoolassessment.Evidence.AddEvidence;
+import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomParentFrameSpinnerAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
@@ -27,6 +32,8 @@ import com.dupleit.kotlin.primaryschoolassessment.activities.studentProfile.stud
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.adapter.getFrameworksTitlesAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.subTitleframework.gettingFrameworkSubtitles;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.UI.getClassStudents;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
@@ -62,10 +69,14 @@ public class FrameworkFragment extends Fragment {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.noFrameworksFound) TextView noFrameworksFound;
     /*@BindView(R.id.fab) FloatingActionButton fab;*/
-
+    CustomParentFrameSpinnerAdapter customParentFrameSpinnerAdapter;
+    ArrayList<parentFrameworkData> ParentFrameworksList;
+    @BindView(R.id.spinnerParentFrameworkName) Spinner spinnerParentFramework;
     private List<FrameworkData> frameworksList;
     getFrameworksTitlesAdapter adapter;
     View mView;
+    ProgressDialog pDialog;
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -122,8 +133,8 @@ public class FrameworkFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         if (!getTeacherEmail().equals("")){
-            progressBar.setVisibility(View.VISIBLE);
-            prepareFrameWorkTitles();
+
+            getDropDownOfParentFrameWork();
 
         }else {
             Intent i = new Intent(mView.getContext(), LoginActivity.class);
@@ -183,7 +194,92 @@ public class FrameworkFragment extends Fragment {
             }
         });*/
     }
-    private void prepareFrameWorkTitles() {
+
+    private void getDropDownOfParentFrameWork() {
+        ParentFrameworksList = new ArrayList<>();
+        ParentFrameworksList.clear();
+
+        customParentFrameSpinnerAdapter = new CustomParentFrameSpinnerAdapter(mView.getContext(), ParentFrameworksList);
+        spinnerParentFramework.setAdapter(customParentFrameSpinnerAdapter);
+        createParentFrameWorkList();
+        spinnerParentFramework.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final parentFrameworkData ParentframeData = ParentFrameworksList.get(position);
+
+                prepareFrameWorkTitles(ParentframeData.getCATEGORYID());
+                // Toast.makeText(parent.getContext(), "class id" + classId, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+    private void createParentFrameWorkList() {
+        pDialog = new ProgressDialog(mView.getContext());
+        //pDialog.setIndeterminate(true);
+        pDialog.setMessage("Please wait getting data...");
+        pDialog.setCancelable(false);
+
+        showpDialog();
+        //check internet state
+        if (!checkInternetState.getInstance(mView.getContext()).isOnline()) {
+            hidepDialog();
+            Toast.makeText(mView.getContext(), "Please Check Your Internet Connection.", Toast.LENGTH_LONG).show();
+        } else {
+
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<GetparentFrameworkResponse> userCall = service.getParentFrameworkTitles();
+            userCall.enqueue(new Callback<GetparentFrameworkResponse>() {
+                @Override
+                public void onResponse(Call<GetparentFrameworkResponse> call, Response<GetparentFrameworkResponse> response) {
+                    hidepDialog();
+                    Log.d("getListStatus", " " + response.body().getStatus());
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus()) {
+
+                            /*to get notice of principal to all*/
+                            Log.d("getMessage", "" + response.body().getMsg());
+                            for (int i = 0; i < response.body().getData().size(); i++) {
+                                parentFrameworkData parentFrames = new parentFrameworkData();
+
+                                Log.d("data", "" + response.body().getData().get(i).getCATEGORYID());
+                                parentFrames.setCATEGORYID(response.body().getData().get(i).getCATEGORYID());
+                                parentFrames.setCATEGORYNAME(response.body().getData().get(i).getCATEGORYNAME());
+                                parentFrames.setDATETIME(response.body().getData().get(i).getDATETIME());
+                                parentFrames.setSTATUS(response.body().getData().get(i).getSTATUS());
+                                ParentFrameworksList.add(parentFrames);
+                                //adapter.notifyDataSetChanged();
+
+                                customParentFrameSpinnerAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            recyclerView.setVisibility(View.GONE);
+
+                            Toast.makeText(mView.getContext(), "there have no data ", Toast.LENGTH_SHORT).show();
+                            //noFramesFound.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetparentFrameworkResponse> call, Throwable t) {
+                    //hidepDialog();
+                    Log.d("onFailure", t.toString());
+                }
+            });
+        }
+
+
+        customParentFrameSpinnerAdapter.notifyDataSetChanged();
+    }
+    private void prepareFrameWorkTitles(String categoryid) {
+        frameworksList.clear();
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
         noFrameworksFound.setVisibility(View.GONE);
         if (!checkInternetState.getInstance(mView.getContext()).isOnline()) {
             Toasty.warning(mView.getContext(), "No Internet connection.", Toast.LENGTH_LONG, true).show();
@@ -193,12 +289,12 @@ public class FrameworkFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         }else {
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetFrameworksModel> userCall = service.getFrameworkTitles();
+            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(Integer.parseInt(categoryid));
             userCall.enqueue(new Callback<GetFrameworksModel>() {
                 @Override
                 public void onResponse(Call<GetFrameworksModel> call, Response<GetFrameworksModel> response) {
                     progressBar.setVisibility(View.GONE);
-
+                    recyclerView.setVisibility(View.VISIBLE);
                     Log.d("students"," "+response.body().getStatus());
                     if (response.isSuccessful()){
                         if (response.body().getStatus()) {
@@ -234,6 +330,16 @@ public class FrameworkFragment extends Fragment {
             });
         }
 
+    }
+    private void showpDialog() {
+        if (!pDialog.isShowing())
+            pDialog.show();
+    }
+
+    //to hide progress
+    private void hidepDialog() {
+        if (pDialog.isShowing())
+            pDialog.dismiss();
     }
 
     /**

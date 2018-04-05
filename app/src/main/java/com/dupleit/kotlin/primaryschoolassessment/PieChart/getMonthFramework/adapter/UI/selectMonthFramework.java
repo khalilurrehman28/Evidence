@@ -194,7 +194,7 @@ public class selectMonthFramework extends AppCompatActivity {
         } else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetFrameworksModel> userCall = service.getFrameworkTitles();
+            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(1);
             userCall.enqueue(new Callback<GetFrameworksModel>() {
                 @Override
                 public void onResponse(Call<GetFrameworksModel> call, Response<GetFrameworksModel> response) {

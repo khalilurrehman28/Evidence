@@ -146,7 +146,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         fileUris.add(1, "");
         fileUris.add(2, "");
         linearSubTitle.setVisibility(View.GONE);
-
+        layoutframeworkSpinner.setVisibility(View.GONE);
 
         etSelectedDate.setInputType(InputType.TYPE_NULL);
         // etSelectFramesDate.setCompoundDrawablesWithIntrinsicBounds(R.drawable.calendar,0,0, 0);
@@ -270,6 +270,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.d("getListStatus", " " + response.body().getStatus());
                     if (response.isSuccessful()) {
                         if (response.body().getStatus()) {
+                            layoutframeworkSpinner.setVisibility(View.VISIBLE);
                             /*to get notice of principal to all*/
                             Log.d("getMessage", "" + response.body().getMsg());
                             for (int i = 0; i < response.body().getData().size(); i++) {
@@ -287,6 +288,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                             }
 
                         } else {
+                            layoutframeworkSpinner.setVisibility(View.GONE);
+
                             Toast.makeText(AddEvidence.this, "there have no data ", Toast.LENGTH_SHORT).show();
                             //noFramesFound.setVisibility(View.VISIBLE);
                         }
@@ -410,7 +413,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         });
     }
 
-    private void createFrameWorkList() {
+    private void createFrameWorkList(String GetFrameworksModel) {
 
         //check internet state
         if (!checkInternetState.getInstance(this).isOnline()) {
@@ -421,7 +424,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         } else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetFrameworksModel> userCall = service.getFrameworkTitles();
+            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(Integer.parseInt(GetFrameworksModel));
             userCall.enqueue(new Callback<GetFrameworksModel>() {
                 @Override
                 public void onResponse(Call<GetFrameworksModel> call, Response<GetFrameworksModel> response) {

@@ -1,16 +1,27 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame">
 
+    <Spinner
+        android:background="@drawable/edittextstyle"
+        android:spinnerMode="dropdown"
+        android:id="@+id/spinnerParentFrameworkName"
+        android:layout_width="fill_parent"
+        android:minHeight="30dp"
+       android:layout_margin="6dp"
+        android:layout_height="50dp"
+        android:elevation="1dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
         android:padding="4dp"
+        android:layout_marginTop="62dp"
         android:scrollbars="vertical" />
 
     <ProgressBar
