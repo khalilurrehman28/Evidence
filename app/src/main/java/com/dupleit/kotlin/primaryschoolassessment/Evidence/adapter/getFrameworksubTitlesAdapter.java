@@ -5,6 +5,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,12 +78,24 @@ public class getFrameworksubTitlesAdapter extends RecyclerView.Adapter<getFramew
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                int number;
+                if (s.toString().equals("")){
+                    number = 0;
+                }else{
+                    number = Integer.parseInt(s.toString());
+                }
+                if (number>10){
+                    frameworks.setEtGetScore("10");
+                    Log.e("number",""+number);
+                }else {
+                    Log.e("number1",""+s.toString());
+                    frameworks.setEtGetScore(s.toString());
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                frameworks.setEtGetScore(s.toString());
+
                 //notifyDataSetChanged();
             }
         });

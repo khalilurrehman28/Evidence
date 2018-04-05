@@ -225,11 +225,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_height="50dp"
                     android:elevation="1dp" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/layoutframeworkSpinner">
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -248,7 +244,20 @@
                     android:layout_marginBottom="10dp"
                     android:layout_height="50dp"
                     android:elevation="1dp" />
-                </LinearLayout>
+                    <TextView
+                        android:background="@drawable/edittextstyle"
+
+                        android:id="@+id/tvNoFrameworkAvailable"
+                        android:layout_width="fill_parent"
+                        android:minHeight="30dp"
+                        android:text="No sub-framework"
+                        android:gravity="center"
+                        android:textSize="18sp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_height="50dp"
+                         />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"

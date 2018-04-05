@@ -289,7 +289,7 @@ public class FrameworkFragment extends Fragment {
             progressBar.setVisibility(View.GONE);
         }else {
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(Integer.parseInt(categoryid));
+            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(Integer.parseInt(categoryid), Integer.parseInt(teacherClassId()));
             userCall.enqueue(new Callback<GetFrameworksModel>() {
                 @Override
                 public void onResponse(Call<GetFrameworksModel> call, Response<GetFrameworksModel> response) {
@@ -341,7 +341,9 @@ public class FrameworkFragment extends Fragment {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
-
+    private String teacherClassId() {
+        return new PreferenceManager(mView.getContext()).getTeacherClassId();
+    }
     /**
      * Converting dp to pixel
      */

@@ -3,6 +3,7 @@ package com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingst
 import android.Manifest;
 import android.app.DownloadManager;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
@@ -59,6 +61,7 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.RecyclerItemClickListener1;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -145,21 +148,27 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
             if (selctedCardslist.isEmpty())
             {
 
-               /* Intent intent1 = new Intent();
-                intent1.setAction(android.content.Intent.ACTION_VIEW);
-                File file = new File(Environment.DIRECTORY_DOWNLOADS, "/evidence/"  +"/"+ "Evidence_report_"+url[1]); // set your audio path
-                intent1.setDataAndType(Uri.fromFile(file), "image*//*");
 
-                PendingIntent pIntent = PendingIntent.getActivity(GridStudentEvidence.this, 455, intent1, 0);
-               */ Log.e("INSIDE", "" + referenceId);
+
+
+                /*NotificationCompat.Builder builder = new NotificationCompat.Builder(GridStudentEvidence.this);
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                File file = new File(Environment.DIRECTORY_DOWNLOADS, "/evidence"  +"/"+ "Evidence_report_"+url[1]);
+                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
+                PendingIntent pendingIntent = PendingIntent.getActivity(GridStudentEvidence.this, 0, intent1, 0);
+                builder.setContentIntent(pendingIntent);
+                builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+                builder.setContentTitle("Evidence_report_"+ url[1]);
+                builder.setContentText("Download completed");*/
+                //builder.setSubText("Tap to view the website.");
+
+
 
                 NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(GridStudentEvidence.this)
-                                .setSmallIcon(R.mipmap.ic_launcher_round)
+                                .setSmallIcon(R.mipmap.ic_launcher)
                                 .setContentTitle("Evidence_report_"+ url[1])
                                 .setContentText("Download completed");
-
-
 
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 notificationManager.notify(455, mBuilder.build());
@@ -666,7 +675,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                             request.setTitle("Downloading " + "PDF");
                             request.setDescription("Downloading evidence" + url[1]);
                             request.setVisibleInDownloadsUi(true);
-                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/evidence/"  +"/"+ "Evidence_report_"+url[1]);
+                            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "/evidence"  +"/"+ "Evidence_report_"+url[1]);
 
 
                             refid = downloadManager.enqueue(request);

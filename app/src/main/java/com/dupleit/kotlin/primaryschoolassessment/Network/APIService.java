@@ -49,7 +49,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("get_framework")
-    Call<GetFrameworksModel> getFrameworkTitles(@Field("CATEGORY_ID") int CATEGORY_ID);
+    Call<GetFrameworksModel> getFrameworkTitles(@Field("CATEGORY_ID") int CATEGORY_ID,@Field("CLASS_ID") int CLASS_ID);
     //for getting subtitle from framework like (Cricket is framework and bowling batting etc is subtiles of framework)
     @FormUrlEncoded
     @POST("get_framework_sub")
