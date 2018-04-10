@@ -17,7 +17,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,14 +39,10 @@ import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.dupleit.kotlin.primaryschoolassessment.Evidence.AddEvidence;
 import com.dupleit.kotlin.primaryschoolassessment.Graph.graphActivity;
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.PieChart.PreviewPieChart.PieChartActivity;
-import com.dupleit.kotlin.primaryschoolassessment.PieChart.model.GetSessionPieData;
-import com.dupleit.kotlin.primaryschoolassessment.PieChart.model.GetSessionPieRecordModel;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.PreviewEvidence.EvidencePreview;
@@ -60,13 +55,10 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDec
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.RecyclerItemClickListener1;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
@@ -151,29 +143,32 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
 
 
-                /*NotificationCompat.Builder builder = new NotificationCompat.Builder(GridStudentEvidence.this);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(GridStudentEvidence.this);
                 builder.setSmallIcon(R.mipmap.ic_launcher);
-                File file = new File(Environment.DIRECTORY_DOWNLOADS, "/evidence"  +"/"+ "Evidence_report_"+url[1]);
-                Intent intent1 = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
+               // File file = new File(Environment.DIRECTORY_DOWNLOADS, "/evidence"  +"/"+ "Evidence_report_"+url[1]);
+                Intent intent1 = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
                 PendingIntent pendingIntent = PendingIntent.getActivity(GridStudentEvidence.this, 0, intent1, 0);
                 builder.setContentIntent(pendingIntent);
                 builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
                 builder.setContentTitle("Evidence_report_"+ url[1]);
-                builder.setContentText("Download completed");*/
+                builder.setContentText("Download completed");
                 //builder.setSubText("Tap to view the website.");
 
 
 
-                NotificationCompat.Builder mBuilder =
+             /*   NotificationCompat.Builder mBuilder =
                         new NotificationCompat.Builder(GridStudentEvidence.this)
-                                .setSmallIcon(R.mipmap.ic_launcher)
+                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                                .setSmallIcon(R.drawable.ic_pdf)
                                 .setContentTitle("Evidence_report_"+ url[1])
-                                .setContentText("Download completed");
+                                .setContentText("Download completed");*/
 
                 NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(455, mBuilder.build());
+                notificationManager.notify(455, builder.build());
 
                 Toasty.success(getApplicationContext(),"file download in evidence folder",Toast.LENGTH_LONG).show();
+
+
 
             }
 

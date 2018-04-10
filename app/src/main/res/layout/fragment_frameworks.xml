@@ -4,7 +4,10 @@
     android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame">
-
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <Spinner
         android:background="@drawable/edittextstyle"
         android:spinnerMode="dropdown"
@@ -18,10 +21,9 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:padding="4dp"
-        android:layout_marginTop="62dp"
         android:scrollbars="vertical" />
 
     <ProgressBar
@@ -46,7 +48,8 @@
         android:paddingTop="15dp"
         android:visibility="gone"
         />
-   <!-- <android.support.design.widget.FloatingActionButton
+    </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,6 +59,5 @@
         app:fabSize="normal"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add" />
--->
 
 </FrameLayout>

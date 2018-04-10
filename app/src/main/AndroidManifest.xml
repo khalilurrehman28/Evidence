@@ -79,7 +79,10 @@
         <activity android:name=".forgotPassword.fogotPassswordActivity" />
         <activity android:name=".forgotPassword.forgotPasswordValidate" />
         <activity android:name=".teacherClasss.getTeacherCurrentClass" />
-        <activity android:name=".teacherClasss.selectTeacherClass.selectStudentClass"></activity>
+        <activity android:name=".teacherClasss.selectTeacherClass.selectStudentClass" />
+        <activity android:name=".tryActivity" />
+        <activity android:name=".createFramework.CreateFramework.create_framework" />
+        <activity android:name=".createFramework.addCatogaryFramework.createCategoryFramework"></activity>
     </application>
 
 </manifest>

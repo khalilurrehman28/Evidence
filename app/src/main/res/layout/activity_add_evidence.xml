@@ -211,7 +211,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Framework Name"
+                    android:text="Category"
                     android:layout_marginTop="10dp"
                     android:textColor="#565656"
                     android:textSize="17dp" />
@@ -230,7 +230,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Sub-framework Name"
+                    android:text="framework Name"
                     android:layout_marginTop="10dp"
                     android:textColor="#565656"
                     android:textSize="17dp" />
@@ -250,7 +250,7 @@
                         android:id="@+id/tvNoFrameworkAvailable"
                         android:layout_width="fill_parent"
                         android:minHeight="30dp"
-                        android:text="No sub-framework"
+                        android:text="No framework"
                         android:gravity="center"
                         android:textSize="18sp"
                         android:layout_marginTop="8dp"

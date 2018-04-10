@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f1f1f1"
+    tools:context="com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.filterActivity">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:background="#fff"
+        android:clickable="true"
+
+        android:elevation="8dp"
+        android:focusable="true"
+        android:padding="8dp"
+        app:cardElevation="6dp"
+        card_view:cardCornerRadius="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:text="Framework Category"
+                android:textColor="#565656"
+                android:textSize="17dp" />
+
+            <EditText
+                android:id="@+id/etCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etTitle"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittextstyle"
+                android:hint="Enter Category"
+                android:inputType="text"
+                android:minHeight="52dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardFramework"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cardCategory"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:background="#fff"
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true"
+        android:padding="8dp"
+        app:cardElevation="6dp"
+        card_view:cardCornerRadius="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Category"
+                android:textColor="#565656"
+                android:textSize="17dp" />
+
+            <Spinner
+                android:id="@+id/spinnerFrameworkCategory"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittextstyle"
+                android:elevation="1dp"
+                android:minHeight="30dp"
+                android:spinnerMode="dropdown" />
+
+            <EditText
+                android:id="@+id/etFrameworkName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etTitle"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittextstyle"
+                android:hint="Enter framework name"
+                android:inputType="text"
+
+                android:minHeight="52dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_viewBotom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:elevation="8dp"
+        card_view:cardCornerRadius="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="6dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+
+                android:text="Cancel"
+                android:textSize="17dp" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/colorAccent"
+                android:text="Add"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>

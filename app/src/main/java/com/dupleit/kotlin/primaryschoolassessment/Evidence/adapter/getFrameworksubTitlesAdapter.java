@@ -1,9 +1,11 @@
 package com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubtitle.SubTitleData;
+import com.dupleit.kotlin.primaryschoolassessment.NumberPickerDialog;
 import com.dupleit.kotlin.primaryschoolassessment.R;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.minMaxInputFilter;
+import com.dupleit.kotlin.primaryschoolassessment.tryActivity;
+
 import java.util.List;
 
 /**
@@ -38,6 +45,8 @@ public class getFrameworksubTitlesAdapter extends RecyclerView.Adapter<getFramew
             getsubtitleObtainMarks = view.findViewById(R.id.subtitleObtainMarks);
             frame = view.findViewById(R.id.frame);
         }
+
+
     }
     public getFrameworksubTitlesAdapter(Context mContext, List<SubTitleData> framSubtitleList) {
         this.mContext = mContext;
@@ -53,7 +62,7 @@ public class getFrameworksubTitlesAdapter extends RecyclerView.Adapter<getFramew
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final SubTitleData frameworks = framSubtitleList.get(position);
 
         if (!frameworks.getFRAMEWORKSUB().equals("")){
@@ -69,7 +78,7 @@ public class getFrameworksubTitlesAdapter extends RecyclerView.Adapter<getFramew
         }
 
 
-
+        holder.getsubtitleObtainMarks.setFilters(new InputFilter[]{ new minMaxInputFilter("0","10")});
         holder.getsubtitleObtainMarks.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

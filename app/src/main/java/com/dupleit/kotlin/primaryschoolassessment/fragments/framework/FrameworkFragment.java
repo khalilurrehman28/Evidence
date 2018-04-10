@@ -22,20 +22,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dupleit.kotlin.primaryschoolassessment.Evidence.AddEvidence;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomParentFrameSpinnerAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
-import com.dupleit.kotlin.primaryschoolassessment.activities.studentProfile.studentProfile;
+import com.dupleit.kotlin.primaryschoolassessment.createFramework.CreateFramework.create_framework;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.adapter.getFrameworksTitlesAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.subTitleframework.gettingFrameworkSubtitles;
-import com.dupleit.kotlin.primaryschoolassessment.getStudents.UI.getClassStudents;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.RecyclerTouchListener;
@@ -76,6 +74,8 @@ public class FrameworkFragment extends Fragment {
     getFrameworksTitlesAdapter adapter;
     View mView;
     ProgressDialog pDialog;
+    @BindView(R.id.fab) FloatingActionButton fab;
+
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -143,6 +143,14 @@ public class FrameworkFragment extends Fragment {
             Toasty.warning(mView.getContext(), "Please login first", Toast.LENGTH_SHORT, true).show();
 
         }
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mView.getContext(), create_framework.class);
+
+                startActivity(i);
+            }
+        });
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(mView.getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override

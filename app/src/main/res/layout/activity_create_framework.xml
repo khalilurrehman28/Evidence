@@ -1,0 +1,246 @@
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp"
+        android:background="@drawable/home_grdnt"
+        android:id="@+id/frame"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context="com.dupleit.khalil.myapplication.fragments.FragmentOne">
+
+        <!-- TODO: Update blank fragment layout -->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/notice_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/white"
+            android:layout_marginTop="2dp"
+            app:elevation="8dp"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardElevation="5dp"
+            card_view:cardCornerRadius="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Create framework in 3 simple steps"
+                    android:textColor="@color/black"
+                    android:textSize="19dp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Framework for"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#565656"
+                    android:textSize="17dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Class Name"
+                    android:padding="15dp"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:id="@+id/className"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/edittextstyle"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#565656"
+                    android:textSize="17dp" />
+                <Spinner
+                    android:background="@drawable/edittextstyle"
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerFrameworkCategory"
+                    android:layout_width="fill_parent"
+                    android:minHeight="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="50dp"
+                    android:elevation="1dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Category?"
+                    android:id="@+id/btnAddCategory"
+                    android:textSize="16dp"
+                    android:textColor="#0c7099"
+                    android:textStyle="italic|bold"
+                    android:layout_margin="2dp"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="3px"
+                    android:visibility="visible"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#dfdfdf" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Framework Name"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#565656"
+                    android:textSize="17dp" />
+                <Spinner
+                    android:background="@drawable/edittextstyle"
+                    android:spinnerMode="dropdown"
+                    android:id="@+id/spinnerFramework"
+                    android:layout_width="fill_parent"
+                    android:minHeight="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="50dp"
+                    android:elevation="1dp" />
+                <TextView
+                    android:background="@drawable/edittextstyle"
+                    android:id="@+id/tvNoFrameworkAvailable"
+                    android:layout_width="fill_parent"
+                    android:minHeight="30dp"
+                    android:text="No framework available"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="50dp"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Add Framework?"
+                    android:textColor="#0c7099"
+                    android:textSize="16dp"
+                    android:id="@+id/btnAddFramework"
+                    android:textStyle="italic|bold"
+                    android:layout_margin="2dp"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="3px"
+                    android:visibility="visible"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#dfdfdf" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/layoutSubFramework">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Framework Sub Title"
+            android:layout_marginTop="10dp"
+            android:textColor="#565656"
+            android:textSize="17dp" />
+        <EditText
+            android:id="@+id/etSelected"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="52dp"
+            android:layout_below="@+id/etTitle"
+            android:inputType="date"
+            android:paddingLeft="15dp"
+            android:layout_marginRight="6dp"
+            android:paddingRight="15dp"
+            android:hint="Framework Sub Title"
+            android:background="@drawable/edittextstyle"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_marginLeft="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Score"
+            android:layout_marginTop="10dp"
+            android:textColor="#565656"
+            android:textSize="17dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:padding="14dp"
+            android:textSize="19dp"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/edittextstyle"/>
+    </LinearLayout>
+</LinearLayout>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/loginbutton_selector"
+                    android:id="@+id/btnCreate"
+                    android:text="Submit"
+                    android:textSize="20dp"
+                    android:layout_marginTop="16dp"
+                    android:textColor="#FFFFFF"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="25dp"
+                android:id="@+id/linearSubTitle"
+                android:visibility="visible"
+                android:padding="6dp"
+
+                android:background="@drawable/edittextstyle">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sub framework Preview"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+
+                    android:layout_marginBottom="6dp"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="3px"
+                    android:visibility="visible"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="#dfdfdf" />
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:id="@+id/recyclerSubTitle">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+</ScrollView>
