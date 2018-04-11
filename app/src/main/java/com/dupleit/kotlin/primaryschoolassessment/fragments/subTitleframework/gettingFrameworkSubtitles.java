@@ -1,15 +1,21 @@
 package com.dupleit.kotlin.primaryschoolassessment.fragments.subTitleframework;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,9 +25,12 @@ import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubti
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.subTitleframework.adapter.frameworksubTitlesAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.RecyclerTouchListener;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
+import com.mancj.slideup.SlideUp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +51,12 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
     private List<SubTitleData> frameworksubTList;
     frameworksubTitlesAdapter subTitleAdapter;
     View mView;
+    private SlideUp slideUp;
+    @BindView(R.id.dim) View dim;
+    @BindView(R.id.slideView) View sliderView;
+    @BindView(R.id.btnClose)ImageView btnClose;
+    @BindView(R.id.tvTitle)TextView tvTitle;
+    @BindView(R.id.tvDes)TextView tvDes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +68,29 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
     }
 
     private void initilize() {
+
+        slideUp = new SlideUp(sliderView);
+        slideUp.hideImmediately();
+        slideUp.setSlideListener(new SlideUp.SlideListener() {
+            @Override
+            public void onSlideDown(float v) {
+                dim.setAlpha(1 - (v / 100));
+            }
+
+            @Override
+            public void onVisibilityChanged(int i) {
+                if (i == View.GONE) {
+                    //mMap.mar
+                }
+
+            }
+        });
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slideUp.animateOut();
+            }
+        });
         frameworksubTList = new ArrayList<>();
         subTitleAdapter = new frameworksubTitlesAdapter(this, frameworksubTList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -62,6 +100,29 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
         recyclerView.setAdapter(subTitleAdapter);
         progressBar.setVisibility(View.VISIBLE);
         prepareSubtitles();
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(gettingFrameworkSubtitles.this, recyclerView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                final SubTitleData frames = frameworksubTList.get(position);
+                if (!frames.getFRAMEWORKSUB().equals("")){
+                    tvTitle.setText(frames.getFRAMEWORKSUB());
+                    String s= "Des:  "+frames.getrEMARK();
+                    SpannableString ss1=  new SpannableString(s);
+                    ss1.setSpan(new RelativeSizeSpan(1.3f), 0,4, 0); // set size
+                    ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, 0);// set color
+
+                    tvDes.setText(ss1);
+                }
+
+                slideUp.animateIn();
+            }
+
+            @Override
+            public void onLongClick(View view, final int position) {
+
+            }
+        }));
     }
 
     private void prepareSubtitles() {
@@ -87,6 +148,7 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
                                 SubTitleData.setFRAMEWORKSUB(response.body().getData().get(i).getFRAMEWORKSUB());
                                 SubTitleData.setSCORE(response.body().getData().get(i).getSCORE());
                                 SubTitleData.setSubId(response.body().getData().get(i).getSubId());
+                                SubTitleData.setrEMARK(response.body().getData().get(i).getrEMARK());
 
                                 frameworksubTList.add(SubTitleData);
                                 //adapter.notifyDataSetChanged();

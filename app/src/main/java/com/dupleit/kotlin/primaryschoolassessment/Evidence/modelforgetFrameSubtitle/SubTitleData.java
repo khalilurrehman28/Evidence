@@ -22,6 +22,17 @@ public class SubTitleData implements Parcelable
     @Expose
     private String subId;
 
+    public String getrEMARK() {
+        return rEMARK;
+    }
+
+    public void setrEMARK(String rEMARK) {
+        this.rEMARK = rEMARK;
+    }
+
+    @SerializedName("REMARK")
+    @Expose
+    private String rEMARK;
 
 
     private String etGetScore;

@@ -188,6 +188,7 @@ public class EvidencePreview extends AppCompatActivity {
                                 scoreData.setFRAMEWORKID(response.body().getData1().get(i).getFRAMEWORKID());
                                 scoreData.setFRAMEWORKTITLE(response.body().getData1().get(i).getFRAMEWORKTITLE());
                                 scoreData.setFRAMEWORKSUB(response.body().getData1().get(i).getFRAMEWORKSUB());
+                                scoreData.setfRAMEWORKREMARK(response.body().getData1().get(i).getfRAMEWORKREMARK());
                                 scoreData.setSCORE(response.body().getData1().get(i).getSCORE());
                                 scoreData.setSCOREID(response.body().getData1().get(i).getSCOREID());
                                 scoreData.setMAXSCORE(response.body().getData1().get(i).getMAXSCORE());

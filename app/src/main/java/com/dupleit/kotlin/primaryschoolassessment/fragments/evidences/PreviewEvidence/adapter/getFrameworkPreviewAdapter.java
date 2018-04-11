@@ -1,8 +1,12 @@
 package com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.PreviewEvidence.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +26,7 @@ public class getFrameworkPreviewAdapter extends RecyclerView.Adapter<getFramewor
     public class GalleryViewHolder extends RecyclerView.ViewHolder{
 
 
-        public TextView frameworkSubTitle;
+        public TextView frameworkSubTitle,frameworkDes;
         LinearLayout ll1,ll2,ll3,ll4,ll5,ll6,ll7,ll8,ll9,ll10;
         public View mCardView;
 
@@ -30,6 +34,7 @@ public class getFrameworkPreviewAdapter extends RecyclerView.Adapter<getFramewor
             super(itemView);
 
             frameworkSubTitle = itemView.findViewById(R.id.frameworkSubTitle);
+            frameworkDes = itemView.findViewById(R.id.frameworkDes);
             ll1= itemView.findViewById(R.id.ll1);
             ll2= itemView.findViewById(R.id.ll2);
             ll3= itemView.findViewById(R.id.ll3);
@@ -62,6 +67,15 @@ public class getFrameworkPreviewAdapter extends RecyclerView.Adapter<getFramewor
     public void onBindViewHolder(GalleryViewHolder holder, int position) {
         getScoreData frameworkData = medialists.get(position);
         holder.frameworkSubTitle.setText(frameworkData.getFRAMEWORKSUB());
+        if (!frameworkData.getfRAMEWORKREMARK().equals("")){
+            String s= "Des:  "+frameworkData.getfRAMEWORKREMARK();
+            SpannableString ss1=  new SpannableString(s);
+            ss1.setSpan(new RelativeSizeSpan(1.1f), 0,4, 0); // set size
+            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, 0);// set color
+
+            holder.frameworkDes.setText(ss1);
+        }
+
 Log.e("score",""+frameworkData.getSCORE());
         switch (frameworkData.getSCORE()) {
             case "0":

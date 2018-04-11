@@ -43,6 +43,18 @@ public class getScoreData {
     @Expose
     private String mAXSCORE;
 
+    public String getfRAMEWORKREMARK() {
+        return fRAMEWORKREMARK;
+    }
+
+    public void setfRAMEWORKREMARK(String fRAMEWORKREMARK) {
+        this.fRAMEWORKREMARK = fRAMEWORKREMARK;
+    }
+
+    @SerializedName("REMARK")
+    @Expose
+    private String fRAMEWORKREMARK;
+
     public String getSCOREID() {
         return sCOREID;
     }

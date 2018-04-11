@@ -33,5 +33,14 @@
             android:paddingTop="15dp"
             android:visibility="gone"
             />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/dim"
+            android:alpha="0"
+            android:fitsSystemWindows="true"
+
+            android:background="#ee3e3e3e"/>
+        <include layout="@layout/item_slide_up" />
 
 </FrameLayout>

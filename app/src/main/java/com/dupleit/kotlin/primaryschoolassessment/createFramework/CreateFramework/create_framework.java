@@ -305,6 +305,8 @@ public class create_framework extends AppCompatActivity {
                             SubTitleData.setFRAMEWORKSUB(response.body().getData().get(i).getFRAMEWORKSUB());
                             SubTitleData.setSCORE(response.body().getData().get(i).getSCORE());
                             SubTitleData.setSubId(response.body().getData().get(i).getSubId());
+                            SubTitleData.setrEMARK(response.body().getData().get(i).getrEMARK());
+
                             SubTitleData.setEtGetScore("0");
 
                             frameworksubTList.add(SubTitleData);
