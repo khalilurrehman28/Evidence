@@ -58,13 +58,13 @@
         android:layout_gravity="end|bottom"
         >
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
             android:layout_weight="1"
             android:layout_gravity="end"
             android:layout_margin="10dp"
             android:id="@+id/button_show_class"
-            android:src="@drawable/ic_evidences" />
+            android:src="@drawable/ic_change_class" />
     </LinearLayout>
 
 </FrameLayout>

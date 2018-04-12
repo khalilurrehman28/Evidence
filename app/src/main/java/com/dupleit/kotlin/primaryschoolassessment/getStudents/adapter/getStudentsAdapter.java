@@ -76,10 +76,9 @@ public class getStudentsAdapter extends RecyclerView.Adapter<getStudentsAdapter.
         GetStudentData classstudent = studentListFiltered.get(position);
         Glide.with(mContext).load(Utils.webUrlHome+classstudent.getSTUDENTIMAGE()).into(holder.studentImage);
         holder.studentName.setText(classstudent.getSTUDENTNAME());
-        Random rnd = new Random();
-        int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+
         //view.setBackgroundColor(color);
-        ((GradientDrawable)holder.checkMaleFemale.getBackground()).setColor(color);
+        ((GradientDrawable)holder.checkMaleFemale.getBackground()).setColor(classstudent.getColor());
         holder.checkMaleFemale.setPadding(2,2,2,2);
 
         if(classstudent.getSTUDENTGENDER().equals("1")){

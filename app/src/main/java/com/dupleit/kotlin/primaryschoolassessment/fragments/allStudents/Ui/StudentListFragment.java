@@ -290,7 +290,7 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query );
+                adapter.getFilter().filter(query.trim());
                 if(adapter.getItemCount()<1){
                     recyclerView.setVisibility(View.GONE);
                     noSearchResultFound.setVisibility(View.VISIBLE);
@@ -304,7 +304,7 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
 
             @Override
             public boolean onQueryTextChange(String query) {
-                adapter.getFilter().filter(query);
+                adapter.getFilter().filter(query.trim());
                 if(adapter.getItemCount()<1){
                     recyclerView.setVisibility(View.GONE);
                     noSearchResultFound.setVisibility(View.VISIBLE);

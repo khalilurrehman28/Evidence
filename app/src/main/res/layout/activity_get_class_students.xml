@@ -34,7 +34,19 @@
         android:paddingTop="15dp"
         android:visibility="gone"
         />
-
+    <TextView
+        android:id="@+id/noSearchResultFound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:paddingTop="15dp"
+        android:text="No search results found"
+        android:layout_marginTop="80dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:visibility="gone"
+        />
     <!--<RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

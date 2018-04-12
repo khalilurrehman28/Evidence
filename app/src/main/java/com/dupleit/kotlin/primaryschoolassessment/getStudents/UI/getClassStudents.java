@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -33,6 +34,7 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +50,8 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
     private List<GetStudentData> studentList;
     private getStudentsAdapter adapter;
     private SearchView searchView;
+    @BindView(R.id.noSearchResultFound)
+    TextView noSearchResultFound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,14 +122,38 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
-                adapter.getFilter().filter(query);
+                adapter.getFilter().filter(query.trim());
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
                 // filter recycler view when text is changed
-                adapter.getFilter().filter(query);
+                adapter.getFilter().filter(query.trim());
+                if(adapter.getItemCount()<1){
+                    recyclerView.setVisibility(View.GONE);
+                    noSearchResultFound.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                }else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    noSearchResultFound.setVisibility(View.GONE);
+                }
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recyclerView.setVisibility(View.VISIBLE);
+                noSearchResultFound.setVisibility(View.GONE);
                 return false;
             }
         });
@@ -209,6 +237,9 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
                                 students.setSTUDENTIMAGE(response.body().getData().get(i).getSTUDENTIMAGE());
                                 students.setSTUDENTSESSION(response.body().getData().get(i).getSTUDENTSESSION());
                                 students.setSTUDENTMODIFYDATETIME(response.body().getData().get(i).getSTUDENTMODIFYDATETIME());
+                                Random rnd = new Random();
+                                int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+                                students.setColor(color);
                                 studentList.add(students);
                                 //adapter.notifyDataSetChanged();
                                 adapter.notifyDataSetChanged();

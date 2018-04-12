@@ -293,7 +293,7 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
+                adapter.getFilter().filter(query.trim());
                 if(adapter.getItemCount()<1){
                     recyclerView.setVisibility(View.GONE);
                     noSearchResultFound.setVisibility(View.VISIBLE);
@@ -307,7 +307,7 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                adapter.getFilter().filter(newText.trim());
                 if(adapter.getItemCount()<1){
                     recyclerView.setVisibility(View.GONE);
                     noSearchResultFound.setVisibility(View.VISIBLE);

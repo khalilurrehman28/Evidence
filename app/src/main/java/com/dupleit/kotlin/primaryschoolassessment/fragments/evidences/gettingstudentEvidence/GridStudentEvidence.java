@@ -144,7 +144,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(GridStudentEvidence.this);
-                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setSmallIcon(R.drawable.ic_pdf);
                // File file = new File(Environment.DIRECTORY_DOWNLOADS, "/evidence"  +"/"+ "Evidence_report_"+url[1]);
                 Intent intent1 = new Intent(DownloadManager.ACTION_VIEW_DOWNLOADS);
                 PendingIntent pendingIntent = PendingIntent.getActivity(GridStudentEvidence.this, 0, intent1, 0);
@@ -194,11 +194,11 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                adapter.getFilter().filter(query);
+                adapter.getFilter().filter(query.trim());
                 if(adapter.getItemCount()<1){
                     recyclerView.setVisibility(View.GONE);
                     noSearchResultFound.setVisibility(View.VISIBLE);
-                    noSearchResultFound.setText("No results found '"+query.toString().trim()+"'");
+                    noSearchResultFound.setText("No results found '"+query.trim()+"'");
                 }else {
                     recyclerView.setVisibility(View.VISIBLE);
                     noSearchResultFound.setVisibility(View.GONE);
@@ -208,11 +208,11 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                adapter.getFilter().filter(newText.trim());
                 if(adapter.getItemCount()<1){
                     recyclerView.setVisibility(View.GONE);
                     noSearchResultFound.setVisibility(View.VISIBLE);
-                    noSearchResultFound.setText("No results found '"+newText.toString().trim()+"'");
+                    noSearchResultFound.setText("No results found '"+newText.trim()+"'");
                 }else {
                     recyclerView.setVisibility(View.VISIBLE);
                     noSearchResultFound.setVisibility(View.GONE);
