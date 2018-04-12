@@ -67,6 +67,17 @@
                     android:paddingTop="16dp"
                     android:textSize="17dp"
                     android:textColor="@color/grey"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:id="@+id/tvMaxScore"
+                    android:paddingRight="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="16dp"
+                    android:textSize="19dp"
+                    android:textColor="@color/black"/>
             </LinearLayout>
         </ScrollView>
 

@@ -46,7 +46,7 @@ public class frameworksubTitlesAdapter extends RecyclerView.Adapter<frameworksub
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_card_subtitles, parent, false);
+                .inflate(R.layout.card_framework_subtitle, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -55,10 +55,10 @@ public class frameworksubTitlesAdapter extends RecyclerView.Adapter<frameworksub
     public void onBindViewHolder(final frameworksubTitlesAdapter.MyViewHolder holder, int position) {
         SubTitleData frameworks = frameSubtitleList.get(position);
 
-        Random rnd = new Random();
+        /*Random rnd = new Random();
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         //view.setBackgroundColor(color);
-        ((GradientDrawable)holder.layoutBackground.getBackground()).setColor(color);
+        ((GradientDrawable)holder.layoutBackground.getBackground()).setColor(color);*/
         //holder.layoutBackground.setPadding(2,2,2,2);
         if (!frameworks.getFRAMEWORKSUB().equals("")){
 
@@ -69,7 +69,7 @@ public class frameworksubTitlesAdapter extends RecyclerView.Adapter<frameworksub
 
         if (!frameworks.getSCORE().equals("")){
 
-            holder.frameworkScore.setText(frameworks.getSCORE());
+            holder.frameworkScore.setText(frameworks.getrEMARK());
         }else{
             holder.frameworkScore.setText("");
 

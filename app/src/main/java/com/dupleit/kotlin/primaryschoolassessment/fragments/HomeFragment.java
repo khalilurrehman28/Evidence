@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.AddEvidence;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.MainActivity;
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.getTeacherCurrentClass;
 
 
 /**
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     ImageView btnCapture;
-    ImageView button_student_list,button_framework_list,button_evidence_list;
+    ImageView button_student_list,button_framework_list,button_evidence_list,button_show_class;
     private static final int REQUEST= 112;
     private OnFragmentInteractionListener mListener;
 
@@ -87,6 +88,7 @@ public class HomeFragment extends Fragment {
         button_student_list= v.findViewById(R.id.button_student_list);
         button_framework_list = v.findViewById(R.id.button_framework_list);
         button_evidence_list = v.findViewById(R.id.button_evidence_list);
+        button_show_class = v.findViewById(R.id.button_show_class);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,6 +113,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 updateFragment(4,"evidence");
+
+            }
+        });
+        button_show_class.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), getTeacherCurrentClass.class));
 
             }
         });
@@ -144,7 +153,7 @@ public class HomeFragment extends Fragment {
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -155,6 +164,7 @@ public class HomeFragment extends Fragment {
                     Log.d("TAG","@@@ PERMISSIONS Denied");
                     Toast.makeText(getContext(), "PERMISSIONS Denied", Toast.LENGTH_LONG).show();
                 }
+                break;
             }
         }
     }

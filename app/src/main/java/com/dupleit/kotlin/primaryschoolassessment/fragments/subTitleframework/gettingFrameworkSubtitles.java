@@ -57,6 +57,8 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
     @BindView(R.id.btnClose)ImageView btnClose;
     @BindView(R.id.tvTitle)TextView tvTitle;
     @BindView(R.id.tvDes)TextView tvDes;
+    @BindView(R.id.tvMaxScore)TextView tvMaxScore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,9 +95,9 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
         });
         frameworksubTList = new ArrayList<>();
         subTitleAdapter = new frameworksubTitlesAdapter(this, frameworksubTList);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(0), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(subTitleAdapter);
         progressBar.setVisibility(View.VISIBLE);
@@ -107,13 +109,21 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
                 final SubTitleData frames = frameworksubTList.get(position);
                 if (!frames.getFRAMEWORKSUB().equals("")){
                     tvTitle.setText(frames.getFRAMEWORKSUB());
-                    String s= "Des:  "+frames.getrEMARK();
-                    SpannableString ss1=  new SpannableString(s);
-                    ss1.setSpan(new RelativeSizeSpan(1.3f), 0,4, 0); // set size
-                    ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, 0);// set color
 
-                    tvDes.setText(ss1);
                 }
+                String s= "Description:  "+frames.getrEMARK();
+                SpannableString ss1=  new SpannableString(s);
+                ss1.setSpan(new RelativeSizeSpan(1.3f), 0,12, 0); // set size
+                ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 12, 0);// set color
+
+                tvDes.setText(ss1);
+
+                String s1= "Max Score: "+frames.getSCORE();
+                SpannableString marks=  new SpannableString(s1);
+                marks.setSpan(new RelativeSizeSpan(1f), 0,10, 0); // set size
+                marks.setSpan(new ForegroundColorSpan(Color.RED), 0, 10, 0);// set color
+
+                tvMaxScore.setText(marks);
 
                 slideUp.animateIn();
             }
