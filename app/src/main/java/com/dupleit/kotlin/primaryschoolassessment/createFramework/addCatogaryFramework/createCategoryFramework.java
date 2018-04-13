@@ -1,6 +1,7 @@
 package com.dupleit.kotlin.primaryschoolassessment.createFramework.addCatogaryFramework;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -11,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomParentFrameSpinnerAdapter;
@@ -19,14 +19,17 @@ import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.createFramework.CreateFramework.create_framework;
+import com.dupleit.kotlin.primaryschoolassessment.createFramework.model.addframeworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,7 +42,7 @@ public class createCategoryFramework extends AppCompatActivity {
     ArrayList<parentFrameworkData> frameworkCategoryList;
     @BindView(R.id.spinnerFrameworkCategory)
     Spinner spinnerFrameworkCategory;
-    String parentFrameworkId, parentFrameWorkTitle;
+    String frameCategoryId, frameCategoryName;
     ProgressDialog pDialog;
     @BindView(R.id.btnAdd)Button btnAdd;
     @BindView(R.id.btnCancel)Button btnCancel;
@@ -72,14 +75,16 @@ public class createCategoryFramework extends AppCompatActivity {
                     if (etCategory.getText().toString().trim().equals("")){
                         etCategory.setError("Please fill category");
                     }else {
-                        Toast.makeText(createCategoryFramework.this, "All right", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(createCategoryFramework.this, "All right", Toast.LENGTH_SHORT).show();
+                        addFrameCategory(etCategory.getText().toString().trim());
                     }
 
                 }else if (activityType.equals("AddFramework")){
                     if (etFrameworkName.getText().toString().trim().equals("")){
                         etFrameworkName.setError("Please fill framework name");
                     }else {
-                        Toast.makeText(createCategoryFramework.this, "All right", Toast.LENGTH_SHORT).show();
+                        addFrameworkName(etFrameworkName.getText().toString().trim());
+                     //  Toast.makeText(createCategoryFramework.this, "All right", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -91,6 +96,7 @@ public class createCategoryFramework extends AppCompatActivity {
             }
         });
     }
+
 
     private void getDropDownOfParentFrameWork() {
         frameworkCategoryList = new ArrayList<>();
@@ -104,8 +110,8 @@ public class createCategoryFramework extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final parentFrameworkData ParentframeData = frameworkCategoryList.get(position);
 
-                parentFrameworkId = ParentframeData.getCATEGORYID();
-                parentFrameWorkTitle = ParentframeData.getCATEGORYNAME();
+                frameCategoryId = ParentframeData.getCATEGORYID();
+                frameCategoryName = ParentframeData.getCATEGORYNAME();
 
 
                 // Toast.makeText(parent.getContext(), "class id" + classId, Toast.LENGTH_LONG).show();
@@ -189,6 +195,79 @@ public class createCategoryFramework extends AppCompatActivity {
         if (pDialog.isShowing())
             pDialog.dismiss();
     }
+
+    private void addFrameworkName(String frameworkName) {
+        final ProgressDialog pd = new ProgressDialog(createCategoryFramework.this);
+        pd.setTitle("Adding Framework Name");
+        pd.setMessage("Please wait...");
+        pd.setCancelable(false);
+        pd.show();
+        if (!checkInternetState.getInstance(createCategoryFramework.this).isOnline()) {
+            Toasty.warning(createCategoryFramework.this, "Please check your internet connection.", Toast.LENGTH_LONG, true).show();
+        }else {
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<addframeworkResponse> userCall = service.add_frameworktitle_request(frameworkName,Integer.parseInt(teacherClassId()),Integer.parseInt(frameCategoryId));
+            userCall.enqueue(new Callback<addframeworkResponse>() {
+                @Override
+                public void onResponse(Call<addframeworkResponse> call, Response<addframeworkResponse> response) {
+                    pd.hide();
+                    if (response.isSuccessful()){
+                        if (response.body().getStatus()){
+
+                            Toasty.success(createCategoryFramework.this,"Framework name added", Toast.LENGTH_LONG, true).show();
+                            startActivity(new Intent(createCategoryFramework.this,create_framework.class));
+                            finish();
+                        }
+                    }else {
+                        Toasty.error(createCategoryFramework.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
+
+                    }
+
+                }
+                @Override
+                public void onFailure(Call<addframeworkResponse> call, Throwable t) {
+                    Log.d("onFailure", t.toString());
+                }
+            });
+        }
+
+}
+
+    private void addFrameCategory(String categoryName) {
+        final ProgressDialog pd = new ProgressDialog(createCategoryFramework.this);
+        pd.setTitle("Adding Category");
+        pd.setMessage("Please wait...");
+        pd.setCancelable(false);
+        pd.show();
+        if (!checkInternetState.getInstance(createCategoryFramework.this).isOnline()) {
+            Toasty.warning(createCategoryFramework.this, "Please check your internet connection.", Toast.LENGTH_LONG, true).show();
+        }else {
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<addframeworkResponse> userCall = service.add_category(categoryName);
+            userCall.enqueue(new Callback<addframeworkResponse>() {
+                @Override
+                public void onResponse(Call<addframeworkResponse> call, Response<addframeworkResponse> response) {
+                    pd.hide();
+                    if (response.isSuccessful()){
+                        if (response.body().getStatus()){
+
+                            Toasty.success(createCategoryFramework.this,"Category added successfully", Toast.LENGTH_LONG, true).show();
+                            startActivity(new Intent(createCategoryFramework.this,create_framework.class));
+                            finish();
+                        }
+                    }else {
+                        Toasty.error(createCategoryFramework.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
+
+                    }
+
+                }
+                @Override
+                public void onFailure(Call<addframeworkResponse> call, Throwable t) {
+                    Log.d("onFailure", t.toString());
+                }
+            });
+        }}
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -204,5 +283,8 @@ public class createCategoryFramework extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private String teacherClassId() {
+        return new PreferenceManager(createCategoryFramework.this).getTeacherClassId();
     }
 }

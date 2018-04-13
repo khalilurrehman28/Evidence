@@ -94,7 +94,29 @@ public class EvidencesData {
     @SerializedName("title")
     @Expose
     private String title;
+    @SerializedName("SCORE")
+    @Expose
+    private String sCORE;
 
+    public String getsCORE() {
+        return sCORE;
+    }
+
+    public void setsCORE(String sCORE) {
+        this.sCORE = sCORE;
+    }
+
+    public Integer getcOUNT() {
+        return cOUNT;
+    }
+
+    public void setcOUNT(Integer cOUNT) {
+        this.cOUNT = cOUNT;
+    }
+
+    @SerializedName("COUNT")
+    @Expose
+    private Integer cOUNT;
     /*public Boolean getSelected() {
         return selected;
     }

@@ -6,6 +6,7 @@ import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubti
 import com.dupleit.kotlin.primaryschoolassessment.Graph.model.GetMonthsBarGraphModel;
 import com.dupleit.kotlin.primaryschoolassessment.PieChart.model.GetSessionPieRecordModel;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.Model.LoginModel;
+import com.dupleit.kotlin.primaryschoolassessment.createFramework.model.addframeworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.forgotPassword.model.forgotPasswordResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.Profile.model.UpdateImageModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.PreviewEvidence.model.GetFrameworkScoresModel;
@@ -86,26 +87,38 @@ public interface APIService {
     @FormUrlEncoded
     @POST("pie_chart_request")
     Call<GetSessionPieRecordModel> pie_chart_request(@Field("STUDENT_ID") int STUDENT_ID);
-
+    // for getting graph data and show intp bar graph
     @FormUrlEncoded
     @POST("graph_request")
     Call<GetMonthsBarGraphModel> bar_graph_request(@Field("STUDENT_ID") int STUDENT_ID);
-
+    // for getting pdf url that we download
     @FormUrlEncoded
     @POST("pdf_request")
     Call<DownloadApi> pdf_request(@Field("EVIDENCE_ID") String EVIDENCE_ID, @Field("STUDENT_ID") String STUDENT_ID);
 
-
+    // for getting response on forgot screen that email exist or not
     @FormUrlEncoded
     @POST("forgetPassword")
     Call<forgotPasswordResponse> forgetPassword(@Field("TEACHER_EMAIL") String TEACHER_EMAIL);
-
+    // for updating forgot password
     @FormUrlEncoded
     @POST("updatePassword")
     Call<forgotPasswordResponse> updatePassword(@Field("KEY") int KEY,@Field("TEACHER_EMAIL") String TEACHER_EMAIL,@Field("PASSWORD") String PASSWORD);
-
+    //getting teacher alloted classes
     @FormUrlEncoded
     @POST("get_teacher_class")
     Call<GetTeacherClassesResponse> get_teacher_class(@Field("TEACHER_ID") int teacher_id);
+    // add framework category
+    @FormUrlEncoded
+    @POST("add_category")
+    Call<addframeworkResponse> add_category(@Field("CATEGORY_NAME") String CATEGORY_NAME);
+    // add framework name
+    @FormUrlEncoded
+    @POST("addframeworktitle_request")
+    Call<addframeworkResponse> add_frameworktitle_request(@Field("FRAMEWORK_TITLE") String FRAMEWORK_TITLE,@Field("CLASS_ID") int CLASS_ID,@Field("CATEGORY_ID") int CATEGORY_ID);
 
+    // add framework name
+    @FormUrlEncoded
+    @POST("addframeworksub_request")
+    Call<addframeworkResponse> addframeworksub_request(@Field("FRAMEWORK_ID") int FRAMEWORK_ID,@Field("FRAMEWORK_SUB") String FRAMEWORK_SUB,@Field("SCORE") int SCORE,@Field("REMARK") String REMARK);
 }

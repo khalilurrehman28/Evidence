@@ -7,6 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.AssessmentRecord.adapter.assessmentRecordAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.models.EvidencesData;
@@ -35,7 +38,7 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
     private List<String> selectedIds = new ArrayList<>();
     public class MyViewHolder extends RecyclerView.ViewHolder  {
 
-        public TextView evidenceTitle,frameworkTitle;
+        public TextView evidenceTitle,frameworkTitle,evidenceGrade;
                 LinearLayout frame,layoutBackground;
         public CardView mCardView;
         public MyViewHolder(View view) {
@@ -43,6 +46,7 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
 
             evidenceTitle = view.findViewById(R.id.evidenceTitle);
             frameworkTitle = view.findViewById(R.id.frameworkTitle);
+            evidenceGrade= view.findViewById(R.id.evidenceGrade);
             frame= view.findViewById(R.id.frame);
             mCardView = (CardView) view.findViewById(R.id.card_view);
             layoutBackground= view.findViewById(R.id.layoutBackground);
@@ -104,6 +108,54 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
 
         holder.evidenceTitle.setText(evidences.getTitle());
         holder.frameworkTitle.setText(evidences.getEVIDENCEDATE());
+
+        int totalFrameScore = Integer.parseInt(evidences.getsCORE());
+        int framecount = evidences.getcOUNT();
+
+        float gradeAverage = totalFrameScore/framecount;
+        int gradeWithProcess =Math.round(gradeAverage);
+
+        switch (gradeWithProcess){
+            case 10:
+                holder.evidenceGrade.setText("A1");
+                break;
+            case 9:
+                holder.evidenceGrade.setText("A2");
+                break;
+            case 8:
+                holder.evidenceGrade.setText("B1");
+                break;
+            case 7:
+                holder.evidenceGrade.setText("B2");
+                break;
+            case 6:
+                holder.evidenceGrade.setText("C1");
+                break;
+            case 5:
+                holder.evidenceGrade.setText("C2");
+                break;
+            case 4:
+                holder.evidenceGrade.setText("D");
+                break;
+            case 3:
+                holder.evidenceGrade.setText("D");
+                break;
+            case 2:
+                holder.evidenceGrade.setText("E1");
+                break;
+            case 1:
+                holder.evidenceGrade.setText("E2");
+                break;
+            case 0:
+                holder.evidenceGrade.setText("F");
+                break;
+
+
+                default:
+                    break;
+        }
+        Log.e("grade",""+gradeWithProcess);
+       // Toast.makeText(mContext, "grade "+gradeWithProcess, Toast.LENGTH_SHORT).show();
 
     }
 

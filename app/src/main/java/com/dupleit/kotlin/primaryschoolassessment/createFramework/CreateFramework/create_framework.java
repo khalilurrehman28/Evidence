@@ -13,6 +13,8 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.createFramework.CreateFramework.adapter.getFrameworksubTitleAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.createFramework.addCatogaryFramework.createCategoryFramework;
+import com.dupleit.kotlin.primaryschoolassessment.createFramework.model.addframeworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
@@ -40,6 +43,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,7 +60,7 @@ public class create_framework extends AppCompatActivity {
     @BindView(R.id.tvNoFrameworkAvailable)TextView tvNoFrameworkAvailable;
     @BindView(R.id.layoutSubFramework)LinearLayout layoutSubFramework;
     CustomSpinnerAdapter customSpinnerAdapter;
-    String parentFrameworkId, parentFrameWorkTitle,FrameworkId, FrameWorkTitle;
+    String frameworkCategoryId, frameworkCategoryName,FrameworkId, FrameWorkTitle;
     @BindView(R.id.recyclerSubTitle) RecyclerView recyclerSubTitle;
     private List<SubTitleData> frameworksubTList;
     getFrameworksubTitleAdapter subTitleAdapter;
@@ -64,6 +68,9 @@ public class create_framework extends AppCompatActivity {
     @BindView(R.id.className)TextView className;
     @BindView(R.id.btnAddCategory)TextView btnAddCategory;
     @BindView(R.id.btnAddFramework)TextView btnAddFramework;
+    @BindView(R.id.etFrameworkSubTitle)EditText etFrameworkSubTitle;
+    @BindView(R.id.etFrameworkDes)EditText etFrameworkDes;
+    @BindView(R.id.btnCreate)Button btnCreate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +100,33 @@ public class create_framework extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        btnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (validateData()){
+                    addFrameSubTitle(etFrameworkSubTitle.getText().toString().trim(),etFrameworkDes.getText().toString().trim());
+                }
+            }
+        });
+    }
+
+    private boolean validateData() {
+        if (etFrameworkSubTitle.getText().toString().trim().equals("")){
+            etFrameworkSubTitle.setError("Please enter subtitle name");
+            return false;
+        }else {
+            etFrameworkSubTitle.setError(null);
+
+        }
+        if (etFrameworkDes.getText().toString().trim().equals("")){
+            etFrameworkDes.setError("Please enter some description");
+            return false;
+        }else {
+            etFrameworkDes.setError(null);
+
+        }
+        return true;
     }
 
     private void getDropDownOfParentFrameWork() {
@@ -107,10 +141,10 @@ public class create_framework extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 final parentFrameworkData ParentframeData = frameworkCategoryList.get(position);
 
-                parentFrameworkId = ParentframeData.getCATEGORYID();
-                parentFrameWorkTitle = ParentframeData.getCATEGORYNAME();
+                frameworkCategoryId = ParentframeData.getCATEGORYID();
+                frameworkCategoryName = ParentframeData.getCATEGORYNAME();
 
-                getDropDownOfFrameWork(parentFrameworkId);
+                getDropDownOfFrameWork(frameworkCategoryId);
 
                 // Toast.makeText(parent.getContext(), "class id" + classId, Toast.LENGTH_LONG).show();
             }
@@ -185,13 +219,13 @@ public class create_framework extends AppCompatActivity {
         frameworkCategorySpinnerAdapter.notifyDataSetChanged();
     }
 
-    private void getDropDownOfFrameWork(String parentFrameworkId) {
+    private void getDropDownOfFrameWork(String frameworkCategoryId) {
         FrameworksList = new ArrayList<>();
         FrameworksList.clear();
 
         customSpinnerAdapter = new CustomSpinnerAdapter(this, FrameworksList);
         spinnerFramework.setAdapter(customSpinnerAdapter);
-        createFrameWorkList(parentFrameworkId);
+        createFrameWorkList(frameworkCategoryId);
         spinnerFramework.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -211,7 +245,7 @@ public class create_framework extends AppCompatActivity {
             }
         });
     }
-    private void createFrameWorkList(String parentFrameworkId) {
+    private void createFrameWorkList(String frameworkCategoryId) {
 
         //check internet state
         if (!checkInternetState.getInstance(this).isOnline()) {
@@ -222,7 +256,7 @@ public class create_framework extends AppCompatActivity {
         } else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(Integer.parseInt(parentFrameworkId), Integer.parseInt(teacherClassId()));
+            Call<GetFrameworksModel> userCall = service.getFrameworkTitles(Integer.parseInt(frameworkCategoryId), Integer.parseInt(teacherClassId()));
             userCall.enqueue(new Callback<GetFrameworksModel>() {
                 @Override
                 public void onResponse(Call<GetFrameworksModel> call, Response<GetFrameworksModel> response) {
@@ -330,6 +364,42 @@ public class create_framework extends AppCompatActivity {
             }
         });
     }
+
+    private void addFrameSubTitle(String subtitleName, String des) {
+        final ProgressDialog pd = new ProgressDialog(create_framework.this);
+        pd.setTitle("Adding Data");
+        pd.setMessage("Please wait...");
+        pd.setCancelable(false);
+        pd.show();
+        if (!checkInternetState.getInstance(create_framework.this).isOnline()) {
+            Toasty.warning(create_framework.this, "Please check your internet connection.", Toast.LENGTH_LONG, true).show();
+        }else {
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<addframeworkResponse> userCall = service.addframeworksub_request(Integer.parseInt(FrameworkId),subtitleName,10,des);
+            userCall.enqueue(new Callback<addframeworkResponse>() {
+                @Override
+                public void onResponse(Call<addframeworkResponse> call, Response<addframeworkResponse> response) {
+                    pd.hide();
+                    if (response.isSuccessful()){
+                        if (response.body().getStatus()){
+
+                            Toasty.success(create_framework.this,"sub title added successfully", Toast.LENGTH_LONG, true).show();
+                            getSubTitles();
+
+                        }
+                    }else {
+                        Toasty.error(create_framework.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
+
+                    }
+
+                }
+                @Override
+                public void onFailure(Call<addframeworkResponse> call, Throwable t) {
+                    pd.hide();
+                    Log.d("onFailure", t.toString());
+                }
+            });
+        }}
 
 
     private int dpToPx(int dp) {

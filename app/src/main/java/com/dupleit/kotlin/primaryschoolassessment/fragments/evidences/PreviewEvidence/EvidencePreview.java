@@ -1,6 +1,7 @@
 package com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.PreviewEvidence;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -51,6 +52,7 @@ public class EvidencePreview extends AppCompatActivity {
     getFrameworkPreviewAdapter adapterFramework;
     ArrayList<getScoreData> frameworksList;
     @BindView(R.id.frameworkTitle) TextView frameworkTitle;
+    @BindView(R.id.gradePreview) TextView gradePreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +93,79 @@ public class EvidencePreview extends AppCompatActivity {
         initilizeMedia();
         getEvidenceMedia();
 
+        createGradeLayout();
     }
 
+    private void createGradeLayout() {
+        int totalFrameScore = Integer.parseInt(getIntent().getStringExtra("evidenceScore"));
+        int framecount = Integer.parseInt(getIntent().getStringExtra("frameCount"));
+
+        float gradeAverage = totalFrameScore/framecount;
+        int gradeWithProcess =Math.round(gradeAverage);
+
+        switch (gradeWithProcess){
+            case 10:
+                gradePreview.setText("A1");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+                break;
+            case 9:
+                gradePreview.setText("A2");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+                break;
+            case 8:
+                gradePreview.setText("B1");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+                break;
+            case 7:
+                gradePreview.setText("B2");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+                break;
+            case 6:
+                gradePreview.setText("C1");
+                gradePreview.setTextColor(Color.parseColor("#efcd37"));
+                gradePreview.setBackgroundResource(R.drawable.yellow_line);
+                break;
+            case 5:
+                gradePreview.setText("C2");
+                gradePreview.setTextColor(Color.parseColor("#efcd37"));
+                gradePreview.setBackgroundResource(R.drawable.yellow_line);
+                break;
+            case 4:
+                gradePreview.setText("D");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+                break;
+            case 3:
+                gradePreview.setText("D");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+                break;
+            case 2:
+                gradePreview.setText("E1");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+                break;
+            case 1:
+                gradePreview.setText("E2");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+                break;
+            case 0:
+                gradePreview.setText("F");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+                break;
+
+
+            default:
+                break;
+        }
+        Log.e("grade",""+gradeWithProcess);
+    }
 
 
     private void initilizeMedia() {
