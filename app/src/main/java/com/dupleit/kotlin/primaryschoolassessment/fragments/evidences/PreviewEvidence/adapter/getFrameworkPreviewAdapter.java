@@ -74,6 +74,8 @@ public class getFrameworkPreviewAdapter extends RecyclerView.Adapter<getFramewor
             ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, 0);// set color
 
             holder.frameworkDes.setText(ss1);
+        }else {
+            holder.frameworkDes.setText("");
         }
 
 Log.e("score",""+frameworkData.getSCORE());

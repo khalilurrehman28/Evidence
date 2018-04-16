@@ -61,7 +61,9 @@ import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.getTeacherCurren
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,6 +74,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
+import mabbas007.tagsedittext.TagsEditText;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -83,7 +86,7 @@ import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
  * Created by mandeep on 2/12/18.
  */
 
-public class AddEvidence extends AppCompatActivity implements ProgressRequestBody.UploadCallbacks{
+public class AddEvidence extends AppCompatActivity implements ProgressRequestBody.UploadCallbacks,TagsEditText.TagsEditListener{
     private static final int SECOND_ACTIVITY_REQUEST_CODE = 101;
     private static final int CHOOSE_CAMERA_IMAGE_1 = 102;
     private static final int CHOOSE_GALLERY_IMAGE_1 = 103;
@@ -130,7 +133,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     @BindView(R.id.recyclerSubTitle) RecyclerView recyclerSubTitle;
     private List<SubTitleData> frameworksubTList;
     getFrameworksubTitlesAdapter subTitleAdapter;
-
+     @BindView(R.id.tagsEditText)TagsEditText mTagsEditText;
+     String tagsValue = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,6 +187,12 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
 
             }
         });
+
+        mTagsEditText.setHint("Enter Tag(s)...");
+        mTagsEditText.setTagsListener(this);
+        mTagsEditText.setTagsWithSpacesEnabled(false);
+        //mTagsEditText.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_dropdown_item_1line, getResources().getStringArray(R.array.fruits)));
+        mTagsEditText.setThreshold(0);
 
         studentName.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -479,6 +489,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     }
 
     private boolean validateData() {
+
         if (etSelectedDate.getText().toString().equals("")) {
             etSelectedDate.setError("Please select date");
             return false;
@@ -486,6 +497,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
             etSelectedDate.setError(null);
 
         }
+
         if (studentName.getText().toString().equals("Select student") || studentName.getText().toString().equals("")) {
             studentName.setError("Please select student");
             return false;
@@ -500,6 +512,21 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         }else {
             studentName.setError(null);
         }
+
+        if (mTagsEditText.getText().toString().equals("")) {
+            mTagsEditText.setError("Please enter some tag");
+            return false;
+        }else {
+            mTagsEditText.setError(null);
+        }
+
+        if (tagsValue.equals("")){
+            mTagsEditText.setError("Please click space/enter for creating tag");
+            return false;
+        }else {
+            mTagsEditText.setError(null);
+        }
+
         return true;
     }
 
@@ -907,7 +934,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    private void uploadImages(ArrayList<String> fileUris, final String evidenceDate,final String commentText) {
+    private void uploadImages(final ArrayList<String> fileUris, final String evidenceDate, final String commentText) {
         hash.clear();
         fileUris.removeAll(Collections.singleton(""));//for remove all null("") values from arraylist
         pDialog = new ProgressDialog(this);
@@ -919,7 +946,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         pDialog.setMax(100);
         pDialog.setCancelable(false);
         showpDialog();
-        List<MultipartBody.Part> parts = new ArrayList<>();
+        final List<MultipartBody.Part> parts = new ArrayList<>();
         for (int i = 0; i < fileUris.size(); i++) {
             parts.add(prepareFilePart("EVIDENCE_IMAGE_VIDEO[]", fileUris.get(i)));
             Log.e("getUri", "" + fileUris.get(i));
@@ -948,7 +975,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
             Toasty.warning(AddEvidence.this, "Please check your internet connection.", Toast.LENGTH_LONG, true).show();
         } else {
             APIService service = ApiClient.getClient().create(APIService.class);
-            Call<AddEvidenceModel> call = service.addEvidenceRequest(Integer.parseInt(getStudentId), Integer.parseInt(FrameworkId), evidenceDate, commentText, Integer.parseInt(sharedId()), parts, hash/*,subTitleIDs,frameworkScores*/);
+            Call<AddEvidenceModel> call = service.addEvidenceRequest(Integer.parseInt(getStudentId), Integer.parseInt(FrameworkId), evidenceDate, commentText, Integer.parseInt(sharedId()), parts, hash,tagsValue/*,subTitleIDs,frameworkScores*/);
             call.enqueue(new Callback<AddEvidenceModel>() {
                 @Override
                 public void onResponse(Call<AddEvidenceModel> call, Response<AddEvidenceModel> response) {
@@ -983,9 +1010,12 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                 @Override
                 public void onFailure(Call<AddEvidenceModel> call, Throwable t) {
                     hidepDialog();
+                    /*fileUris.clear();
+                    hash.clear();
+                    parts.clear();*/
                     Toasty.warning(AddEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
                     Log.e("onFail", "" + t.getMessage());
-
+                    Log.e( "onFailure: ", ""+t.getStackTrace());
                 }
             });
         }
@@ -1085,5 +1115,21 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         pDialog.setMessage("Uploading Complete");
 
         //pDialog.setProgress(100);
+    }
+
+    @Override
+    public void onTagsChanged(Collection<String> collection) {
+        tagsValue = Arrays.toString(collection.toArray());
+        tagsValue = tagsValue.substring(1, tagsValue.length() - 1);
+        Log.d("Tags ", tagsValue);
+       // Log.d("Tags2 ", tagsValue.replace(",","#"));
+        Log.d("Tags1 ", tagsValue.replaceAll("\\s+"," #"));
+
+
+    }
+
+    @Override
+    public void onEditingFinished() {
+
     }
 }

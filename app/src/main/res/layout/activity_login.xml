@@ -116,6 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="invisible"
             android:text="Do not have your account ?"
             android:textColor="#878787"
             android:letterSpacing="0.1"/>

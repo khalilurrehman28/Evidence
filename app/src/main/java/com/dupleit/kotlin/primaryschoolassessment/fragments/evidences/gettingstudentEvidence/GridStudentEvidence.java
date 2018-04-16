@@ -236,9 +236,9 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
         random = new Random();
         studentList = new ArrayList<>();
         adapter = new getEvidneceByStudentAdapter(this, studentList,this);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(0), true));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(0), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         final int[] MY_COLORS = {Color.rgb(192,0,0), Color.rgb(0,229,238), Color.rgb(255,192,0),
@@ -440,7 +440,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                                 evidences.setTitle(response.body().getData().get(i).getTitle());
                                 evidences.setsCORE(response.body().getData().get(i).getsCORE());
                                 evidences.setcOUNT(response.body().getData().get(i).getcOUNT());
-
+                                evidences.seteVIDENCETAGS(response.body().getData().get(i).geteVIDENCETAGS());
                                 evidences.setColorIndex(ColorArray.get(n));
                                 studentList.add(evidences);
                                 //adapter.notifyDataSetChanged();
@@ -504,6 +504,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
                                 evidences.setTitle(response.body().getData().get(i).getTitle());
                                 evidences.setsCORE(response.body().getData().get(i).getsCORE());
                                 evidences.setcOUNT(response.body().getData().get(i).getcOUNT());
+                                evidences.seteVIDENCETAGS(response.body().getData().get(i).geteVIDENCETAGS());
                                 evidences.setColorIndex(ColorArray.get(n));
                                 studentList.add(evidences);
                                 //adapter.notifyDataSetChanged();

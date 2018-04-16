@@ -11,7 +11,7 @@
     <color name="green">#36fca0</color>
     <color name="grey">#585858</color>
     <color name="colorActionMode">#3092d6</color>
-    <color name="colorControlActivated">#d7d7d7</color>
+    <color name="colorControlActivated">#e2e2e2</color>
     <color name="tab_background_selected">#DCDCDC</color>
     <color name="tab_background_unselected">#DCDCDC</color>
 </resources>

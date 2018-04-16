@@ -70,7 +70,7 @@ public interface APIService {
     @POST("add_evidence_request")
     Call<AddEvidenceModel> addEvidenceRequest(@Part("EVIDENCE_STUDENT_ID") int EVIDENCE_STUDENT_ID, @Part("EVIDENCE_FRAMEWORK_ID") int EVIDENCE_FRAMEWORK_ID,
                                               @Part("EVIDENCE_DATE") String EVIDENCE_DATE, @Part("EVIDENCE_COMMENT") String EVIDENCE_COMMENT, @Part("EVIDENCE_TEACHER_ID") int EVIDENCE_TEACHER_ID,
-                                              @Part List<MultipartBody.Part> files,@PartMap() Map<String,Map<String,String>> searchData);
+                                              @Part List<MultipartBody.Part> files,@PartMap() Map<String,Map<String,String>> searchData, @Part("EVIDENCE_TAGS") String EVIDENCE_TAGS);
     @FormUrlEncoded
     @POST("get_evidence_request")
     Call<GetEvidenceModel> get_evidence_request(@Field("EVIDENCE_STUDENT_ID") int EVIDENCE_STUDENT_ID);

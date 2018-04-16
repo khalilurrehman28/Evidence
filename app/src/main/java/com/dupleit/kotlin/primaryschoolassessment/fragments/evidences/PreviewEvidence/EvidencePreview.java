@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Range;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -27,6 +28,7 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.Utils;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
 import com.dupleit.kotlin.primaryschoolassessment.videoPlayer.videoPlayer;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -97,11 +99,60 @@ public class EvidencePreview extends AppCompatActivity {
     }
 
     private void createGradeLayout() {
-        int totalFrameScore = Integer.parseInt(getIntent().getStringExtra("evidenceScore"));
-        int framecount = Integer.parseInt(getIntent().getStringExtra("frameCount"));
+        float totalFrameScore = Integer.parseInt(getIntent().getStringExtra("evidenceScore"));
+        float framecount = Integer.parseInt(getIntent().getStringExtra("frameCount"));
 
         float gradeAverage = totalFrameScore/framecount;
-        int gradeWithProcess =Math.round(gradeAverage);
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+        float oneDigitsF = Float.valueOf(decimalFormat.format(gradeAverage));
+        Range<Float> range = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+
+            if (new Range<>(9.1f,10.0f).contains(oneDigitsF)){
+                gradePreview.setText("A1");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(8.1f,9.0f).contains(oneDigitsF)){
+                gradePreview.setText("A2");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(7.1f,8.0f).contains(oneDigitsF)){
+                gradePreview.setText("B1");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(6.1f,7.0f).contains(oneDigitsF)){
+                gradePreview.setText("B2");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(5.1f,6.0f).contains(oneDigitsF)){
+                gradePreview.setText("C1");
+                gradePreview.setTextColor(Color.parseColor("#efcd37"));
+                gradePreview.setBackgroundResource(R.drawable.yellow_line);
+            }else if (new Range<>(4.1f,5.0f).contains(oneDigitsF)){
+                gradePreview.setText("C2");
+                gradePreview.setTextColor(Color.parseColor("#efcd37"));
+                gradePreview.setBackgroundResource(R.drawable.yellow_line);
+            }else if (new Range<>(3.1f,4.0f).contains(oneDigitsF)){
+                gradePreview.setText("D");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+            }else if (new Range<>(2.1f,3.0f).contains(oneDigitsF)){
+                gradePreview.setText("E1");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+            }else if (new Range<>(1.1f,2.0f).contains(oneDigitsF)){
+                gradePreview.setText("E2");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+            }else {
+                gradePreview.setText("F");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+            }
+        }
+
+        Log.e("grade","TotalScore "+totalFrameScore+" framecount "+framecount+" avr "+oneDigitsF);
+       /* int gradeWithProcess =Math.round(gradeAverage);
 
         switch (gradeWithProcess){
             case 10:
@@ -163,8 +214,9 @@ public class EvidencePreview extends AppCompatActivity {
 
             default:
                 break;
-        }
-        Log.e("grade",""+gradeWithProcess);
+        }*/
+
+
     }
 
 

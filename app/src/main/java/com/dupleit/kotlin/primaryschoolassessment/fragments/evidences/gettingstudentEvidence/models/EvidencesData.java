@@ -97,7 +97,18 @@ public class EvidencesData {
     @SerializedName("SCORE")
     @Expose
     private String sCORE;
+    @SerializedName("EVIDENCE_TAGS")
+    @Expose
+    private String eVIDENCETAGS;
 
+
+    public String geteVIDENCETAGS() {
+        return eVIDENCETAGS;
+    }
+
+    public void seteVIDENCETAGS(String eVIDENCETAGS) {
+        this.eVIDENCETAGS = eVIDENCETAGS;
+    }
     public String getsCORE() {
         return sCORE;
     }

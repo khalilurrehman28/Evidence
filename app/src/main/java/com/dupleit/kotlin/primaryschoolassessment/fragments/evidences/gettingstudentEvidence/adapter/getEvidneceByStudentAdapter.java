@@ -8,6 +8,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.Range;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.dupleit.kotlin.primaryschoolassessment.fragments.AssessmentRecord.ada
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.models.EvidencesData;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -38,7 +40,7 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
     private List<String> selectedIds = new ArrayList<>();
     public class MyViewHolder extends RecyclerView.ViewHolder  {
 
-        public TextView evidenceTitle,frameworkTitle,evidenceGrade;
+        public TextView evidenceTitle,frameworkTitle,evidenceGrade,evidenceTags;
                 LinearLayout frame,layoutBackground;
         public CardView mCardView;
         public MyViewHolder(View view) {
@@ -47,10 +49,11 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
             evidenceTitle = view.findViewById(R.id.evidenceTitle);
             frameworkTitle = view.findViewById(R.id.frameworkTitle);
             evidenceGrade= view.findViewById(R.id.evidenceGrade);
+            evidenceTags = view.findViewById(R.id.evidenceTags);
             frame= view.findViewById(R.id.frame);
-            mCardView = (CardView) view.findViewById(R.id.card_view);
+           // mCardView = (CardView) view.findViewById(R.id.card_view);
             layoutBackground= view.findViewById(R.id.layoutBackground);
-            mCardView.setOnClickListener(new View.OnClickListener() {
+            frame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // send selected contact in callback
@@ -71,7 +74,7 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.card_evidence_by_student, parent, false);
+                .inflate(R.layout.card_item_evidence, parent, false);
 
         return new MyViewHolder(itemView);
     }
@@ -82,8 +85,9 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
         //Random rnd = new Random();
         //int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         //view.setBackgroundColor(color);
-        ((GradientDrawable)holder.layoutBackground.getBackground()).setColor(evidences.getColorIndex());
-        holder.evidenceTitle.setPadding(12,12,12,12);
+
+        //((GradientDrawable)holder.layoutBackground.getBackground()).setColor(evidences.getColorIndex());
+        //holder.evidenceTitle.setPadding(12,12,12,12);
 
         String id = evidences.getEVIDENCEID();
 
@@ -107,54 +111,68 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
         }*/
 
         holder.evidenceTitle.setText(evidences.getTitle());
-        holder.frameworkTitle.setText(evidences.getEVIDENCEDATE());
+        holder.frameworkTitle.setText("E Date "+evidences.getEVIDENCEDATE());
 
-        int totalFrameScore = Integer.parseInt(evidences.getsCORE());
-        int framecount = evidences.getcOUNT();
+        if (evidences.geteVIDENCETAGS()==null ){
+            holder.evidenceTags.setVisibility(View.GONE);
+            holder.evidenceTags.setText("");
+        }else {
+            holder.evidenceTags.setText("#"+evidences.geteVIDENCETAGS().replaceAll(",\\s+"," #"));
+            Log.d("Tags1 ", evidences.geteVIDENCETAGS().replaceAll(",\\s+"," #"));
+        }
+
+        float totalFrameScore = Integer.parseInt(evidences.getsCORE());
+        float framecount = evidences.getcOUNT();
 
         float gradeAverage = totalFrameScore/framecount;
-        int gradeWithProcess =Math.round(gradeAverage);
+        DecimalFormat decimalFormat = new DecimalFormat("#.#");
+        float oneDigitsF = Float.valueOf(decimalFormat.format(gradeAverage));
+        Range<Float> range = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-        switch (gradeWithProcess){
-            case 10:
+            if (new Range<>(9.1f,10.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("A1");
-                break;
-            case 9:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(8.1f,9.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("A2");
-                break;
-            case 8:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(7.1f,8.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("B1");
-                break;
-            case 7:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(6.1f,7.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("B2");
-                break;
-            case 6:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(5.1f,6.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("C1");
-                break;
-            case 5:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#efcd37"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.yellow_line);
+            }else if (new Range<>(4.1f,5.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("C2");
-                break;
-            case 4:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#efcd37"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.yellow_line);
+            }else if (new Range<>(3.1f,4.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("D");
-                break;
-            case 3:
-                holder.evidenceGrade.setText("D");
-                break;
-            case 2:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
+            }else if (new Range<>(2.1f,3.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("E1");
-                break;
-            case 1:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
+            }else if (new Range<>(1.1f,2.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("E2");
-                break;
-            case 0:
+                holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
+            }else {
                 holder.evidenceGrade.setText("F");
-                break;
-
-
-                default:
-                    break;
+                holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
+            }
         }
-        Log.e("grade",""+gradeWithProcess);
+
        // Toast.makeText(mContext, "grade "+gradeWithProcess, Toast.LENGTH_SHORT).show();
 
     }
@@ -187,7 +205,7 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getTitle().toLowerCase().contains(charString.toLowerCase()) || row.getEVIDENCEDATE().contains(charSequence)) {
+                        if (row.getTitle().toLowerCase().contains(charString.toLowerCase()) || row.geteVIDENCETAGS().contains(charSequence) || row.getEVIDENCEDATE().contains(charSequence)) {
                             filteredList.add(row);
                         }
                     }

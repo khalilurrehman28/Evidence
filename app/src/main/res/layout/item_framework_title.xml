@@ -35,8 +35,7 @@
                     android:textColor="#252323"
                     android:typeface="sans"
                     android:layout_marginRight="25dp"
-
-                    android:textSize="18dp"
+                    android:textSize="20sp"
                      />
 
                 <!-- Artist Name -->
