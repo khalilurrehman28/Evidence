@@ -17,6 +17,7 @@ import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.createFramework.CreateFramework.create_framework;
 import com.dupleit.kotlin.primaryschoolassessment.createFramework.model.addframeworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.selectTeacherClass.selectStudentClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -124,8 +125,11 @@ public class addSubFrameMarksDetails extends AppCompatActivity {
                     pd.hide();
                     if (response.isSuccessful()){
                         if (response.body().getStatus()){
-                            startActivity(new Intent(addSubFrameMarksDetails.this,SubFramworkMarksDetails.class));
+
                             Toasty.success(addSubFrameMarksDetails.this,"Marks detail added successfully", Toast.LENGTH_LONG, true).show();
+                            Intent i = new Intent(addSubFrameMarksDetails.this, SubFramworkMarksDetails.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(i);
                             finish();
 
                         }
