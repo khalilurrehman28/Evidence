@@ -211,6 +211,31 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Tag(s)"
+                    android:textColor="@color/black"
+                    android:textSize="19dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="15dp"
+                    android:textSize="18dp"
+                    android:id="@+id/tagsTv"
+                    android:layout_marginTop="6dp"
+                    android:typeface="sans"
+                    android:text="Tags"
+                    android:textColor="#134c74"
+                    android:background="@drawable/edittextstyle"/>
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="3px"
+                    android:visibility="visible"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="#dfdfdf" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:text="Evidence Grade"
                     android:textColor="@color/black"
                     android:textSize="19dp" />

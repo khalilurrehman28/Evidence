@@ -14,6 +14,7 @@
     <string name="nav_evidence">All Evidence</string>
     <string name="nav_assessment_record">Assessment Records</string>
     <string name="nav_change_class">Change Class</string>
+    <string name="nav_add_subframe_marks_detail">Framework Marks details</string>
     <string name="nav_about_us">About Us</string>
     <string name="nav_privacy_policy">Privacy Policy</string>
     <string name="nav_faq">FAQ</string>
@@ -29,6 +30,7 @@
         <item>All Evidence</item>
         <item>Assessment Records</item>
         <item>Change Class</item>
+        <item>Framework Marks details</item>
         <item>About Us</item>
         <item>Privacy Policy</item>
         <item>FAQ</item>

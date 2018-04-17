@@ -1,4 +1,4 @@
-package com.dupleit.kotlin.primaryschoolassessment.createFramework.CreateFramework;
+package com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,8 +13,6 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,14 +20,15 @@ import android.widget.Toast;
 
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomParentFrameSpinnerAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomSpinnerAdapter;
+import com.dupleit.kotlin.primaryschoolassessment.Evidence.adapter.CustomSpinnerSubFrameAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubtitle.GetFrameworksubtitleModel;
 import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubtitle.SubTitleData;
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
-import com.dupleit.kotlin.primaryschoolassessment.createFramework.CreateFramework.adapter.getFrameworksubTitleAdapter;
-import com.dupleit.kotlin.primaryschoolassessment.createFramework.addCatogaryFramework.createCategoryFramework;
-import com.dupleit.kotlin.primaryschoolassessment.createFramework.model.addframeworkResponse;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.adapter.getSubMarksDetailAdapter;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.GetSubMarksDetailResponse;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.subMarksData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
@@ -48,85 +47,59 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class create_framework extends AppCompatActivity {
-
+public class SubFramworkMarksDetails extends AppCompatActivity {
     ProgressDialog pDialog;
     CustomParentFrameSpinnerAdapter frameworkCategorySpinnerAdapter;
     ArrayList<parentFrameworkData> frameworkCategoryList;
     @BindView(R.id.spinnerFrameworkCategory) Spinner spinnerFrameworkCategory;
     ArrayList<FrameworkData> FrameworksList;
-    @BindView(R.id.spinnerFramework)
-    Spinner spinnerFramework;
+    @BindView(R.id.spinnerFramework) Spinner spinnerFramework;
+    CustomSpinnerAdapter customSpinnerFrameworkAdapter;
     @BindView(R.id.tvNoFrameworkAvailable)TextView tvNoFrameworkAvailable;
-    @BindView(R.id.layoutSubFramework)LinearLayout layoutSubFramework;
-    CustomSpinnerAdapter customSpinnerAdapter;
-    String frameworkCategoryId, frameworkCategoryName,FrameworkId, FrameWorkTitle;
-    @BindView(R.id.recyclerSubTitle) RecyclerView recyclerSubTitle;
-    private List<SubTitleData> frameworksubTList;
-    getFrameworksubTitleAdapter subTitleAdapter;
-    @BindView(R.id.linearSubTitle) LinearLayout linearSubTitle;
-    @BindView(R.id.className)TextView className;
-    @BindView(R.id.btnAddCategory)TextView btnAddCategory;
-    @BindView(R.id.btnAddFramework)TextView btnAddFramework;
-    @BindView(R.id.etFrameworkSubTitle)EditText etFrameworkSubTitle;
-    @BindView(R.id.etFrameworkDes)EditText etFrameworkDes;
-    @BindView(R.id.btnCreate)Button btnCreate;
 
+    ArrayList<SubTitleData> subFrameworksList;
+    @BindView(R.id.spinnerSubFramework) Spinner spinnerSubFramework;
+    CustomSpinnerSubFrameAdapter customSpinnerSubFrameAdapter;
+    @BindView(R.id.tvNoSubFrameworkAvailable)TextView tvNoSubFrameworkAvailable;
+
+    String frameworkCategoryId, frameworkCategoryName,FrameworkId, FrameWorkTitle,subFrameworkId, subFrameWorkTitle;
+    @BindView(R.id.layoutSubFramework) LinearLayout layoutSubFramework;
+    @BindView(R.id.btnAddMarksDetails) TextView btnAddMarksDetails;
+    ArrayList<String> edittextData;
+
+    @BindView(R.id.recyclerView) RecyclerView recyclerView;
+    private List<subMarksData> subMarksDetailList;
+    getSubMarksDetailAdapter subMarksDetailAdapter;
+    @BindView(R.id.linearMarksPreview) LinearLayout linearMarksPreview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_framework);
+        setContentView(R.layout.activity_sub_framwork_marks_details);
+
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setTitle("Create Framework");
+        setTitle("Framework Marks details");
         tvNoFrameworkAvailable.setVisibility(View.GONE);
-        linearSubTitle.setVisibility(View.GONE);
-        className.setText(teacherClass()+" Class");
+        tvNoSubFrameworkAvailable.setVisibility(View.GONE);
+        linearMarksPreview.setVisibility(View.GONE);
         getDropDownOfParentFrameWork();
+        edittextData =new ArrayList<>();
 
-        btnAddCategory.setOnClickListener(new View.OnClickListener() {
+
+        btnAddMarksDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(create_framework.this, createCategoryFramework.class);
-                i.putExtra("activityType","AddCategory");
-                startActivity(i);
+                Intent intent = new Intent(SubFramworkMarksDetails.this,addSubFrameMarksDetails.class);
+                intent.putExtra("frameworkCategoryId",frameworkCategoryId);
+                intent.putExtra("frameworkCategoryName",frameworkCategoryName);
+                intent.putExtra("FrameworkId",FrameworkId);
+                intent.putExtra("FrameWorkTitle",FrameWorkTitle);
+                intent.putExtra("subFrameworkId",subFrameworkId);
+                intent.putExtra("subFrameWorkTitle",subFrameWorkTitle);
+                intent.putStringArrayListExtra("marksDetailList",edittextData);
+                startActivity(intent);
             }
         });
-        btnAddFramework.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(create_framework.this, createCategoryFramework.class);
-                i.putExtra("activityType","AddFramework");
-                startActivity(i);
-            }
-        });
-        btnCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (validateData()){
-                    addFrameSubTitle(etFrameworkSubTitle.getText().toString().trim(),etFrameworkDes.getText().toString().trim());
-                }
-            }
-        });
-    }
-
-    private boolean validateData() {
-        if (etFrameworkSubTitle.getText().toString().trim().equals("")){
-            etFrameworkSubTitle.setError("Please enter subtitle name");
-            return false;
-        }else {
-            etFrameworkSubTitle.setError(null);
-
-        }
-        if (etFrameworkDes.getText().toString().trim().equals("")){
-            etFrameworkDes.setError("Please enter some description");
-            return false;
-        }else {
-            etFrameworkDes.setError(null);
-
-        }
-        return true;
     }
 
     private void getDropDownOfParentFrameWork() {
@@ -166,7 +139,7 @@ public class create_framework extends AppCompatActivity {
         //check internet state
         if (!checkInternetState.getInstance(this).isOnline()) {
             hidepDialog();
-            Toast.makeText(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG).show();
+            Toasty.warning(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG, true).show();
         } else {
 
             APIService service = ApiClient.getClient().create(APIService.class);
@@ -200,7 +173,7 @@ public class create_framework extends AppCompatActivity {
 
                         } else {
 
-                            Toast.makeText(create_framework.this, "there have no data ", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SubFramworkMarksDetails.this, "there have no data ", Toast.LENGTH_SHORT).show();
                             //noFramesFound.setVisibility(View.VISIBLE);
                         }
                     }
@@ -223,8 +196,8 @@ public class create_framework extends AppCompatActivity {
         FrameworksList = new ArrayList<>();
         FrameworksList.clear();
 
-        customSpinnerAdapter = new CustomSpinnerAdapter(this, FrameworksList);
-        spinnerFramework.setAdapter(customSpinnerAdapter);
+        customSpinnerFrameworkAdapter = new CustomSpinnerAdapter(this, FrameworksList);
+        spinnerFramework.setAdapter(customSpinnerFrameworkAdapter);
         createFrameWorkList(frameworkCategoryId);
         spinnerFramework.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -234,7 +207,8 @@ public class create_framework extends AppCompatActivity {
                 FrameworkId = frameData.getFRAMEWORKID();
                 FrameWorkTitle = frameData.getFRAMEWORKTITLE();
 
-                getSubTitles();
+                getDropDownOfSubFrameWork(FrameworkId);
+
 
                 // Toast.makeText(parent.getContext(), "class id" + classId, Toast.LENGTH_LONG).show();
             }
@@ -245,13 +219,14 @@ public class create_framework extends AppCompatActivity {
             }
         });
     }
+
+
+
     private void createFrameWorkList(String frameworkCategoryId) {
 
         //check internet state
         if (!checkInternetState.getInstance(this).isOnline()) {
-
-
-            Toast.makeText(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG).show();
+            Toasty.warning(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG, true).show();
 
         } else {
 
@@ -268,7 +243,8 @@ public class create_framework extends AppCompatActivity {
                             spinnerFramework.setVisibility(View.VISIBLE);
                             tvNoFrameworkAvailable.setVisibility(View.GONE);
                             layoutSubFramework.setVisibility(View.VISIBLE);
-                            linearSubTitle.setVisibility(View.VISIBLE);
+                            linearMarksPreview.setVisibility(View.VISIBLE);
+
                             /*to get notice of principal to all*/
                             Log.d("getMessage", "" + response.body().getMsg());
                             for (int i = 0; i < response.body().getData().size(); i++) {
@@ -281,7 +257,7 @@ public class create_framework extends AppCompatActivity {
                                 FrameworksList.add(Frames);
                                 //adapter.notifyDataSetChanged();
 
-                                customSpinnerAdapter.notifyDataSetChanged();
+                                customSpinnerFrameworkAdapter.notifyDataSetChanged();
                             }
 
                         } else {
@@ -289,10 +265,10 @@ public class create_framework extends AppCompatActivity {
                             spinnerFramework.setVisibility(View.GONE);
                             tvNoFrameworkAvailable.setVisibility(View.VISIBLE);
                             layoutSubFramework.setVisibility(View.GONE);
-                            linearSubTitle.setVisibility(View.GONE);
+                            linearMarksPreview.setVisibility(View.GONE);
 
+                            Toasty.error(SubFramworkMarksDetails.this, "There have no data in this category", Toast.LENGTH_LONG, true).show();
 
-                            Toast.makeText(create_framework.this, "there have no data ", Toast.LENGTH_SHORT).show();
                             //noFramesFound.setVisibility(View.VISIBLE);
                         }
                     }
@@ -307,101 +283,155 @@ public class create_framework extends AppCompatActivity {
         }
 
 
-        customSpinnerAdapter.notifyDataSetChanged();
+        customSpinnerFrameworkAdapter.notifyDataSetChanged();
     }
-    private void getSubTitles() {
 
-        frameworksubTList = new ArrayList<>();
-        subTitleAdapter = new getFrameworksubTitleAdapter(this, frameworksubTList);
+    private void getDropDownOfSubFrameWork(String frameworkId) {
+        subFrameworksList= new ArrayList<>();
+        subFrameworksList.clear();
+
+        customSpinnerSubFrameAdapter = new CustomSpinnerSubFrameAdapter(this, subFrameworksList);
+        spinnerSubFramework.setAdapter(customSpinnerSubFrameAdapter);
+        createSubFrameWorkList(frameworkId);
+        spinnerSubFramework.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                final SubTitleData frameData = subFrameworksList.get(position);
+
+                subFrameworkId = frameData.getSubId();
+                subFrameWorkTitle = frameData.getFRAMEWORKSUB();
+
+                getMarksDetail(subFrameworkId);
+
+                // Toast.makeText(parent.getContext(), "class id" + classId, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    private void createSubFrameWorkList(String frameworkId) {
+        edittextData.clear();
+
+        if (!checkInternetState.getInstance(this).isOnline()) {
+            Toasty.warning(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG, true).show();
+        } else {
+
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<GetFrameworksubtitleModel> userCall = service.get_framework_subtitle(Integer.parseInt(FrameworkId));
+            userCall.enqueue(new Callback<GetFrameworksubtitleModel>() {
+                @Override
+                public void onResponse(Call<GetFrameworksubtitleModel> call, Response<GetFrameworksubtitleModel> response) {
+
+                    Log.d("getListStatus", " " + response.body().getStatus());
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus()) {
+
+                            spinnerFramework.setVisibility(View.VISIBLE);
+                            tvNoSubFrameworkAvailable.setVisibility(View.GONE);
+                            btnAddMarksDetails.setVisibility(View.VISIBLE);
+                            linearMarksPreview.setVisibility(View.VISIBLE);
+
+
+                            /*to get notice of principal to all*/
+                            for (int i = 0; i < response.body().getData().size(); i++) {
+                                SubTitleData SubTitleData = new SubTitleData();
+                                SubTitleData.setFRAMEWORKSTATUS(response.body().getData().get(i).getFRAMEWORKSTATUS());
+                                SubTitleData.setFRAMEWORKSUB(response.body().getData().get(i).getFRAMEWORKSUB());
+                                SubTitleData.setSCORE(response.body().getData().get(i).getSCORE());
+                                SubTitleData.setSubId(response.body().getData().get(i).getSubId());
+                                SubTitleData.setrEMARK(response.body().getData().get(i).getrEMARK());
+
+                                SubTitleData.setEtGetScore("0");
+
+                                subFrameworksList.add(SubTitleData);
+                                //adapter.notifyDataSetChanged();
+                                customSpinnerSubFrameAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+
+                            spinnerSubFramework.setVisibility(View.GONE);
+                            tvNoSubFrameworkAvailable.setVisibility(View.VISIBLE);
+                            btnAddMarksDetails.setVisibility(View.GONE);
+                            linearMarksPreview.setVisibility(View.GONE);
+
+                            Toasty.error(SubFramworkMarksDetails.this, "There have no data in framework", Toast.LENGTH_LONG, true).show();
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetFrameworksubtitleModel> call, Throwable t) {
+                    //hidepDialog();
+                    Log.d("onFailure", t.toString());
+                }
+            });
+        }
+
+
+        customSpinnerSubFrameAdapter.notifyDataSetChanged();
+    }
+
+    private void getMarksDetail(String subFrameworkId) {
+
+        subMarksDetailList = new ArrayList<>();
+        subMarksDetailAdapter = new getSubMarksDetailAdapter(this, subMarksDetailList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
-        recyclerSubTitle.setLayoutManager(mLayoutManager);
-        recyclerSubTitle.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
-        recyclerSubTitle.setItemAnimator(new DefaultItemAnimator());
-        recyclerSubTitle.setAdapter(subTitleAdapter);
-        frameworksubTList.clear();
-        prepareSubtitles();
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(subMarksDetailAdapter);
+        subMarksDetailList.clear();
+        prepareMarksDetail(subFrameworkId);
 
     }
 
-    private void prepareSubtitles() {
+    private void prepareMarksDetail(String subFrameworkId) {
+        edittextData.clear();
 
         APIService service = ApiClient.getClient().create(APIService.class);
-        Call<GetFrameworksubtitleModel> userCall = service.get_framework_subtitle(Integer.parseInt(FrameworkId));
-        userCall.enqueue(new Callback<GetFrameworksubtitleModel>() {
+        Call<GetSubMarksDetailResponse> userCall = service.get_marks_detail(Integer.parseInt(subFrameworkId));
+        userCall.enqueue(new Callback<GetSubMarksDetailResponse>() {
             @Override
-            public void onResponse(Call<GetFrameworksubtitleModel> call, Response<GetFrameworksubtitleModel> response) {
+            public void onResponse(Call<GetSubMarksDetailResponse> call, Response<GetSubMarksDetailResponse> response) {
 
                 if (response.isSuccessful()) {
                     if (response.body().getStatus()) {
-                        linearSubTitle.setVisibility(View.VISIBLE);
+                        linearMarksPreview.setVisibility(View.VISIBLE);
                         for (int i = 0; i < response.body().getData().size(); i++) {
-                            SubTitleData SubTitleData = new SubTitleData();
-                            SubTitleData.setFRAMEWORKSTATUS(response.body().getData().get(i).getFRAMEWORKSTATUS());
-                            SubTitleData.setFRAMEWORKSUB(response.body().getData().get(i).getFRAMEWORKSUB());
-                            SubTitleData.setSCORE(response.body().getData().get(i).getSCORE());
-                            SubTitleData.setSubId(response.body().getData().get(i).getSubId());
-                            SubTitleData.setrEMARK(response.body().getData().get(i).getrEMARK());
-
-                            SubTitleData.setEtGetScore("0");
-
-                            frameworksubTList.add(SubTitleData);
+                            subMarksData subMarksData = new subMarksData();
+                            subMarksData.setDATETIME(response.body().getData().get(i).getDATETIME());
+                            subMarksData.setDESCRIPTION(response.body().getData().get(i).getDESCRIPTION());
+                            subMarksData.setMARKS(response.body().getData().get(i).getMARKS());
+                            subMarksData.setSTATUS(response.body().getData().get(i).getSTATUS());
+                            subMarksData.setMARKSDETAILID(response.body().getData().get(i).getMARKSDETAILID());
+                            edittextData.add(response.body().getData().get(i).getDESCRIPTION());
+                            subMarksDetailList.add(subMarksData);
                             //adapter.notifyDataSetChanged();
-                            subTitleAdapter.notifyDataSetChanged();
+                            subMarksDetailAdapter.notifyDataSetChanged();
                         }
 
                     } else {
-                        linearSubTitle.setVisibility(View.GONE);
+                        linearMarksPreview.setVisibility(View.GONE);
                     }
                 } else {
-                    Toast.makeText(create_framework.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SubFramworkMarksDetails.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<GetFrameworksubtitleModel> call, Throwable t) {
+            public void onFailure(Call<GetSubMarksDetailResponse> call, Throwable t) {
                 //hidepDialog();
                 Log.d("onFailure", t.toString());
 
             }
         });
     }
-
-    private void addFrameSubTitle(String subtitleName, String des) {
-        final ProgressDialog pd = new ProgressDialog(create_framework.this);
-        pd.setTitle("Adding Data");
-        pd.setMessage("Please wait...");
-        pd.setCancelable(false);
-        pd.show();
-        if (!checkInternetState.getInstance(create_framework.this).isOnline()) {
-            Toasty.warning(create_framework.this, "Please check your internet connection.", Toast.LENGTH_LONG, true).show();
-        }else {
-            APIService service = ApiClient.getClient().create(APIService.class);
-            Call<addframeworkResponse> userCall = service.addframeworksub_request(Integer.parseInt(FrameworkId),subtitleName,10,des);
-            userCall.enqueue(new Callback<addframeworkResponse>() {
-                @Override
-                public void onResponse(Call<addframeworkResponse> call, Response<addframeworkResponse> response) {
-                    pd.hide();
-                    if (response.isSuccessful()){
-                        if (response.body().getStatus()){
-
-                            Toasty.success(create_framework.this,"sub title added successfully", Toast.LENGTH_LONG, true).show();
-                            getSubTitles();
-
-                        }
-                    }else {
-                        Toasty.error(create_framework.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
-
-                    }
-
-                }
-                @Override
-                public void onFailure(Call<addframeworkResponse> call, Throwable t) {
-                    pd.hide();
-                    Log.d("onFailure", t.toString());
-                }
-            });
-        }}
-
 
     private int dpToPx(int dp) {
         Resources r = getResources();
@@ -419,10 +449,7 @@ public class create_framework extends AppCompatActivity {
             pDialog.dismiss();
     }
     private String teacherClassId() {
-        return new PreferenceManager(create_framework.this).getTeacherClassId();
-    }
-    private String teacherClass() {
-        return new PreferenceManager(create_framework.this).getTeacherClass();
+        return new PreferenceManager(SubFramworkMarksDetails.this).getTeacherClassId();
     }
 
     @Override

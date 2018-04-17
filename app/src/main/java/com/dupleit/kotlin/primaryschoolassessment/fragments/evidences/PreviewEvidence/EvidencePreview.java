@@ -44,7 +44,7 @@ public class EvidencePreview extends AppCompatActivity {
     @BindView(R.id.evidenceDate) TextView evidenceDateTv;
     @BindView(R.id.studentName) TextView studentNameTv;
     @BindView(R.id.evidenceComment) TextView evidenceCommentTv;
-    String studentId,studentName,evidenceId,evidenceDate,evidenceComment;
+    String studentId,studentName,evidenceId,evidenceDate,evidenceComment,evidenceTags;
     ArrayList<getMediaData> mediaDataList;
     getMediaAdapter adapter;
     ArrayList<String> imageExt;
@@ -55,6 +55,7 @@ public class EvidencePreview extends AppCompatActivity {
     ArrayList<getScoreData> frameworksList;
     @BindView(R.id.frameworkTitle) TextView frameworkTitle;
     @BindView(R.id.gradePreview) TextView gradePreview;
+    @BindView(R.id.tagsTv) TextView tagsTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +89,12 @@ public class EvidencePreview extends AppCompatActivity {
         evidenceId= getIntent().getStringExtra("evidenceId");
         evidenceDate= getIntent().getStringExtra("evidenceDate");
         evidenceComment= getIntent().getStringExtra("evidenceComment");
-
+        evidenceTags = getIntent().getStringExtra("evidenceTags");
         evidenceDateTv.setText(evidenceDate);
         studentNameTv.setText(studentName);
         evidenceCommentTv.setText(evidenceComment);
+        tagsTv.setText("#"+evidenceTags.replaceAll(",\\s+"," #"));
+
         initilizeMedia();
         getEvidenceMedia();
 

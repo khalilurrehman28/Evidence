@@ -6,6 +6,7 @@ import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubti
 import com.dupleit.kotlin.primaryschoolassessment.Graph.model.GetMonthsBarGraphModel;
 import com.dupleit.kotlin.primaryschoolassessment.PieChart.model.GetSessionPieRecordModel;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.Model.LoginModel;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.GetSubMarksDetailResponse;
 import com.dupleit.kotlin.primaryschoolassessment.createFramework.model.addframeworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.forgotPassword.model.forgotPasswordResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.Profile.model.UpdateImageModel;
@@ -121,4 +122,13 @@ public interface APIService {
     @FormUrlEncoded
     @POST("addframeworksub_request")
     Call<addframeworkResponse> addframeworksub_request(@Field("FRAMEWORK_ID") int FRAMEWORK_ID,@Field("FRAMEWORK_SUB") String FRAMEWORK_SUB,@Field("SCORE") int SCORE,@Field("REMARK") String REMARK);
+    // add subtitle marks details
+    @FormUrlEncoded
+    @POST("add_marks_detail")
+    Call<addframeworkResponse> add_marks_detail(@Field("SUB_TITLE_ID") int SUB_TITLE_ID,@Field("data") String data);
+    // to get sub marks detail with subframeworkId
+    @FormUrlEncoded
+    @POST("get_marks_detail")
+    Call<GetSubMarksDetailResponse> get_marks_detail(@Field("SUB_TITLE_ID") int SUB_TITLE_ID);
+
 }

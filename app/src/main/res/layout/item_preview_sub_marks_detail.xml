@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="3dp"
+        android:layout_marginLeft="2dp"
+        android:orientation="horizontal"
+        android:layout_toRightOf="@+id/thumbnail"
+        android:layout_centerVertical="true">
+        <LinearLayout
+            android:layout_width="55dp"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="3dp"
+            android:background="@drawable/edittextstyle"
+            >
+
+            <TextView
+                android:id="@+id/subTitleMark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textColor="#3e3e3e"
+                android:typeface="sans"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="20dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/subTitleMarkDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Framework Title"
+                android:textColor="#252323"
+                android:typeface="sans"
+                android:textSize="15dp"
+
+                />
+        </LinearLayout>
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

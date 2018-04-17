@@ -82,7 +82,9 @@
         <activity android:name=".teacherClasss.selectTeacherClass.selectStudentClass" />
         <activity android:name=".tryActivity" />
         <activity android:name=".createFramework.CreateFramework.create_framework" />
-        <activity android:name=".createFramework.addCatogaryFramework.createCategoryFramework"></activity>
+        <activity android:name=".createFramework.addCatogaryFramework.createCategoryFramework" />
+        <activity android:name=".addSubframeMarksDetails.SubFramworkMarksDetails" />
+        <activity android:name=".addSubframeMarksDetails.addSubFrameMarksDetails"></activity>
     </application>
 
 </manifest>

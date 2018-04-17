@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.dupleit.kotlin.primaryschoolassessment.FullImageView.FullImage;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.SubFramworkMarksDetails;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.AssessmentRecord.AssessmentRecordFragment;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.AllEvidences;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.FrameworkFragment;
@@ -298,6 +299,11 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_change_class:
                         // launch new intent instead of loading fragment
                         startActivity(new Intent(MainActivity.this, getTeacherCurrentClass.class));
+                        drawer.closeDrawers();
+                        return true;
+                    case R.id.nav_add_subframe_marks_detail:
+                        // launch new intent instead of loading fragment
+                        startActivity(new Intent(MainActivity.this, SubFramworkMarksDetails.class));
                         drawer.closeDrawers();
                         return true;
                     case R.id.nav_about_us:

@@ -63,6 +63,7 @@
             android:layout_weight="1"
             android:layout_gravity="end"
             android:layout_margin="10dp"
+            android:visibility="invisible"
             android:id="@+id/button_show_class"
             android:src="@drawable/ic_change_class" />
     </LinearLayout>

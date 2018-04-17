@@ -363,6 +363,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
             i.putExtra("evidenceComment", evidences.getEVIDENCECOMMENT());
             i.putExtra("evidenceScore", evidences.getsCORE());
             i.putExtra("frameCount", String.valueOf(evidences.getcOUNT()));
+            i.putExtra("evidenceTags", evidences.geteVIDENCETAGS());
 
             startActivity(i);
             final Handler handler = new Handler();
