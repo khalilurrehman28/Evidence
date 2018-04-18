@@ -111,7 +111,7 @@ public class EvidencePreview extends AppCompatActivity {
         Range<Float> range = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-            if (new Range<>(9.1f,10.0f).contains(oneDigitsF)){
+            /*if (new Range<>(9.1f,10.0f).contains(oneDigitsF)){
                 gradePreview.setText("A1");
                 gradePreview.setTextColor(Color.parseColor("#2E7D32"));
                 gradePreview.setBackgroundResource(R.drawable.green_line);
@@ -149,6 +149,28 @@ public class EvidencePreview extends AppCompatActivity {
                 gradePreview.setBackgroundResource(R.drawable.red_line);
             }else {
                 gradePreview.setText("F");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+            }*/
+
+            if (new Range<>(4.1f,5.0f).contains(oneDigitsF)){
+                gradePreview.setText("A+");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(3.1f,4.0f).contains(oneDigitsF)){
+                gradePreview.setText("A");
+                gradePreview.setTextColor(Color.parseColor("#2E7D32"));
+                gradePreview.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(2.1f,3.0f).contains(oneDigitsF)){
+                gradePreview.setText("B");
+                gradePreview.setTextColor(Color.parseColor("#efcd37"));
+                gradePreview.setBackgroundResource(R.drawable.yellow_line);
+            }else if (new Range<>(1.1f,2.0f).contains(oneDigitsF)){
+                gradePreview.setText("C");
+                gradePreview.setTextColor(Color.parseColor("#e42f2f"));
+                gradePreview.setBackgroundResource(R.drawable.red_line);
+            }else {
+                gradePreview.setText("D");
                 gradePreview.setTextColor(Color.parseColor("#e42f2f"));
                 gradePreview.setBackgroundResource(R.drawable.red_line);
             }
@@ -320,6 +342,7 @@ public class EvidencePreview extends AppCompatActivity {
                                 scoreData.setSCORE(response.body().getData1().get(i).getSCORE());
                                 scoreData.setSCOREID(response.body().getData1().get(i).getSCOREID());
                                 scoreData.setMAXSCORE(response.body().getData1().get(i).getMAXSCORE());
+                                scoreData.setdESCRIPTION(response.body().getData1().get(i).getdESCRIPTION());
 
                                 frameworkTitle.setText(response.body().getData1().get(i).getFRAMEWORKTITLE());
                                 Log.e("getMediaPath",""+response.body().getData1().get(i).getFRAMEWORKSUB());

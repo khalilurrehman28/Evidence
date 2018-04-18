@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:id="@+id/ll1"
                 android:background="#212121"
-                android:layout_height="45dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -67,12 +67,12 @@
                 android:layout_weight="1"
                 android:id="@+id/ll2"
                 android:background="#212121"
-                android:layout_height="45dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="2"
-                    android:background="#df5353"
+                    android:background="#ce3838"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
@@ -83,12 +83,12 @@
                 android:layout_weight="1"
                 android:id="@+id/ll3"
                 android:background="#212121"
-                android:layout_height="45dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="3"
-                    android:background="#ef4e4e"
+                    android:background="#e7be0b"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
@@ -99,12 +99,12 @@
                 android:layout_weight="1"
                 android:id="@+id/ll4"
                 android:background="#212121"
-                android:layout_height="45dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="4"
-                    android:background="#f76262"
+                    android:background="#43A047"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
@@ -115,18 +115,18 @@
                 android:layout_weight="1"
                 android:id="@+id/ll5"
                 android:background="#212121"
-                android:layout_height="45dp">
+                android:layout_height="48dp">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="5"
-                    android:background="#FDD835"
+                    android:background="#2E7D32"
                     android:gravity="center"
                     android:textSize="20dp"
                     android:textColor="@color/white"/>
 
             </LinearLayout>
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:id="@+id/ll6"
@@ -205,7 +205,7 @@
                     android:textSize="19dp"
                     android:textColor="@color/white"/>
 
-            </LinearLayout>
+            </LinearLayout>-->
 
         </LinearLayout>
         <LinearLayout

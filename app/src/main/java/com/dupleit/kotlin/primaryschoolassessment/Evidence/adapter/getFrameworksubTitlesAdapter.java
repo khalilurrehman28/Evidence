@@ -78,7 +78,7 @@ public class getFrameworksubTitlesAdapter extends RecyclerView.Adapter<getFramew
         }
 
 
-        holder.getsubtitleObtainMarks.setFilters(new InputFilter[]{ new minMaxInputFilter("0","10")});
+        holder.getsubtitleObtainMarks.setFilters(new InputFilter[]{ new minMaxInputFilter("1","5")});
         holder.getsubtitleObtainMarks.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -89,12 +89,12 @@ public class getFrameworksubTitlesAdapter extends RecyclerView.Adapter<getFramew
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int number;
                 if (s.toString().equals("")){
-                    number = 0;
+                    number = 1;
                 }else{
                     number = Integer.parseInt(s.toString());
                 }
-                if (number>10){
-                    frameworks.setEtGetScore("10");
+                if (number>5){
+                    frameworks.setEtGetScore("5");
                     Log.e("number",""+number);
                 }else {
                     Log.e("number1",""+s.toString());

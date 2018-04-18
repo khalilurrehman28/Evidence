@@ -43,17 +43,15 @@ public class getScoreData {
     @Expose
     private String mAXSCORE;
 
-    public String getfRAMEWORKREMARK() {
-        return fRAMEWORKREMARK;
-    }
-
-    public void setfRAMEWORKREMARK(String fRAMEWORKREMARK) {
-        this.fRAMEWORKREMARK = fRAMEWORKREMARK;
-    }
-
     @SerializedName("REMARK")
     @Expose
     private String fRAMEWORKREMARK;
+
+
+
+    @SerializedName("DESCRIPTION")
+    @Expose
+    private String dESCRIPTION;
 
     public String getSCOREID() {
         return sCOREID;
@@ -150,5 +148,18 @@ public class getScoreData {
     public void setMAXSCORE(String mAXSCORE) {
         this.mAXSCORE = mAXSCORE;
     }
+    public String getfRAMEWORKREMARK() {
+        return fRAMEWORKREMARK;
+    }
 
+    public void setfRAMEWORKREMARK(String fRAMEWORKREMARK) {
+        this.fRAMEWORKREMARK = fRAMEWORKREMARK;
+    }
+    public String getdESCRIPTION() {
+        return dESCRIPTION;
+    }
+
+    public void setdESCRIPTION(String dESCRIPTION) {
+        this.dESCRIPTION = dESCRIPTION;
+    }
 }

@@ -40,11 +40,11 @@ public class getFrameworkPreviewAdapter extends RecyclerView.Adapter<getFramewor
             ll3= itemView.findViewById(R.id.ll3);
             ll4= itemView.findViewById(R.id.ll4);
             ll5= itemView.findViewById(R.id.ll5);
-            ll6= itemView.findViewById(R.id.ll6);
+            /*ll6= itemView.findViewById(R.id.ll6);
             ll7= itemView.findViewById(R.id.ll7);
             ll8= itemView.findViewById(R.id.ll8);
             ll9= itemView.findViewById(R.id.ll9);
-            ll10= itemView.findViewById(R.id.ll10);
+            ll10= itemView.findViewById(R.id.ll10);*/
 
 
         }
@@ -67,14 +67,15 @@ public class getFrameworkPreviewAdapter extends RecyclerView.Adapter<getFramewor
     public void onBindViewHolder(GalleryViewHolder holder, int position) {
         getScoreData frameworkData = medialists.get(position);
         holder.frameworkSubTitle.setText(frameworkData.getFRAMEWORKSUB());
-        if (!frameworkData.getfRAMEWORKREMARK().equals("")){
-            String s= "Des:  "+frameworkData.getfRAMEWORKREMARK();
+        if (!frameworkData.getdESCRIPTION().equals("")){
+            String s= "Marks Des:  "+frameworkData.getdESCRIPTION();
             SpannableString ss1=  new SpannableString(s);
-            ss1.setSpan(new RelativeSizeSpan(1.1f), 0,4, 0); // set size
-            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 4, 0);// set color
+            ss1.setSpan(new RelativeSizeSpan(1.1f), 0,10, 0); // set size
+            ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 10, 0);// set color
 
             holder.frameworkDes.setText(ss1);
         }else {
+            holder.frameworkDes.setVisibility(View.GONE);
             holder.frameworkDes.setText("");
         }
 
@@ -84,35 +85,35 @@ Log.e("score",""+frameworkData.getSCORE());
                // holder.ll1.setPadding(3,3,3,3);
                 break;
             case "1":
-                holder.ll1.setPadding(4,4,4,4);
+                holder.ll1.setPadding(5,5,5,5);
                 break;
             case "2":
-                holder.ll2.setPadding(4,4,4,4);
+                holder.ll2.setPadding(5,5,5,5);
                 break;
             case "3":
-                holder.ll3.setPadding(4,4,4,4);
+                holder.ll3.setPadding(5,5,5,5);
                 break;
             case "4":
-                holder.ll4.setPadding(4,4,4,4);
+                holder.ll4.setPadding(5,5,5,5);
                 break;
             case "5":
-                holder.ll5.setPadding(4,4,4,4);
+                holder.ll5.setPadding(5,5,5,5);
                 break;
-            case "6":
-                holder.ll6.setPadding(4,4,4,4);
+           /* case "6":
+                holder.ll6.setPadding(5,5,5,5);
                 break;
             case "7":
-                holder.ll7.setPadding(4,4,4,4);
+                holder.ll7.setPadding(5,5,5,5);
                 break;
             case "8":
-                holder.ll8.setPadding(4,4,4,4);
+                holder.ll8.setPadding(5,5,5,5);
                 break;
             case "9":
-                holder.ll9.setPadding(4,4,4,4);
+                holder.ll9.setPadding(5,5,5,5);
                 break;
             case "10":
-                holder.ll10.setPadding(4,4,4,4);
-                break;
+                holder.ll10.setPadding(5,5,5,5);
+                break;*/
 
             default:
 

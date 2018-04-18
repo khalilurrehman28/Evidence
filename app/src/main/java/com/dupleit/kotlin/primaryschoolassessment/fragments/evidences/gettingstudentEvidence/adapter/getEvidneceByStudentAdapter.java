@@ -130,7 +130,7 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
         Range<Float> range = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
 
-            if (new Range<>(9.1f,10.0f).contains(oneDigitsF)){
+            /*if (new Range<>(9.1f,10.0f).contains(oneDigitsF)){
                 holder.evidenceGrade.setText("A1");
                 holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
                 holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
@@ -150,24 +150,24 @@ public class getEvidneceByStudentAdapter extends RecyclerView.Adapter<getEvidnec
                 holder.evidenceGrade.setText("C1");
                 holder.evidenceGrade.setTextColor(Color.parseColor("#efcd37"));
                 holder.evidenceGrade.setBackgroundResource(R.drawable.yellow_line);
-            }else if (new Range<>(4.1f,5.0f).contains(oneDigitsF)){
-                holder.evidenceGrade.setText("C2");
+            }else*/ if (new Range<>(4.1f,5.0f).contains(oneDigitsF)){
+                holder.evidenceGrade.setText("A+");
+                holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(3.1f,4.0f).contains(oneDigitsF)){
+                holder.evidenceGrade.setText("A");
+                holder.evidenceGrade.setTextColor(Color.parseColor("#2E7D32"));
+                holder.evidenceGrade.setBackgroundResource(R.drawable.green_line);
+            }else if (new Range<>(2.1f,3.0f).contains(oneDigitsF)){
+                holder.evidenceGrade.setText("B");
                 holder.evidenceGrade.setTextColor(Color.parseColor("#efcd37"));
                 holder.evidenceGrade.setBackgroundResource(R.drawable.yellow_line);
-            }else if (new Range<>(3.1f,4.0f).contains(oneDigitsF)){
-                holder.evidenceGrade.setText("D");
-                holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
-                holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
-            }else if (new Range<>(2.1f,3.0f).contains(oneDigitsF)){
-                holder.evidenceGrade.setText("E1");
-                holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
-                holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
             }else if (new Range<>(1.1f,2.0f).contains(oneDigitsF)){
-                holder.evidenceGrade.setText("E2");
+                holder.evidenceGrade.setText("C");
                 holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
                 holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
             }else {
-                holder.evidenceGrade.setText("F");
+                holder.evidenceGrade.setText("D");
                 holder.evidenceGrade.setTextColor(Color.parseColor("#e42f2f"));
                 holder.evidenceGrade.setBackgroundResource(R.drawable.red_line);
             }

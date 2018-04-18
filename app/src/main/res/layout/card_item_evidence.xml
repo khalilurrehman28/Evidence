@@ -75,7 +75,7 @@
             android:id="@+id/evidenceTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:maxLines="2"
             android:typeface="sans"
             android:layout_below="@+id/evidenceTitle"
             android:text="Tags"
