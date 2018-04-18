@@ -243,7 +243,7 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
                             spinnerFramework.setVisibility(View.VISIBLE);
                             tvNoFrameworkAvailable.setVisibility(View.GONE);
                             layoutSubFramework.setVisibility(View.VISIBLE);
-                            linearMarksPreview.setVisibility(View.VISIBLE);
+                           // linearMarksPreview.setVisibility(View.VISIBLE);
 
                             /*to get notice of principal to all*/
                             Log.d("getMessage", "" + response.body().getMsg());
