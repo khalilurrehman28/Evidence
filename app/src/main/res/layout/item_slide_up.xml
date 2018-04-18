@@ -55,6 +55,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Description"
+                    android:id="@+id/tvMaxScore"
+                    android:paddingRight="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingTop="16dp"
+                    android:textSize="19dp"
+                    android:textColor="@color/black"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -68,16 +80,14 @@
                     android:textSize="17dp"
                     android:textColor="@color/grey"/>
 
-                <TextView
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerViewMarks"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Description"
-                    android:id="@+id/tvMaxScore"
-                    android:paddingRight="12dp"
-                    android:paddingLeft="12dp"
-                    android:paddingTop="16dp"
-                    android:textSize="19dp"
-                    android:textColor="@color/black"/>
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:padding="2dp"
+                    android:minHeight="270dp"
+                    />
             </LinearLayout>
         </ScrollView>
 

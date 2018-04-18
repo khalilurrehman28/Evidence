@@ -25,18 +25,26 @@ import com.dupleit.kotlin.primaryschoolassessment.Evidence.modelforgetFrameSubti
 import com.dupleit.kotlin.primaryschoolassessment.Network.APIService;
 import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.SubFramworkMarksDetails;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.adapter.getSubMarksDetailAdapter;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.addSubFrameMarksDetails;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.GetSubMarksDetailResponse;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.subMarksData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.subTitleframework.adapter.frameworksubTitlesAdapter;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.CustomObjectSorting1;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.RecyclerTouchListener;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
 import com.mancj.slideup.SlideUp;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +67,9 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
     @BindView(R.id.tvDes)TextView tvDes;
     @BindView(R.id.tvMaxScore)TextView tvMaxScore;
 
+    @BindView(R.id.recyclerViewMarks) RecyclerView recyclerViewMarks;
+    private List<subMarksData> subMarksDetailList;
+    getSubMarksDetailAdapter subMarksDetailAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,19 +122,22 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
                     tvTitle.setText(frames.getFRAMEWORKSUB());
 
                 }
-                String s= "Description:  "+frames.getrEMARK();
+                String s= "Marks Description:  ";
                 SpannableString ss1=  new SpannableString(s);
-                ss1.setSpan(new RelativeSizeSpan(1.3f), 0,12, 0); // set size
-                ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 12, 0);// set color
+                ss1.setSpan(new RelativeSizeSpan(1.1f), 0,18, 0); // set size
+                ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 18, 0);// set color
 
                 tvDes.setText(ss1);
+                getMarksDetail(frames.getSubId());
+                tvDes.setVisibility(View.GONE);
 
-                String s1= "Max Score: "+frames.getSCORE();
+                String s1= "Max Marks: "+frames.getSCORE();
                 SpannableString marks=  new SpannableString(s1);
                 marks.setSpan(new RelativeSizeSpan(1f), 0,10, 0); // set size
                 marks.setSpan(new ForegroundColorSpan(Color.RED), 0, 10, 0);// set color
 
                 tvMaxScore.setText(marks);
+
 
                 slideUp.animateIn();
             }
@@ -134,6 +148,74 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
             }
         }));
     }
+
+    private void getMarksDetail(String subFrameworkId) {
+
+        subMarksDetailList = new ArrayList<>();
+        subMarksDetailAdapter = new getSubMarksDetailAdapter(this, subMarksDetailList);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 1);
+        recyclerViewMarks.setLayoutManager(mLayoutManager);
+        recyclerViewMarks.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(1), true));
+        recyclerViewMarks.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewMarks.setAdapter(subMarksDetailAdapter);
+        subMarksDetailList.clear();
+        prepareMarksDetail(subFrameworkId);
+
+    }
+
+    private void prepareMarksDetail(String subFrameworkId) {
+        if (!checkInternetState.getInstance(this).isOnline()) {
+            Toasty.warning(gettingFrameworkSubtitles.this, "No internet connection.", Toast.LENGTH_LONG, true).show();
+
+        }else {
+
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<GetSubMarksDetailResponse> userCall = service.get_marks_detail(Integer.parseInt(subFrameworkId));
+            userCall.enqueue(new Callback<GetSubMarksDetailResponse>() {
+                @Override
+                public void onResponse(Call<GetSubMarksDetailResponse> call, Response<GetSubMarksDetailResponse> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body().getStatus()) {
+                            tvDes.setVisibility(View.VISIBLE);
+                            recyclerViewMarks.setVisibility(View.VISIBLE);
+                            for (int i = 0; i < response.body().getData().size(); i++) {
+                                subMarksData subMarksData = new subMarksData();
+                                subMarksData.setDATETIME(response.body().getData().get(i).getDATETIME());
+                                subMarksData.setDESCRIPTION(response.body().getData().get(i).getDESCRIPTION());
+                                subMarksData.setMARKS(response.body().getData().get(i).getMARKS());
+                                subMarksData.setSTATUS(response.body().getData().get(i).getSTATUS());
+                                subMarksData.setMARKSDETAILID(response.body().getData().get(i).getMARKSDETAILID());
+
+                                //Collections.sort(studentList, new CustomObjectComparator(ascendingDes));
+                                subMarksDetailList.add(subMarksData);
+                                Collections.sort(subMarksDetailList, new CustomObjectSorting1(false));
+                                //adapter.notifyDataSetChanged();
+                                subMarksDetailAdapter.notifyDataSetChanged();
+                            }
+
+                        } else {
+                            recyclerViewMarks.setVisibility(View.GONE);
+                            tvDes.setVisibility(View.GONE);
+
+                        }
+                    } else {
+                        Toast.makeText(gettingFrameworkSubtitles.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetSubMarksDetailResponse> call, Throwable t) {
+                    //hidepDialog();
+                    Log.d("onFailure", t.toString());
+                    recyclerViewMarks.setVisibility(View.GONE);
+                    tvDes.setVisibility(View.GONE);
+
+                }
+            });
+        }
+    }
+
+
 
     private void prepareSubtitles() {
         noFrameworksFound.setVisibility(View.GONE);

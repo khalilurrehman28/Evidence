@@ -28,17 +28,25 @@ import com.dupleit.kotlin.primaryschoolassessment.Network.ApiClient;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.adapter.getSubMarksDetailAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.GetSubMarksDetailResponse;
+import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.MarksListComparator;
 import com.dupleit.kotlin.primaryschoolassessment.addSubframeMarksDetails.model.subMarksData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.GetFrameworksModel;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.GetparentFrameworkResponse;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.CustomObjectComparator;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.CustomObjectSorting1;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,8 +73,7 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
     String frameworkCategoryId, frameworkCategoryName,FrameworkId, FrameWorkTitle,subFrameworkId, subFrameWorkTitle;
     @BindView(R.id.layoutSubFramework) LinearLayout layoutSubFramework;
     @BindView(R.id.btnAddMarksDetails) TextView btnAddMarksDetails;
-    ArrayList<String> edittextData;
-
+    Map<String,String> hashMap;
     @BindView(R.id.recyclerView) RecyclerView recyclerView;
     private List<subMarksData> subMarksDetailList;
     getSubMarksDetailAdapter subMarksDetailAdapter;
@@ -83,8 +90,7 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
         tvNoSubFrameworkAvailable.setVisibility(View.GONE);
         linearMarksPreview.setVisibility(View.GONE);
         getDropDownOfParentFrameWork();
-        edittextData =new ArrayList<>();
-
+        hashMap = new HashMap<String,String>();
 
         btnAddMarksDetails.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +102,7 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
                 intent.putExtra("FrameWorkTitle",FrameWorkTitle);
                 intent.putExtra("subFrameworkId",subFrameworkId);
                 intent.putExtra("subFrameWorkTitle",subFrameWorkTitle);
-                intent.putStringArrayListExtra("marksDetailList",edittextData);
+                intent.putExtra("hash", (Serializable) hashMap);
                 startActivity(intent);
             }
         });
@@ -314,7 +320,7 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
     }
 
     private void createSubFrameWorkList(String frameworkId) {
-        edittextData.clear();
+        hashMap.clear();
 
         if (!checkInternetState.getInstance(this).isOnline()) {
             Toasty.warning(this, "Please Check Your Internet Connection.", Toast.LENGTH_LONG, true).show();
@@ -392,7 +398,7 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
     }
 
     private void prepareMarksDetail(String subFrameworkId) {
-        edittextData.clear();
+        hashMap.clear();
 
         APIService service = ApiClient.getClient().create(APIService.class);
         Call<GetSubMarksDetailResponse> userCall = service.get_marks_detail(Integer.parseInt(subFrameworkId));
@@ -410,8 +416,11 @@ public class SubFramworkMarksDetails extends AppCompatActivity {
                             subMarksData.setMARKS(response.body().getData().get(i).getMARKS());
                             subMarksData.setSTATUS(response.body().getData().get(i).getSTATUS());
                             subMarksData.setMARKSDETAILID(response.body().getData().get(i).getMARKSDETAILID());
-                            edittextData.add(response.body().getData().get(i).getDESCRIPTION());
+
+                            hashMap.put(response.body().getData().get(i).getMARKS(),response.body().getData().get(i).getDESCRIPTION());
+                            //Collections.sort(studentList, new CustomObjectComparator(ascendingDes));
                             subMarksDetailList.add(subMarksData);
+                            Collections.sort(subMarksDetailList, new CustomObjectSorting1(false));
                             //adapter.notifyDataSetChanged();
                             subMarksDetailAdapter.notifyDataSetChanged();
                         }

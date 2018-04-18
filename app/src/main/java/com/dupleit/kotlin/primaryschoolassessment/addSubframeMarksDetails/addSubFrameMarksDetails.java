@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,8 +45,7 @@ public class addSubFrameMarksDetails extends AppCompatActivity {
     @BindView(R.id.et5) TextView et5;
     @BindView(R.id.btnAddMarks) TextView btnAddMarksDetails;
     ArrayList<String> edittextData;
-    ArrayList<String> filledMarksDetailList;
-
+    //HashMap<String,String> hashMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,23 +54,27 @@ public class addSubFrameMarksDetails extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("Add Marks details");
         edittextData =new ArrayList<>();
-        filledMarksDetailList= new ArrayList<>();
+
         frameworkCategoryId =getIntent().getStringExtra("frameworkCategoryId");
         frameworkCategoryName =getIntent().getStringExtra("frameworkCategoryName");
         FrameworkId =getIntent().getStringExtra("FrameworkId");
         FrameWorkTitle =getIntent().getStringExtra("FrameWorkTitle");
         subFrameworkId =getIntent().getStringExtra("subFrameworkId");
         subFrameWorkTitle =getIntent().getStringExtra("subFrameWorkTitle");
-        filledMarksDetailList = getIntent().getStringArrayListExtra("marksDetailList");
+
+        // String hash= getIntent().getStringExtra("hash");
+        //hashMap = HashMap<String, String>()getIntent().getSerializableExtra("hash");
+        HashMap<String, String> hash = (HashMap<String, String>) getIntent().getSerializableExtra("hash");
         marksAddedIn.setText(frameworkCategoryName+" >> "+FrameWorkTitle+" >> "+subFrameWorkTitle);
 
-        if (filledMarksDetailList.size()>0){
-            et1.setText(filledMarksDetailList.get(0));
-            et2.setText(filledMarksDetailList.get(1));
-            et4.setText(filledMarksDetailList.get(2));
-            et3.setText(filledMarksDetailList.get(3));
-            et5.setText(filledMarksDetailList.get(4));
+        if (hash.size()>0){
+            et1.setText(hash.get("1"));
+            et2.setText(hash.get("2"));
+            et4.setText(hash.get("3"));
+            et3.setText(hash.get("4"));
+            et5.setText(hash.get("5"));
         }
+        //Log.e("hash",hashMap.toString());
 
 
         btnAddMarksDetails.setOnClickListener(new View.OnClickListener() {
