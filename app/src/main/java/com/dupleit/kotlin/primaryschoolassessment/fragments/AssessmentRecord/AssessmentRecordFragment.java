@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -220,7 +221,20 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
             noDataFound.setText("No Internet Connection.");
             noDataFound.setVisibility(View.VISIBLE);
         }else {
+            new prepareListWithAsync(mView).execute();
 
+        }
+
+    }
+
+    public class prepareListWithAsync extends AsyncTask<String,String,String> {
+        View v;
+        prepareListWithAsync(View v){
+            this.v = v;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             APIService service = ApiClient.getClient().create(APIService.class);
             Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
@@ -280,9 +294,16 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
 
                 }
             });
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
     }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.all_students, menu);

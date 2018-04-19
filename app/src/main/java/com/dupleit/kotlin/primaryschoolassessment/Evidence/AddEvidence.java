@@ -135,6 +135,7 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     getFrameworksubTitlesAdapter subTitleAdapter;
      @BindView(R.id.tagsEditText)TagsEditText mTagsEditText;
      String tagsValue = "";
+    Map<Integer,String> mediaUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +147,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle("New Evidence");
         hash = new HashMap<>();
+        mediaUri = new HashMap<Integer, String>();
+        mediaUri.clear();
         studentName.setText("Select student");
         fileUris.add(0, "");
         fileUris.add(1, "");
@@ -225,8 +228,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
             @Override
             public void onClick(View v) {
                 if (validateData()) {
-                    uploadImages(fileUris,etSelectedDate.getText().toString(),etCommentBox.getText().toString());
+                    uploadImages(mediaUri,etSelectedDate.getText().toString(),etCommentBox.getText().toString());
                 }
+                Log.e("MediaPathHash", " : "+mediaUri);
             }
         });
 
@@ -526,7 +530,10 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         }else {
             mTagsEditText.setError(null);
         }
-
+        if (mediaUri.size()<=0) {
+            Toasty.warning(AddEvidence.this, "Please upload some media also", Toast.LENGTH_LONG, true).show();
+            return false;
+        }
         return true;
     }
 
@@ -709,7 +716,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     String mediaPath = String.valueOf(finalFile);
                     if (!mediaPath.equals("")) {
 
-                        fileUris.set(0, mediaPath);
+                        //fileUris.set(0, mediaPath);
+                        mediaUri.put(0,mediaPath);
+
                         videoCamera1.setVisibility(View.GONE);
                         glide.with(this).load(mediaPath).into(imageView1);
                     }else {
@@ -727,7 +736,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("imagePath", "" + mediaPath + "  imageUri " + selectedImage);
 
                     if (!mediaPath.equals("")) {
-                        fileUris.set(0, mediaPath);
+                        //fileUris.set(0, mediaPath);
+                        mediaUri.put(0,mediaPath);
+
                         videoCamera1.setVisibility(View.GONE);
                         glide.with(this).load(mediaPath).into(imageView1);
                     }
@@ -740,7 +751,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("VideoPath1", "" + selectedVideoPath );
 
                     if (!selectedVideoPath.equals("")) {
-                        fileUris.set(0, selectedVideoPath);
+                        //fileUris.set(0, selectedVideoPath);
+                        mediaUri.put(0,selectedVideoPath);
+
                         videoCamera1.setVisibility(View.VISIBLE);
                         glide.with(this).load(selectedVideoPath).into(imageView1);
                     }
@@ -756,7 +769,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("VideoPath1", "" + selectedVideoPath + " uri " + selectedVideoUri);
 
                     if (!selectedVideoPath.equals("")) {
-                        fileUris.set(0, selectedVideoPath);
+                        //fileUris.set(0, selectedVideoPath);
+                        mediaUri.put(0,selectedVideoPath);
+
                         videoCamera1.setVisibility(View.VISIBLE);
                         glide.with(this).load(selectedVideoPath).into(imageView1);
                     }
@@ -770,7 +785,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     String mediaPath = String.valueOf(finalFile);
                     if (!mediaPath.equals("")) {
 
-                        fileUris.set(1, mediaPath);
+                        mediaUri.put(1,mediaPath);
+                        //fileUris.set(1, mediaPath);
                         videoCamera2.setVisibility(View.GONE);
                         glide.with(this).load(mediaPath).into(imageView2);
                     }else {
@@ -788,7 +804,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("imagePath2", "" + mediaPath + "  imageUri " + selectedImage);
 
                     if (!mediaPath.equals("")) {
-                        fileUris.set(1, mediaPath);
+                        mediaUri.put(1,mediaPath);
+
+                        //fileUris.set(1, mediaPath);
                         videoCamera2.setVisibility(View.GONE);
                         glide.with(this).load(mediaPath).into(imageView2);
 
@@ -802,7 +820,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("VideoPath2", "" + selectedVideoPath );
 
                     if (!selectedVideoPath.equals("")) {
-                        fileUris.set(1, selectedVideoPath);
+                        mediaUri.put(1,selectedVideoPath);
+                        //fileUris.set(1, selectedVideoPath);
                         videoCamera2.setVisibility(View.VISIBLE);
                         glide.with(this).load(selectedVideoPath).into(imageView2);
                     }
@@ -817,7 +836,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("VideoPath2", "" + selectedVideoPath + " uri " + selectedVideoUri);
 
                     if (!selectedVideoPath.equals("")) {
-                        fileUris.set(1, selectedVideoPath);
+                        mediaUri.put(1,selectedVideoPath);
+                        //fileUris.set(1, selectedVideoPath);
                         videoCamera2.setVisibility(View.VISIBLE);
                         glide.with(this).load(selectedVideoPath).into(imageView2);
                     }
@@ -830,8 +850,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     File finalFile = new File(getRealPathFromURI(picUri3));
                     String mediaPath = String.valueOf(finalFile);
                     if (!mediaPath.equals("")) {
+                        mediaUri.put(2,mediaPath);
 
-                        fileUris.set(2, mediaPath);
+                        //fileUris.set(2, mediaPath);
                         videoCamera3.setVisibility(View.GONE);
                         glide.with(this).load(mediaPath).into(imageView3);
                     }else {
@@ -849,7 +870,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("imagePath3", "" + mediaPath + "  imageUri " + selectedImage);
 
                     if (!mediaPath.equals("")) {
-                        fileUris.set(2, mediaPath);
+                        mediaUri.put(2,mediaPath);
+
+                        //fileUris.set(2, mediaPath);
                         videoCamera3.setVisibility(View.GONE);
                         glide.with(this).load(mediaPath).into(imageView3);
                     }
@@ -862,7 +885,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("VideoPath2", "" + selectedVideoPath );
 
                     if (!selectedVideoPath.equals("")) {
-                        fileUris.set(2, selectedVideoPath);
+                        mediaUri.put(2,selectedVideoPath);
+
+                        ///fileUris.set(2, selectedVideoPath);
                         videoCamera3.setVisibility(View.VISIBLE);
                         glide.with(this).load(selectedVideoPath).into(imageView3);
                     }
@@ -877,7 +902,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Log.e("VideoPath3", "" + selectedVideoPath + " uri " + selectedVideoUri);
 
                     if (!selectedVideoPath.equals("")) {
-                        fileUris.set(2, selectedVideoPath);
+                        mediaUri.put(2,selectedVideoPath);
+
+                        //fileUris.set(2, selectedVideoPath);
                         videoCamera3.setVisibility(View.VISIBLE);
                         glide.with(this).load(selectedVideoPath).into(imageView3);
                     }
@@ -934,9 +961,9 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
-    private void uploadImages(final ArrayList<String> fileUris, final String evidenceDate, final String commentText) {
+    private void uploadImages(final Map<Integer, String> file_Uris, final String evidenceDate, final String commentText) {
         hash.clear();
-        fileUris.removeAll(Collections.singleton(""));//for remove all null("") values from arraylist
+        //file_Uris.removeAll(Collections.singleton(""));//for remove all null("") values from arraylist
         pDialog = new ProgressDialog(this);
         pDialog.setTitle("Uploading Evidence");
         //pDialog.setMessage("Please wait...");
@@ -947,14 +974,16 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
         pDialog.setCancelable(false);
         showpDialog();
         final List<MultipartBody.Part> parts = new ArrayList<>();
-        for (int i = 0; i < fileUris.size(); i++) {
-            parts.add(prepareFilePart("EVIDENCE_IMAGE_VIDEO[]", fileUris.get(i)));
-            Log.e("getUri", "" + fileUris.get(i));
+        parts.clear();
+        for (int i = 0; i < file_Uris.size(); i++) {
+            parts.add(prepareFilePart("EVIDENCE_IMAGE_VIDEO[]", file_Uris.get(i)));
+            Log.e("getUri", "" + file_Uris.get(i));
             Log.e("getUr",""+parts);
 
         }
         //ArrayList<String> data1 = new ArrayList<>();
         Map<String,String> userMap = new HashMap<>();
+        userMap.clear();
         for (int i = 0; i <frameworksubTList.size() ; i++) {
             Log.d("recyclerView",""+frameworksubTList.get(i).getFRAMEWORKSUB()+" "+frameworksubTList.get(i).getEtGetScore()+" "+frameworksubTList.get(i).getSubId());
             userMap.put(frameworksubTList.get(i).getSubId(),frameworksubTList.get(i).getEtGetScore());
@@ -1013,6 +1042,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     /*fileUris.clear();
                     hash.clear();
                     parts.clear();*/
+                    parts.clear();
+                    mediaUri.clear();
                     Toasty.warning(AddEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
                     Log.e("onFail", "" + t.getMessage());
                     Log.e( "onFailure: ", ""+t.getStackTrace());

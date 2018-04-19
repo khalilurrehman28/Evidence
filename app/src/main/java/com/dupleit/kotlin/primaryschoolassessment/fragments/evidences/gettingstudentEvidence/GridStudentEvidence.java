@@ -15,6 +15,7 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
@@ -90,6 +91,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
     private DownloadManager downloadManager;
     private long refid;
     String[] url;
+    View view;
 
     //i created List of int type to store id of data, you can create custom class type data according to your need.
     private List<String> selectedIds ;
@@ -104,6 +106,7 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grid_student_evidence);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//to hide keyboad
+        view = getWindow().getDecorView().getRootView();
         ButterKnife.bind(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
@@ -408,65 +411,6 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
     }
 
-    private void prepareEvidenceListWithFiltering(String startDate, String endDate) {
-        studentList.clear();
-        noStudentsFound.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-        if (!checkInternetState.getInstance(GridStudentEvidence.this).isOnline()) {
-            Toasty.warning(GridStudentEvidence.this, "No Internet connection.", Toast.LENGTH_LONG, true).show();
-
-            progressBar.setVisibility(View.GONE);
-        }else {
-
-            APIService service = ApiClient.getClient().create(APIService.class);
-            Call<GetEvidenceModel> userCall = service.get_evidence_withdate_request(startDate,endDate,Integer.parseInt(studentId));
-            userCall.enqueue(new Callback<GetEvidenceModel>() {
-                @Override
-                public void onResponse(Call<GetEvidenceModel> call, Response<GetEvidenceModel> response) {
-                    progressBar.setVisibility(View.GONE);
-
-                    Log.d("evidences"," "+response.body().getStatus());
-                    if (response.isSuccessful()){
-                        if (response.body().getStatus()) {
-                            for (int i = 0; i < response.body().getData().size(); i++) {
-                                int  n = random.nextInt(ColorArray.size());
-                                if (n==ColorArray.size()){
-                                    n -=1;
-                                }
-                                EvidencesData evidences = new EvidencesData();
-                                evidences.setEVIDENCEID(response.body().getData().get(i).getEVIDENCEID());
-                                evidences.setEVIDENCEDATE(response.body().getData().get(i).getEVIDENCEDATE());
-                                evidences.setEVIDENCEFRAMEWORKID(response.body().getData().get(i).getEVIDENCEFRAMEWORKID());
-                                evidences.setEVIDENCECOMMENT(response.body().getData().get(i).getEVIDENCECOMMENT());
-                                evidences.setTitle(response.body().getData().get(i).getTitle());
-                                evidences.setsCORE(response.body().getData().get(i).getsCORE());
-                                evidences.setcOUNT(response.body().getData().get(i).getcOUNT());
-                                evidences.seteVIDENCETAGS(response.body().getData().get(i).geteVIDENCETAGS());
-                                evidences.setColorIndex(ColorArray.get(n));
-                                studentList.add(evidences);
-                                //adapter.notifyDataSetChanged();
-                                adapter.notifyDataSetChanged();
-                            }
-
-                        }else{
-                            noStudentsFound.setVisibility(View.VISIBLE);
-                        }
-                    }else{
-                        Toasty.warning(GridStudentEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<GetEvidenceModel> call, Throwable t) {
-                    //hidepDialog();
-                    Log.d("onFailure", t.toString());
-                    progressBar.setVisibility(View.GONE);
-
-                }
-            });
-        }
-    }
 
     private void sortData(boolean ascendingDes) {
         Collections.sort(studentList, new CustomObjectComparator(ascendingDes));
@@ -482,6 +426,19 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
         }else {
 
+            new prepareEvidenceListWithAsync(view).execute();
+        }
+
+    }
+
+    public class prepareEvidenceListWithAsync extends AsyncTask<String,String,String> {
+        View v;
+        prepareEvidenceListWithAsync(View v){
+            this.v = v;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             APIService service = ApiClient.getClient().create(APIService.class);
             Call<GetEvidenceModel> userCall = service.get_evidence_request(Integer.parseInt(studentId));
             userCall.enqueue(new Callback<GetEvidenceModel>() {
@@ -530,8 +487,98 @@ public class GridStudentEvidence extends AppCompatActivity implements getEvidnec
 
                 }
             });
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
+    }
+    private void prepareEvidenceListWithFiltering(String startDate, String endDate) {
+        studentList.clear();
+        noStudentsFound.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        if (!checkInternetState.getInstance(GridStudentEvidence.this).isOnline()) {
+            Toasty.warning(GridStudentEvidence.this, "No Internet connection.", Toast.LENGTH_LONG, true).show();
+
+            progressBar.setVisibility(View.GONE);
+        }else {
+
+            new prepareEvidenceFileteringWithAsync(view,startDate,endDate).execute();
+
+        }
+    }
+
+    public class prepareEvidenceFileteringWithAsync extends AsyncTask<String,String,String> {
+        View v;
+        String startDate;
+        String endDate;
+        prepareEvidenceFileteringWithAsync(View v, String startDate, String endDate){
+            this.v = v;
+            this.startDate = startDate;
+            this.endDate = endDate;
+
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            APIService service = ApiClient.getClient().create(APIService.class);
+            Call<GetEvidenceModel> userCall = service.get_evidence_withdate_request(startDate,endDate,Integer.parseInt(studentId));
+            userCall.enqueue(new Callback<GetEvidenceModel>() {
+                @Override
+                public void onResponse(Call<GetEvidenceModel> call, Response<GetEvidenceModel> response) {
+                    progressBar.setVisibility(View.GONE);
+
+                    Log.d("evidences"," "+response.body().getStatus());
+                    if (response.isSuccessful()){
+                        if (response.body().getStatus()) {
+                            for (int i = 0; i < response.body().getData().size(); i++) {
+                                int  n = random.nextInt(ColorArray.size());
+                                if (n==ColorArray.size()){
+                                    n -=1;
+                                }
+                                EvidencesData evidences = new EvidencesData();
+                                evidences.setEVIDENCEID(response.body().getData().get(i).getEVIDENCEID());
+                                evidences.setEVIDENCEDATE(response.body().getData().get(i).getEVIDENCEDATE());
+                                evidences.setEVIDENCEFRAMEWORKID(response.body().getData().get(i).getEVIDENCEFRAMEWORKID());
+                                evidences.setEVIDENCECOMMENT(response.body().getData().get(i).getEVIDENCECOMMENT());
+                                evidences.setTitle(response.body().getData().get(i).getTitle());
+                                evidences.setsCORE(response.body().getData().get(i).getsCORE());
+                                evidences.setcOUNT(response.body().getData().get(i).getcOUNT());
+                                evidences.seteVIDENCETAGS(response.body().getData().get(i).geteVIDENCETAGS());
+                                evidences.setColorIndex(ColorArray.get(n));
+                                studentList.add(evidences);
+                                //adapter.notifyDataSetChanged();
+                                adapter.notifyDataSetChanged();
+                            }
+
+                        }else{
+                            noStudentsFound.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        Toasty.warning(GridStudentEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GetEvidenceModel> call, Throwable t) {
+                    //hidepDialog();
+                    Log.d("onFailure", t.toString());
+                    progressBar.setVisibility(View.GONE);
+
+                }
+            });
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
     }
 
 

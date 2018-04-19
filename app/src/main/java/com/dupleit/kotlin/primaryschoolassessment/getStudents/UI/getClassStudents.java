@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -52,10 +53,12 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
     private SearchView searchView;
     @BindView(R.id.noSearchResultFound)
     TextView noSearchResultFound;
+    View mView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_get_class_students);
+        mView = getWindow().getDecorView().getRootView();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);//to hide keyboad
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ButterKnife.bind(this);
@@ -207,7 +210,19 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
             noStudentsFound.setVisibility(View.VISIBLE);
             noStudentsFound.setText("No Internet Found.");
         }else {
+            new prepareStudentListWithAsync(mView).execute();
 
+        }
+
+    }
+    public class prepareStudentListWithAsync extends AsyncTask<String,String,String> {
+        View v;
+        prepareStudentListWithAsync(View v){
+            this.v = v;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             APIService service = ApiClient.getClient().create(APIService.class);
             Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
@@ -264,10 +279,15 @@ public class getClassStudents extends AppCompatActivity implements getStudentsAd
 
                 }
             });
+            return null;
         }
 
-    }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
 
+        }
+    }
     /**
      * Converting dp to pixel
      */

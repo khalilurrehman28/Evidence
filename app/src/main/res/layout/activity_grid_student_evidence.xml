@@ -8,9 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linear"
-        android:layout_marginBottom="2dp"
-        android:background="@drawable/linear_shadow"
-        android:elevation="6dp">
+        android:layout_marginBottom="3dp"
+        android:elevation="6dp"
+        android:background="@drawable/linear_shadow">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -101,30 +101,4 @@
         android:textSize="18dp"
         android:visibility="gone"
         />
-    <!--<RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/sorryEmoji">
-        <ImageView
-
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/sad"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/sad"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/sad"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
-            android:textSize="17dp"
-            android:text="Sorry can't connect."/>
-    </RelativeLayout>-->
 </RelativeLayout>

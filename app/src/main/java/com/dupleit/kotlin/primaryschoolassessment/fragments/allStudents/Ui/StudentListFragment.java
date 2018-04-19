@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -219,6 +220,19 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
             noStudentsFound.setVisibility(View.VISIBLE);
         }else {
 
+           new prepareStudentListWithAsync(mView).execute();
+        }
+
+    }
+
+    public class prepareStudentListWithAsync extends AsyncTask<String,String,String> {
+        View v;
+        prepareStudentListWithAsync(View v){
+            this.v = v;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             APIService service = ApiClient.getClient().create(APIService.class);
             Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
@@ -277,8 +291,14 @@ public class StudentListFragment extends Fragment implements allStudentsAdapter.
 
                 }
             });
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

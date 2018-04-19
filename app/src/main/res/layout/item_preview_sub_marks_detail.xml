@@ -1,66 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:card_view="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:id="@+id/frame"
+android:background="@color/white"
+android:layout_height="wrap_content">
+
+
+<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/rl1"
 
-    <LinearLayout
-        android:id="@+id/frame"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="3dp"
-        android:layout_marginLeft="2dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_toRightOf="@+id/thumbnail"
-        android:layout_centerVertical="true">
+        android:padding="8dp" >
         <LinearLayout
-            android:layout_width="55dp"
-            android:layout_height="40dp"
-            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
-            android:paddingLeft="2dp"
-            android:paddingRight="2dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="3dp"
-            android:background="@drawable/edittextstyle"
-            >
-
+            android:id="@+id/ll1">
             <TextView
                 android:id="@+id/subTitleMark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10"
+                android:layout_width="45dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="8dp"
                 android:textColor="#3e3e3e"
                 android:typeface="sans"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="20dp"
-                />
+                android:text="5"
+                android:background="@drawable/edittextstyle"/>
         </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="4dp"
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_weight="1">
+            android:layout_toRightOf="@+id/ll1" >
+
+
 
             <TextView
                 android:id="@+id/subTitleMarkDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Framework Title"
-                android:textColor="#252323"
+
                 android:typeface="sans"
-                android:textSize="15dp"
+                android:text="marks Des"
+                android:textColor="#252323"
+                android:textIsSelectable="false"
+                android:textSize="16sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
 
-                />
-        </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
 
-
-
-
-    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:visibility="visible"
+        android:layout_below="@+id/Rl"
+        android:background="#dfdfdf" />
+</LinearLayout>
 
 </LinearLayout>

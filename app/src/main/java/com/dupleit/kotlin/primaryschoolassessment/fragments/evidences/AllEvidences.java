@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -30,6 +31,8 @@ import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.allStudents.adapter.allStudentsAdapter;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.GridStudentEvidence;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.models.EvidencesData;
+import com.dupleit.kotlin.primaryschoolassessment.fragments.evidences.gettingstudentEvidence.models.GetEvidenceModel;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.models.GetStudentData;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.models.GetStudentsModel;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
@@ -231,7 +234,20 @@ public class AllEvidences extends Fragment implements allStudentsAdapter.Contact
             Toasty.warning(mView.getContext(), "No Internet Connection.", Toast.LENGTH_LONG, true).show();
 
         }else {
+            new prepareListWithAsync(mView).execute();
 
+        }
+
+
+    }
+    public class prepareListWithAsync extends AsyncTask<String,String,String> {
+        View v;
+        prepareListWithAsync(View v){
+            this.v = v;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
             APIService service = ApiClient.getClient().create(APIService.class);
             Call<GetStudentsModel> userCall = service.getAllStudents(Integer.parseInt(sharedId()), Integer.parseInt(sharedClassId()));
             userCall.enqueue(new Callback<GetStudentsModel>() {
@@ -291,9 +307,14 @@ public class AllEvidences extends Fragment implements allStudentsAdapter.Contact
 
                 }
             });
+            return null;
         }
 
-        adapter.notifyDataSetChanged();
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+        }
     }
 
     @Override
