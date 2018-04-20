@@ -34,6 +34,7 @@ import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.ProgressRequestBody;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.Utils;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.compressImage;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -202,11 +203,13 @@ public class ProfileFragment extends Fragment implements ProgressRequestBody.Upl
             if (resultCode == RESULT_OK){
                 Uri selectedImageUri = result.getUri();
                 mediaPath = getRealPathFromURI(selectedImageUri);
+                String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
+
                 Log.e("mediaPath ",""+mediaPath +"  selectedImageUri  "+selectedImageUri);
                 //Toast.makeText(profile.this, "media path  "+mediaPath, Toast.LENGTH_SHORT).show();
-                if (!mediaPath.equals("")){
-                    glide.with(this).load(mediaPath).into(teacherImage);
-                    uploadImage(mediaPath);
+                if (!compressImgPath.equals("")){
+                    glide.with(this).load(compressImgPath).into(teacherImage);
+                    uploadImage(compressImgPath);
                 }else{
                     Toast.makeText(mView.getContext(), "do not get path", Toast.LENGTH_SHORT).show();
                 }
@@ -214,16 +217,16 @@ public class ProfileFragment extends Fragment implements ProgressRequestBody.Upl
         }
 
     }
-    private void uploadImage(String mediaPath) {
+    private void uploadImage(String compressedImg) {
         final ProgressDialog pd = new ProgressDialog(mView.getContext());
         pd.setTitle("Uploading Image");
         pd.setMessage("Please wait...");
         pd.setCancelable(false);
         pd.show();
-        File file = new File(mediaPath);
+        File file = new File(compressedImg);
         ProgressRequestBody fileBody = new ProgressRequestBody(file,this);
         MultipartBody.Part fileToUpload = MultipartBody.Part.createFormData("TEACHER_IMAGE", file.getName(), fileBody);
-        String extension = mediaPath.substring(mediaPath.lastIndexOf(".") + 1);
+        String extension = compressedImg.substring(compressedImg.lastIndexOf(".") + 1);
         //Toast.makeText(mContext, ""+extension, Toast.LENGTH_SHORT).show();
         APIService service = ApiClient.getClient().create(APIService.class);
         Call<UpdateImageModel> call = service.updateuserimage_request(Integer.parseInt(sharedId()),fileToUpload);

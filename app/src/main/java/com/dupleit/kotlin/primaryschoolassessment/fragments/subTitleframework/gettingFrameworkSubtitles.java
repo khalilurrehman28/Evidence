@@ -66,8 +66,9 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
     @BindView(R.id.tvTitle)TextView tvTitle;
     @BindView(R.id.tvDes)TextView tvDes;
     @BindView(R.id.tvMaxScore)TextView tvMaxScore;
-
+    @BindView(R.id.progressBarSlideup)ProgressBar progressBarSlideup;
     @BindView(R.id.recyclerViewMarks) RecyclerView recyclerViewMarks;
+    @BindView(R.id.noDetailFound) TextView noMarksDetailFound;
     private List<subMarksData> subMarksDetailList;
     getSubMarksDetailAdapter subMarksDetailAdapter;
     @Override
@@ -128,6 +129,7 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
                 ss1.setSpan(new ForegroundColorSpan(Color.RED), 0, 18, 0);// set color
 
                 tvDes.setText(ss1);
+
                 getMarksDetail(frames.getSubId());
                 tvDes.setVisibility(View.GONE);
 
@@ -159,13 +161,18 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
         recyclerViewMarks.setItemAnimator(new DefaultItemAnimator());
         recyclerViewMarks.setAdapter(subMarksDetailAdapter);
         subMarksDetailList.clear();
+        recyclerViewMarks.setVisibility(View.GONE);
+        progressBarSlideup.setVisibility(View.VISIBLE);
+
         prepareMarksDetail(subFrameworkId);
 
     }
 
     private void prepareMarksDetail(String subFrameworkId) {
+        noMarksDetailFound.setVisibility(View.GONE);
         if (!checkInternetState.getInstance(this).isOnline()) {
             Toasty.warning(gettingFrameworkSubtitles.this, "No internet connection.", Toast.LENGTH_LONG, true).show();
+            progressBarSlideup.setVisibility(View.GONE);
 
         }else {
 
@@ -174,8 +181,10 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
             userCall.enqueue(new Callback<GetSubMarksDetailResponse>() {
                 @Override
                 public void onResponse(Call<GetSubMarksDetailResponse> call, Response<GetSubMarksDetailResponse> response) {
+                    progressBarSlideup.setVisibility(View.GONE);
                     if (response.isSuccessful()) {
                         if (response.body().getStatus()) {
+                            noMarksDetailFound.setVisibility(View.GONE);
                             tvDes.setVisibility(View.VISIBLE);
                             recyclerViewMarks.setVisibility(View.VISIBLE);
                             for (int i = 0; i < response.body().getData().size(); i++) {
@@ -196,6 +205,8 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
                         } else {
                             recyclerViewMarks.setVisibility(View.GONE);
                             tvDes.setVisibility(View.GONE);
+                            noMarksDetailFound.setVisibility(View.VISIBLE);
+
 
                         }
                     } else {
@@ -209,6 +220,10 @@ public class gettingFrameworkSubtitles extends AppCompatActivity {
                     Log.d("onFailure", t.toString());
                     recyclerViewMarks.setVisibility(View.GONE);
                     tvDes.setVisibility(View.GONE);
+                    noMarksDetailFound.setVisibility(View.GONE);
+
+                    progressBarSlideup.setVisibility(View.GONE);
+
 
                 }
             });

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:id="@+id/imgSplash"
-            android:src="@drawable/ic_splash_logo"/>
+            android:src="@drawable/open_book_white"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -49,10 +49,13 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
 
@@ -88,7 +91,30 @@
                     android:padding="2dp"
                     android:minHeight="270dp"
                     />
+                <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/progressBarSlideup"
+                    android:visibility="gone"
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/noDetailFound"
+                    android:text="No Marks detail available"
+                    android:textSize="18dp"
+                    android:textColor="@color/colorAccent"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingTop="30dp"
+                    android:visibility="gone"
+                    />
             </LinearLayout>
+</RelativeLayout>
+
         </ScrollView>
 
 

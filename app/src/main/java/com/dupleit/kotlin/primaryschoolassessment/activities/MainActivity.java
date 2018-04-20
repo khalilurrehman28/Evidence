@@ -1,9 +1,16 @@
 package com.dupleit.kotlin.primaryschoolassessment.activities;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -11,12 +18,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.dupleit.kotlin.primaryschoolassessment.Evidence.AddEvidence;
 import com.dupleit.kotlin.primaryschoolassessment.FullImageView.FullImage;
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.activities.Login.UI.LoginActivity;
@@ -45,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
     private static final String urlProfileImg = "https://lh3.googleusercontent.com/eCtE_G34M9ygdkmOpYvCag1vBARCmZwnVS6rS5t4JLzJ6QgQSBquM0nuTsCpLhYbKljoyS-txg";
+    private static final int REQUEST= 112;
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -306,6 +317,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(new Intent(MainActivity.this, SubFramworkMarksDetails.class));
                         drawer.closeDrawers();
                         return true;
+                    case R.id.nav_add_evidence:
+                        // launch new intent instead of loading fragment
+                        //startActivity(new Intent(MainActivity.this, SubFramworkMarksDetails.class));
+                        checkPermissionUser();
+                        drawer.closeDrawers();
+                        return true;
                     case R.id.nav_about_us:
                         // launch new intent instead of loading fragment
                         startActivity(new Intent(MainActivity.this, AboutUsActivity.class));
@@ -392,5 +409,63 @@ public class MainActivity extends AppCompatActivity {
         }
 
         super.onBackPressed();
+    }
+
+
+    private void checkPermissionUser() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            Log.d("TAG","@@@ IN IF Build.VERSION.SDK_INT >= 23");
+            String[] PERMISSIONS = {
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+            };
+            if (!hasPermissions(MainActivity.this, PERMISSIONS)) {
+                Log.d("TAG","@@@ IN IF hasPermissions");
+                ActivityCompat.requestPermissions((Activity) MainActivity.this, PERMISSIONS, REQUEST );
+            } else {
+                Log.d("TAG","@@@ IN ELSE hasPermissions");
+                goToEvidenceActivity();
+            }
+        } else {
+            Log.d("TAG","@@@ IN ELSE  Build.VERSION.SDK_INT >= 23");
+            goToEvidenceActivity();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("TAG","@@@ PERMISSIONS grant");
+                    goToEvidenceActivity();
+
+                } else {
+                    Log.d("TAG","@@@ PERMISSIONS Denied");
+                    Toast.makeText(MainActivity.this, "PERMISSIONS Denied", Toast.LENGTH_LONG).show();
+                }
+                break;
+            }
+        }
+    }
+
+    private void goToEvidenceActivity() {
+        startActivity(new Intent(MainActivity.this, AddEvidence.class));
+    }
+
+    private boolean hasPermissions(Context context, String... permissions) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }else
+                {
+                    goToEvidenceActivity();
+                    return true;
+                }
+            }
+        }
+        return true;
     }
 }

@@ -8,6 +8,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -52,13 +58,18 @@ import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFram
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.parentFrameworkModel.parentFrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.getStudents.UI.getClassStudents;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.Config;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.DateConverter;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.GridSpacingItemDecoration;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.ProgressRequestBody;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.checkInternetState;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.compressImage;
 import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.getTeacherCurrentClass;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -714,13 +725,15 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     // CALL THIS METHOD TO GET THE ACTUAL PATH
                     File finalFile = new File(getRealPathFromURI(picUri1));
                     String mediaPath = String.valueOf(finalFile);
-                    if (!mediaPath.equals("")) {
+                    String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
+
+                    if (!compressImgPath.equals("")) {
 
                         //fileUris.set(0, mediaPath);
-                        mediaUri.put(0,mediaPath);
+                        mediaUri.put(0,compressImgPath);
 
                         videoCamera1.setVisibility(View.GONE);
-                        glide.with(this).load(mediaPath).into(imageView1);
+                        glide.with(this).load(compressImgPath).into(imageView1);
                     }else {
                         Toasty.warning(AddEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
 
@@ -733,14 +746,16 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
 
                     Uri selectedImage = data.getData();
                     String mediaPath = getRealPathFromURI(selectedImage);
-                    Log.e("imagePath", "" + mediaPath + "  imageUri " + selectedImage);
+                    String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
 
-                    if (!mediaPath.equals("")) {
+                    Log.e("imagePath", "" + mediaPath + "  compress " + compressImgPath + "  imageUri " + selectedImage);
+
+                    if (!compressImgPath.equals("")) {
                         //fileUris.set(0, mediaPath);
-                        mediaUri.put(0,mediaPath);
+                        mediaUri.put(0,compressImgPath);
 
                         videoCamera1.setVisibility(View.GONE);
-                        glide.with(this).load(mediaPath).into(imageView1);
+                        glide.with(this).load(compressImgPath).into(imageView1);
                     }
                 }
                 break;
@@ -783,12 +798,14 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     // CALL THIS METHOD TO GET THE ACTUAL PATH
                     File finalFile = new File(getRealPathFromURI(picUri2));
                     String mediaPath = String.valueOf(finalFile);
-                    if (!mediaPath.equals("")) {
+                    String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
 
-                        mediaUri.put(1,mediaPath);
+                    if (!compressImgPath.equals("")) {
+
+                        mediaUri.put(1,compressImgPath);
                         //fileUris.set(1, mediaPath);
                         videoCamera2.setVisibility(View.GONE);
-                        glide.with(this).load(mediaPath).into(imageView2);
+                        glide.with(this).load(compressImgPath).into(imageView2);
                     }else {
                         Toasty.warning(AddEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
 
@@ -801,14 +818,16 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
 
                     Uri selectedImage = data.getData();
                     String mediaPath = getRealPathFromURI(selectedImage);
+                    String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
+
                     Log.e("imagePath2", "" + mediaPath + "  imageUri " + selectedImage);
 
-                    if (!mediaPath.equals("")) {
-                        mediaUri.put(1,mediaPath);
+                    if (!compressImgPath.equals("")) {
+                        mediaUri.put(1,compressImgPath);
 
                         //fileUris.set(1, mediaPath);
                         videoCamera2.setVisibility(View.GONE);
-                        glide.with(this).load(mediaPath).into(imageView2);
+                        glide.with(this).load(compressImgPath).into(imageView2);
 
                     }
                 }
@@ -849,12 +868,14 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     // CALL THIS METHOD TO GET THE ACTUAL PATH
                     File finalFile = new File(getRealPathFromURI(picUri3));
                     String mediaPath = String.valueOf(finalFile);
-                    if (!mediaPath.equals("")) {
-                        mediaUri.put(2,mediaPath);
+                    String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
+
+                    if (!compressImgPath.equals("")) {
+                        mediaUri.put(2,compressImgPath);
 
                         //fileUris.set(2, mediaPath);
                         videoCamera3.setVisibility(View.GONE);
-                        glide.with(this).load(mediaPath).into(imageView3);
+                        glide.with(this).load(compressImgPath).into(imageView3);
                     }else {
                         Toasty.warning(AddEvidence.this, "Something went wrong", Toast.LENGTH_LONG, true).show();
 
@@ -868,13 +889,14 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
                     Uri selectedImage = data.getData();
                     String mediaPath = getRealPathFromURI(selectedImage);
                     Log.e("imagePath3", "" + mediaPath + "  imageUri " + selectedImage);
+                    String compressImgPath = new compressImage().compressImage(mediaPath);// after compress getting path
 
-                    if (!mediaPath.equals("")) {
-                        mediaUri.put(2,mediaPath);
+                    if (!compressImgPath.equals("")) {
+                        mediaUri.put(2,compressImgPath);
 
                         //fileUris.set(2, mediaPath);
                         videoCamera3.setVisibility(View.GONE);
-                        glide.with(this).load(mediaPath).into(imageView3);
+                        glide.with(this).load(compressImgPath).into(imageView3);
                     }
                 }
                 break;
@@ -921,6 +943,8 @@ public class AddEvidence extends AppCompatActivity implements ProgressRequestBod
     public Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
+
+
 
     /**
      * returning image / video

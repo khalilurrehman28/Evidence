@@ -36,6 +36,10 @@
             android:id="@+id/nav_add_subframe_marks_detail"
             android:icon="@drawable/ic_marks"
             android:title="@string/nav_add_subframe_marks_detail" />
+        <item
+            android:id="@+id/nav_add_evidence"
+            android:icon="@drawable/ic_add_evidence"
+            android:title="@string/nav_add_evidence" />
     </group>
 
     <item android:title="Other">

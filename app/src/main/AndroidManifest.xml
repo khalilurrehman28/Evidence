@@ -84,7 +84,7 @@
         <activity android:name=".createFramework.CreateFramework.create_framework" />
         <activity android:name=".createFramework.addCatogaryFramework.createCategoryFramework" />
         <activity android:name=".addSubframeMarksDetails.SubFramworkMarksDetails" />
-        <activity android:name=".addSubframeMarksDetails.addSubFrameMarksDetails"></activity>
+        <activity android:name=".addSubframeMarksDetails.addSubFrameMarksDetails" />
     </application>
 
 </manifest>
