@@ -24,15 +24,16 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/noFrameworksFound"
             android:text="No frameworks subtitles found"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="@color/colorAccent"
             android:textAlignment="center"
             android:gravity="center"
             android:paddingTop="15dp"
             android:visibility="gone"
+            android:layout_gravity="center"
             />
         <FrameLayout
             android:layout_width="match_parent"

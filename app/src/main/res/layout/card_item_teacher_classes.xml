@@ -35,16 +35,30 @@
                     android:layout_height="30dp"
                     android:src="@drawable/ic_class"
                     android:layout_marginRight="16dp"/>
-                <TextView
-                    android:id="@+id/className"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:singleLine="true"
-                    android:gravity="center"
-                    android:text="class Name"
-                    android:textColor="#383737"
-                    android:textSize="18sp"
-                    android:typeface="sans" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/className"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:singleLine="true"
+                        android:text="class Name"
+                        android:textColor="#383737"
+                        android:layout_marginRight="28dp"
+                        android:textSize="18sp"
+                        android:typeface="sans" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="gone"
+                        android:id="@+id/selectClassChecked"
+                        android:src="@drawable/ic_checked"/>
+                </RelativeLayout>
+
+
             </LinearLayout>
 
             <View

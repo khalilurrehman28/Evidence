@@ -309,8 +309,10 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_change_class:
                         // launch new intent instead of loading fragment
-                        startActivity(new Intent(MainActivity.this, getTeacherCurrentClass.class));
-                        drawer.closeDrawers();
+                        //startActivity(new Intent(MainActivity.this, getTeacherCurrentClass.class));
+                        Intent i = new Intent(MainActivity.this, selectStudentClass.class);
+                        i.putExtra("activityType","currentClass");
+                        startActivity(i);drawer.closeDrawers();
                         return true;
                     case R.id.nav_add_subframe_marks_detail:
                         // launch new intent instead of loading fragment

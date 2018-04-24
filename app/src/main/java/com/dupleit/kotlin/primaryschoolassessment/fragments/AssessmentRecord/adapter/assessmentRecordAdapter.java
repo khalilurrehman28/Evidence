@@ -76,7 +76,11 @@ public class assessmentRecordAdapter extends RecyclerView.Adapter<assessmentReco
     public void onBindViewHolder(final assessmentRecordAdapter.MyViewHolder holder, int position) {
         GetStudentData classstudent = studentListFiltered.get(position);
         holder.mCardView.setTag(position);
-        Glide.with(mContext).load(Utils.webUrlHome+classstudent.getSTUDENTIMAGE()).into(holder.studentImage);
+        if (!classstudent.getSTUDENTIMAGE().equals("")){
+            Glide.with(mContext).load(Utils.webUrlHome+classstudent.getSTUDENTIMAGE()).into(holder.studentImage);
+        }else {
+            Glide.with(mContext).load(R.drawable.ic_account_circle_black_36dp).into(holder.studentImage);
+        }
         holder.studentName.setText(classstudent.getSTUDENTNAME());
 
 

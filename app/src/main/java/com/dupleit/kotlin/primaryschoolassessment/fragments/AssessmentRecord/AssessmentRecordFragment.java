@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -118,19 +120,27 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView= inflater.inflate(R.layout.fragment_assessment_record, container, false);
+        return inflater.inflate(R.layout.fragment_assessment_record, container, false);
+        /*ButterKnife.bind(this,mView);
+        initilize(mView);
+        return mView;*/
+
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mView= view;
         ButterKnife.bind(this,mView);
         initilize(mView);
-        return mView;  
-    
     }
+
     private void initilize(View v) {
         ColorArray = new ArrayList<>();
         random = new Random();
         studentList = new ArrayList<>();
         adapter = new assessmentRecordAdapter(mView.getContext(), studentList,this);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mView.getContext(), 1);
-        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(mView.getContext(), 1));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(1, dpToPx(2), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
@@ -154,36 +164,7 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
 
         }
 
-        /*recyclerView.addOnItemTouchListener(new RecyclerTouchListener(mView.getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                GetStudentData students = studentList.get(position);
-                if (students.getSTUDENTACTIVATION().equals("0")) {
-                    Intent i = new Intent(mView.getContext(), studentProfile.class);
-                    i.putExtra("studentId", students.getSTUDENTID());
-                    i.putExtra("studentName", students.getSTUDENTNAME());
-                    i.putExtra("studentImage", students.getSTUDENTIMAGE());
-                    i.putExtra("studentGender", students.getSTUDENTGENDER());
-                    i.putExtra("studentDOB", students.getSTUDENTDOB());
-                    i.putExtra("studentClass", students.getSTUDENTCLASS());
-                    i.putExtra("studentFName", students.getSTUDENTFATHERNAME());
-                    i.putExtra("studentMName", students.getSTUDENTMOTHERNAME());
-                    i.putExtra("studentContactPrimary", students.getSTUDENTCONTACTPRIMARY());
-                    i.putExtra("studentEmail", students.getSTUDENTCONTACTEMAIL());
-                    i.putExtra("studentAddress", students.getSTUDENTADDRESSPERMANENT());
-                    i.putExtra("classSession", students.getSTUDENTSESSION());
-                    startActivity(i);
-                }else {
-                    Toasty.warning(mView.getContext(), "Student is not activate now", Toast.LENGTH_LONG, true).show();
 
-                }
-            }
-
-            @Override
-            public void onLongClick(View view, final int position) {
-
-            }
-        }));*/
     }
     @Override
     public void onContactSelected(GetStudentData students) {
@@ -221,6 +202,7 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
             noDataFound.setText("No Internet Connection.");
             noDataFound.setVisibility(View.VISIBLE);
         }else {
+
             new prepareListWithAsync(mView).execute();
 
         }
@@ -294,6 +276,8 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
 
                 }
             });
+
+
             return null;
         }
 
@@ -302,6 +286,7 @@ public class AssessmentRecordFragment extends Fragment implements assessmentReco
             super.onPostExecute(s);
 
         }
+
     }
 
     @Override

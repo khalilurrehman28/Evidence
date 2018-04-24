@@ -105,7 +105,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/noDetailFound"
                     android:text="No Marks detail available"
-                    android:textSize="18dp"
+                    android:textSize="18sp"
                     android:textColor="@color/colorAccent"
                     android:textAlignment="center"
                     android:gravity="center"

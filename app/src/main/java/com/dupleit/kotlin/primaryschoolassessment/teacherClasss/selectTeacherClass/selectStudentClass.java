@@ -104,55 +104,58 @@ public class selectStudentClass extends AppCompatActivity {
 
                }else {
 
+                   if (classes.getCLASSID().equals(teacherClassId())){
+                       Toasty.warning(getApplicationContext(), "Already selected", Toast.LENGTH_SHORT, true).show();
+                   }else {
 
-
-                   new PreferenceManager(getApplicationContext()).saveTeacherClassName(classes.getCLASSNAME());
-                   new PreferenceManager(getApplicationContext()).saveTeacherClassId(classes.getCLASSID());
-                   if (activityType.equals("login")){
-                       final ProgressDialog progress = new ProgressDialog(selectStudentClass.this);
-                       progress.setMessage("Please wait...");
-                       progress.setCancelable(false);
-                       progress.show();
-                       Runnable progressRunnable = new Runnable() {
-
-                           @Override
-                           public void run() {
-                               progress.cancel();
-                               Intent intent = new Intent(selectStudentClass.this,MainActivity.class);
-                               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                               startActivity(intent);
-                           }
-                       };
-
-                       Handler pdCanceller = new Handler();
-                       pdCanceller.postDelayed(progressRunnable, 1000);
-
-                   }
-                   if (activityType.equals("currentClass")){
                        new PreferenceManager(getApplicationContext()).saveTeacherClassName(classes.getCLASSNAME());
                        new PreferenceManager(getApplicationContext()).saveTeacherClassId(classes.getCLASSID());
+                       if (activityType.equals("login")) {
+                           final ProgressDialog progress = new ProgressDialog(selectStudentClass.this);
+                           progress.setMessage("Please wait...");
+                           progress.setCancelable(false);
+                           progress.show();
+                           Runnable progressRunnable = new Runnable() {
 
-                       final ProgressDialog progress = new ProgressDialog(selectStudentClass.this);
-                       progress.setMessage("Please wait...");
-                       progress.setCancelable(false);
-                       progress.show();
-                       Runnable progressRunnable = new Runnable() {
+                               @Override
+                               public void run() {
+                                   progress.cancel();
+                                   Intent intent = new Intent(selectStudentClass.this, MainActivity.class);
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                   startActivity(intent);
+                               }
+                           };
 
-                           @Override
-                           public void run() {
-                               progress.cancel();
-                               Intent intent = new Intent(selectStudentClass.this,MainActivity.class);
-                               intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                               startActivity(intent);
+                           Handler pdCanceller = new Handler();
+                           pdCanceller.postDelayed(progressRunnable, 1000);
+
+                       }
+                       if (activityType.equals("currentClass")) {
+                           new PreferenceManager(getApplicationContext()).saveTeacherClassName(classes.getCLASSNAME());
+                           new PreferenceManager(getApplicationContext()).saveTeacherClassId(classes.getCLASSID());
+
+                           final ProgressDialog progress = new ProgressDialog(selectStudentClass.this);
+                           progress.setMessage("Please wait...");
+                           progress.setCancelable(false);
+                           progress.show();
+                           Runnable progressRunnable = new Runnable() {
+
+                               @Override
+                               public void run() {
+                                   progress.cancel();
+                                   Intent intent = new Intent(selectStudentClass.this, MainActivity.class);
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                   startActivity(intent);
 
 
-                               Toasty.success(getApplicationContext(), "Class updated", Toast.LENGTH_LONG, true).show();
+                                   Toasty.success(getApplicationContext(), "Class updated", Toast.LENGTH_LONG, true).show();
 
-                           }
-                       };
+                               }
+                           };
 
-                       Handler pdCanceller = new Handler();
-                       pdCanceller.postDelayed(progressRunnable, 1000);
+                           Handler pdCanceller = new Handler();
+                           pdCanceller.postDelayed(progressRunnable, 1000);
+                       }
                    }
 
                }
@@ -222,53 +225,10 @@ public class selectStudentClass extends AppCompatActivity {
             });
         }
     }
+    private String teacherClassId() {
+        return new PreferenceManager(selectStudentClass.this).getTeacherClassId();
+    }
 
-
-   /* private void addClassToDb(final String classid, final String classname) {
-
-        final ProgressDialog progressDialog = new ProgressDialog(selectStudentClass.this);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-        APIService service = ApiClient.getClient().create(APIService.class);
-        Call<addTeacherClassToDbResponse> userCall = service.add_teacher_class(Integer.parseInt(sharedId()), Integer.parseInt(classid));
-        userCall.enqueue(new Callback<addTeacherClassToDbResponse>() {
-            @Override
-            public void onResponse(Call<addTeacherClassToDbResponse> call, Response<addTeacherClassToDbResponse> response) {
-                progressDialog.dismiss();
-
-                Log.d("classes"," "+response.body().getStatus());
-                if (response.isSuccessful()){
-                    if (response.body().getStatus()) {
-                        new PreferenceManager(getApplicationContext()).saveTeacherClassName(classname);
-                        new PreferenceManager(getApplicationContext()).saveTeacherClassId(classid);
-                        if (activityType.equals("currentClass")){
-                            Toasty.success(getApplicationContext(), "Class updated", Toast.LENGTH_LONG, true).show();
-
-                        }
-
-
-
-                    }else{
-                        Toasty.warning(getApplicationContext(), "Class not selected", Toast.LENGTH_LONG, true).show();
-
-                    }
-                }else{
-                    Toast.makeText(selectStudentClass.this, "Something went wrong", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<addTeacherClassToDbResponse> call, Throwable t) {
-                //hidepDialog();
-                Log.d("onFailure", t.toString());
-                progressDialog.dismiss();
-
-            }
-        });
-
-    }*/
     private int dpToPx(int dp) {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));

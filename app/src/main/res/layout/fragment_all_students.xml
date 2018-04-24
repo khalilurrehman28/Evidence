@@ -19,8 +19,7 @@
         android:id="@+id/progressBar"
         android:visibility="gone"
         android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        />
 
     <TextView
         android:id="@+id/noSearchResultFound"
@@ -38,16 +37,16 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/noStudentsFound"
         android:text="No students found"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textColor="@color/colorAccent"
         android:textAlignment="center"
         android:gravity="center"
         android:paddingTop="15dp"
         android:visibility="gone"
-        />
+        android:layout_gravity="center" />
 
     <!--<RelativeLayout
         android:layout_width="wrap_content"

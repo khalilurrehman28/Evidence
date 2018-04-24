@@ -1,16 +1,17 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/frame"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context="com.dupleit.kotlin.primaryschoolassessment.fragments.AssessmentRecord.asssesmentPreview.assessmentPreview">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"/>
 
     <ProgressBar
         style="?android:attr/progressBarStyle"
@@ -19,18 +20,18 @@
         android:id="@+id/progressBar"
         android:visibility="gone"
         android:layout_gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+       />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/noStudentsFound"
         android:text="No students found"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textColor="@color/colorAccent"
         android:textAlignment="center"
         android:gravity="center"
+        android:layout_gravity="center"
         android:paddingTop="15dp"
         android:visibility="gone"
         />

@@ -6,11 +6,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dupleit.kotlin.primaryschoolassessment.R;
 import com.dupleit.kotlin.primaryschoolassessment.fragments.framework.model.FrameworkData;
 import com.dupleit.kotlin.primaryschoolassessment.otherHelper.DateConverter;
+import com.dupleit.kotlin.primaryschoolassessment.otherHelper.PreferenceManager;
+import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.getTeacherCurrentClass;
 import com.dupleit.kotlin.primaryschoolassessment.teacherClasss.selectTeacherClass.model.getClassesData;
 
 import java.util.List;
@@ -27,6 +30,7 @@ public class getTeacherClassesAdapter extends RecyclerView.Adapter<getTeacherCla
 
         public TextView className;
         public CardView cardView;
+        public ImageView selectClassChecked;
 
         public MyViewHolder(View view) {
             super(view);
@@ -34,6 +38,7 @@ public class getTeacherClassesAdapter extends RecyclerView.Adapter<getTeacherCla
             className = (TextView) view.findViewById(R.id.className);
 
             cardView = (CardView) itemView.findViewById(R.id.card_view);
+            selectClassChecked= view.findViewById(R.id.selectClassChecked);
 
         }
     }
@@ -54,11 +59,18 @@ public class getTeacherClassesAdapter extends RecyclerView.Adapter<getTeacherCla
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         getClassesData frameworks = studentsOfClassList.get(position);
         holder.className.setText("Class "+frameworks.getCLASSNAME());
+        if (frameworks.getCLASSID().equals(teacherClassId())){
+            holder.selectClassChecked.setVisibility(View.VISIBLE);
+        }else {
+            holder.selectClassChecked.setVisibility(View.GONE);
 
+        }
 
 
     }
-
+    private String teacherClassId() {
+        return new PreferenceManager(mContext).getTeacherClassId();
+    }
     @Override
     public int getItemCount() {
         return studentsOfClassList.size();
